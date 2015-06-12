@@ -1,6 +1,8 @@
 ODDIBOOKS
 ==========
 
+ODDIBOOKS is a fork of Pressbooks.
+
 [Pressbooks](http://pressbooks.com) is a book content management system which exports in multiple formats: ebooks, webbooks, print-ready [PDF][], and various XML flavours. [Pressbooks](http://pressbooks.com) is built on top of [WordPress Multisite](http://codex.wordpress.org/Glossary#Multisite), and makes significant changes to:
   * admin interface (customized for books and other structured documents, such as magazines, journals, reports, etc.);
   * web presentation layer (again, customized for books and structured documents); and 
