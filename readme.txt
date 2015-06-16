@@ -1,4 +1,4 @@
-=== ODDI Books ===
+==== ODDI Books ====
 
 Contributors: ODDI Dev Team
 Version: 0.1
