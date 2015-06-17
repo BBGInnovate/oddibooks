@@ -2,7 +2,7 @@
 
 Contributors: ODDI Dev Team
 Version: 0.1
-Tags: ebooks, publishing, webbooks
+Tags: ebooks, publishing, web books, epubs
 
 === Pressbooks ===
 
