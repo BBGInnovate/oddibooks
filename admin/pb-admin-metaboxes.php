@@ -796,6 +796,9 @@ function book_info_footer() {
 		.translatedField {
 			border:1px solid #CCC;
 		}
+		#englishDisclaimer {
+			font-weight:bold;
+		}
 	</style>
 
 	<script type='text/javascript'>
@@ -816,16 +819,29 @@ function book_info_footer() {
 					jQuery(\".translatedField\").hide();	
 				}
 			}
-			console.log('the value is ' + jQuery('#pb_book_license').val());
 
 			//set a default value for the copyrights.  couldn't easily do this on the server side since that field type doesn't accept a default value.
 			if(jQuery('#pb_book_license').val()=='') {
 				jQuery('#pb_book_license').val('all-rights-reserved');
 			}
 
-			
+			var toggleBtn = jQuery('<button/>', {
+				text: 'Show/Hide English Translation Fields',
+				id:'toggleBtn',
+				class:'button button-primary button-large',
+				click: function () { 
+					jQuery(\".translatedField\").toggle();
+					return false;
+				}
+		    });
+			toggleBtn.prependTo(jQuery('form#post'));
+			var disclaimer=jQuery('<div id=\"englishDisclaimer\">English fields are useful if you are targeting stores in English.</div>');
+			disclaimer.insertAfter(toggleBtn);
 
 		});
 	</script>
 	";
 }
+
+// var $input = $('<input type="button" value="new button" />');
+		    //$input.appendTo($("body"));
