@@ -165,25 +165,88 @@ function add_meta_boxes() {
 		'priority' => 'high',
 	) );
 
+	x_add_metadata_field( 'pb_language', 'metadata', array(
+		'group' => 'general-book-information',
+		'field_type' => 'select',
+		'values' => \PressBooks\L10n\supported_languages(),
+		'label' => __( 'Language', 'pressbooks' ),
+		'description' => __( 'This sets metadata in your ebook, making it easier to find in some stores. It also changes some system generated content for supported languages, such as the "Contents" header.', 'pressbooks' )
+	) );
+
 	x_add_metadata_field( 'pb_title', 'metadata', array(
 		'group' => 'general-book-information',
-		'label' => 'Title'
+		'label' => 'Book Title',
+		'description' => __( 'Example: Slaughterhouse Five', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_title_english', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => 'Book Title (English)'
 	) );
 
 	x_add_metadata_field( 'pb_short_title', 'metadata', array(
 		'group' => 'general-book-information',
-		'label' => __( 'Short Title', 'pressbooks' ),
-		'description' => __( 'In case of long titles that might be truncated in running heads in the PDF export.', 'pressbooks' )
+		'label' => __( 'Short Book Title', 'pressbooks' ),
+		'description' => __( 'Example: Slaughterhouse 5.  <BR>Helpful for PDFs where title may be truncated', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_short_title_english', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Short Book Title (English)', 'pressbooks' )
 	) );
 
 	x_add_metadata_field( 'pb_subtitle', 'metadata', array(
 		'group' => 'general-book-information',
-		'label' => __( 'Subtitle', 'pressbooks' ),
+		'label' => __( 'Book Subtitle', 'pressbooks' ),
+		'description' => __( 'Example: The Children\'s Crusade: A Duty-Dance with Death', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_subtitle_english', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Book Subtitle (English)', 'pressbooks' ),
+	) );
+
+	x_add_metadata_field( 'pb_series_title', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Series Title', 'pressbooks' ),
+		'description' => __( 'Add if your book is part of a series. This is not used by Pressbooks.', 'pressbooks' )
+	) );
+	x_add_metadata_field( 'pb_series_title_english', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Series Title (English)', 'pressbooks' ),
+		'description' => __( 'Add if your book is part of a series. This is not used by Pressbooks.', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_series_number', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Series Number', 'pressbooks' ),
+		'description' => __( 'Add if your book is part of a series. This is not used by Pressbooks.', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_series_number_english', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Series Number (English)', 'pressbooks' ),
+		'description' => __( 'Add if your book is part of a series. This is not used by Pressbooks.', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_edition', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Edition', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_edition_english', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Edition (English)', 'pressbooks' )
 	) );
 
 	x_add_metadata_field( 'pb_author', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Author', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_author_english', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Author (English)', 'pressbooks' )
 	) );
 
 	x_add_metadata_field( 'pb_author_file_as', 'metadata', array(
@@ -205,9 +268,21 @@ function add_meta_boxes() {
 		'description' => __( 'This text appears on the title page of your book.', 'pressbooks' )
 	) );
 
+	x_add_metadata_field( 'pb_publisher_english', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Publisher (English)', 'pressbooks' ),
+		'description' => __( 'This text appears on the title page of your book.', 'pressbooks' )
+	) );
+
 	x_add_metadata_field( 'pb_publisher_city', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Publisher City', 'pressbooks' ),
+		'description' => __( 'This text appears on the title page of your book.', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_publisher_city_english', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => __( 'Publisher City (English)', 'pressbooks' ),
 		'description' => __( 'This text appears on the title page of your book.', 'pressbooks' )
 	) );
 
@@ -218,12 +293,14 @@ function add_meta_boxes() {
 		'description' => __( 'This is added to the metadata in your ebook.', 'pressbooks' )
 	) );
 
+	/*
 	x_add_metadata_field( 'pb_onsale_date', 'metadata', array(
 		'field_type' => 'datepicker',
 		'group' => 'general-book-information',
 		'label' => __( 'On-Sale Date', 'pressbooks' ),
 		'description' => __( 'This is added to the metadata in your ebook.', 'pressbooks' )
 	) );
+	*/
 
 	x_add_metadata_field( 'pb_ebook_isbn', 'metadata', array(
 		'group' => 'general-book-information',
@@ -231,19 +308,15 @@ function add_meta_boxes() {
 		'description' => __( 'ISBN is the International Standard Book Number, and you\'ll need one if you want to sell your book in some online ebook stores. This is added to the metadata in your ebook.', 'pressbooks' )
 	) );
 
+	/*
 	x_add_metadata_field( 'pb_print_isbn', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Print ISBN', 'pressbooks' ),
 		'description' => __( 'ISBN is the International Standard Book Number, and you\'ll need one if you want to sell your book in online and physical book stores.', 'pressbooks' )
 	) );
+	*/
 
-	x_add_metadata_field( 'pb_language', 'metadata', array(
-		'group' => 'general-book-information',
-		'field_type' => 'select',
-		'values' => \PressBooks\L10n\supported_languages(),
-		'label' => __( 'Language', 'pressbooks' ),
-		'description' => __( 'This sets metadata in your ebook, making it easier to find in some stores. It also changes some system generated content for supported languages, such as the "Contents" header.', 'pressbooks' )
-	) );
+	
 
 	x_add_metadata_group( 'copyright', 'metadata', array(
 		'label' => __( 'Copyright', 'pressbooks' ),
@@ -259,6 +332,12 @@ function add_meta_boxes() {
 	x_add_metadata_field( 'pb_copyright_holder', 'metadata', array(
 		'group' => 'copyright',
 		'label' => __( 'Copyright Holder', 'pressbooks' ),
+		'description' => __( 'Name of the copyright holder.', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_copyright_holder_english', 'metadata', array(
+		'group' => 'copyright',
+		'label' => __( 'Copyright Holder (English)', 'pressbooks' ),
 		'description' => __( 'Name of the copyright holder.', 'pressbooks' )
 	) );
 	
@@ -280,6 +359,21 @@ function add_meta_boxes() {
 	    'description' => __( 'You can select various licenses including Creative Commons.', 'pressbooks' )
 	) );
 
+	x_add_metadata_field( 'pb_about_50', 'metadata', array(
+		'field_type' => 'textarea',
+		'group' => 'general-book-information',
+		'label' => __( 'Short Description', 'pressbooks' ),
+		'description' => __( 'A short paragraph about your book, for catalogs, reviewers etc. to quote.', 'pressbooks' )
+	) );
+
+	x_add_metadata_field( 'pb_about_50_english', 'metadata', array(
+		'field_type' => 'textarea',
+		'group' => 'general-book-information',
+		'label' => __( 'Short Description (English)', 'pressbooks' ),
+		'description' => __( 'A short paragraph about your book, for catalogs, reviewers etc. to quote.', 'pressbooks' )
+	) );
+
+	/*
 	x_add_metadata_field( 'pb_custom_copyright', 'metadata', array(
 		'field_type' => 'wysiwyg',
 		'group' => 'copyright',
@@ -287,48 +381,38 @@ function add_meta_boxes() {
 		'description' => __( 'Enter a custom copyright notice, with whatever infomation you like. This will override the auto-generated copyright notice, and be inserted after the title page.', 'pressbooks' )
 	) );
 
+
 	x_add_metadata_group( 'about-the-book', 'metadata', array(
 		'label' => 'About the Book',
 		'priority' => 'low'
 	) );
+		*/
 
+	/*
 	x_add_metadata_field( 'pb_about_140', 'metadata', array(
 		'group' => 'about-the-book',
 		'label' => __( 'Book Tagline', 'pressbooks' ),
 		'description' => __( 'A very short description of your book. It should fit in a Twitter post, and encapsulate your book in the briefest sentence.', 'pressbooks' )
 	) );
+	*/
 
-	x_add_metadata_field( 'pb_about_50', 'metadata', array(
-		'field_type' => 'textarea',
-		'group' => 'about-the-book',
-		'label' => __( 'Short Description', 'pressbooks' ),
-		'description' => __( 'A short paragraph about your book, for catalogs, reviewers etc. to quote.', 'pressbooks' )
-	) );
+	
 
+	/*
 	x_add_metadata_field( 'pb_about_unlimited', 'metadata', array(
 		'field_type' => 'wysiwyg',
 		'group' => 'about-the-book',
 		'label' => __( 'Long Description', 'pressbooks' ),
 		'description' => __( 'The full description of your book.', 'pressbooks' )
 	) );
+	*/
 
 	x_add_metadata_group( 'additional-catalogue-information', 'metadata', array(
 		'label' => __( 'Additional Catalog Information', 'pressbooks' ),
 		'priority' => 'low'
 	) );
 
-	x_add_metadata_field( 'pb_series_title', 'metadata', array(
-		'group' => 'additional-catalogue-information',
-		'label' => __( 'Series Title', 'pressbooks' ),
-		'description' => __( 'Add if your book is part of a series. This is not used by Pressbooks.', 'pressbooks' )
-	) );
-
-	x_add_metadata_field( 'pb_series_number', 'metadata', array(
-		'group' => 'additional-catalogue-information',
-		'label' => __( 'Series Number', 'pressbooks' ),
-		'description' => __( 'Add if your book is part of a series. This is not used by Pressbooks.', 'pressbooks' )
-	) );
-
+	
 	x_add_metadata_field( 'pb_editor', 'metadata', array(
 		'group' => 'additional-catalogue-information',
 		'label' => __( 'Editor', 'pressbooks' ),
@@ -344,8 +428,7 @@ function add_meta_boxes() {
 	x_add_metadata_field( 'pb_keywords_tags', 'metadata', array(
 		'group' => 'additional-catalogue-information',
 		'label' => __( 'Keywords', 'pressbooks' ),
-		'multiple' => true,
-		'description' => __( 'These are added to your webbook cover page, and in your ebook metadata. Keywords are used by online book stores and search engines.', 'pressbooks' )
+		'description' => __( 'Comma separated list.  These are added to your webbook cover page, and in your ebook metadata. Keywords are used by online book stores and search engines.', 'pressbooks' )
 	) );
 
 	x_add_metadata_field( 'pb_hashtag', 'metadata', array(
@@ -354,6 +437,7 @@ function add_meta_boxes() {
 		'description' => __( 'These are added to your webbook cover page. For those of you who like Twitter.', 'pressbooks' )
 	) );
 
+	/*
 	x_add_metadata_field( 'pb_list_price_print', 'metadata', array(
 		'group' => 'additional-catalogue-information',
 		'label' => __( 'List Price (Print)', 'pressbooks' ),
@@ -366,6 +450,7 @@ function add_meta_boxes() {
 		'description' => __( 'This is not used by Pressbooks.', 'pressbooks' )
 	) );
 
+
 	x_add_metadata_field( 'pb_list_price_epub', 'metadata', array(
 		'group' => 'additional-catalogue-information',
 		'label' => __( 'List Price (ebook)', 'pressbooks' ),
@@ -377,7 +462,10 @@ function add_meta_boxes() {
 		'label' => __( 'List Price (Web)', 'pressbooks' ),
 		'description' => __( 'This is not used by Pressbooks.', 'pressbooks' )
 	) );
+	*/
 
+
+	/*
 	x_add_metadata_field( 'pb_bisac_subject', 'metadata', array(
 		'group' => 'additional-catalogue-information',
 		'label' => __( 'Bisac Subject', 'pressbooks' ),
@@ -390,16 +478,19 @@ function add_meta_boxes() {
 		'label' => __( 'Bisac Regional Theme', 'pressbooks' ),
 		'description' => __( 'This is not used by Pressbooks.', 'pressbooks' )
 	) );
+	*/
 
 	// Only display Catalog Order metadata field if site is running a root theme other than PressBooks Root.
 
 	switch_to_blog(1);
 	$root_theme = wp_get_theme();
 	if ( 'pressbooks-root' !== $root_theme->Template ) {
+		/*
 		x_add_metadata_field( 'pb_catalogue_order', 'metadata', array(
 			'group' => 'additional-catalogue-information',
 			'label' => __( 'Catalog Order', 'pressbooks' )
 		) );
+		*/
 	}
 	restore_current_blog();
 
@@ -510,7 +601,7 @@ function add_meta_boxes() {
 		'cc-by-nc-nd' => 'CC BY-NC-ND (Attribution NonCommercial NoDerivatives)',
 		'all-rights-reserved' => 'All Rights Reserved',
 	    ),
-	    'label' => __( 'Front Matter Copyright License (overrides book license on this page)', 'pressbooks' ),
+	    'label' => __( 'Front Matter Copyright License (overrides book license on this page)', 'pressbooks' )
 	) );
 
 	// Back Matter Metadata
@@ -576,6 +667,7 @@ function add_meta_boxes() {
 		'description' => __( 'Hide from table of contents and part numbering.', 'pressbooks' )
 	) );
 }
+
 
 
 /**
@@ -695,4 +787,45 @@ function add_user_meta() {
 		'label' => __( 'Language', 'pressbooks' )
 	) );
 
+}
+
+
+function book_info_footer() {
+	echo "
+	<style>
+		.translatedField {
+			border:1px solid #CCC;
+		}
+	</style>
+
+	<script type='text/javascript'>
+		jQuery( document ).ready(function() {
+			if (jQuery('select#pb_language')) {
+
+				/* auto submit form when language changes */
+				jQuery('select#pb_language').change(function() {
+					jQuery('form#post').submit();
+				});
+
+				/* assign a CSS class to all translated fields */
+				jQuery(\"[data-slug$=_english]\").addClass('translatedField');
+
+				/* if the currently selected language is english hide our translation fields */
+				var langValue=jQuery('select#pb_language').val();
+				if (langValue.substring(0,2)=='en') {
+					jQuery(\".translatedField\").hide();	
+				}
+			}
+			console.log('the value is ' + jQuery('#pb_book_license').val());
+
+			//set a default value for the copyrights.  couldn't easily do this on the server side since that field type doesn't accept a default value.
+			if(jQuery('#pb_book_license').val()=='') {
+				jQuery('#pb_book_license').val('all-rights-reserved');
+			}
+
+			
+
+		});
+	</script>
+	";
 }

@@ -196,3 +196,5 @@ add_action( 'admin_menu', function () {
 	remove_action( 'admin_notices', 'update_nag', 3 );
 	remove_filter( 'update_footer', 'core_update_footer' );
 } );
+
+add_action( 'admin_footer', '\PressBooks\Admin\Metaboxes\book_info_footer' );
