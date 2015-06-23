@@ -155,7 +155,9 @@ function replace_book_admin_menu() {
 	} );
 
 	// Sell
+	/*
 	add_menu_page( __( 'Sell', 'pressbooks' ), __( 'Sell', 'pressbooks' ), 'edit_posts', 'pb_sell', __NAMESPACE__ . '\display_sell', '', 16 );
+	*/
 
 	// Privacy
 	add_options_page( __( 'Privacy Settings', 'pressbooks' ), __( 'Privacy', 'pressbooks' ), 'manage_options', 'privacy-options', __NAMESPACE__ . '\display_privacy_settings' );
