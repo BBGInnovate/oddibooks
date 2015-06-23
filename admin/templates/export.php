@@ -120,10 +120,12 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 	    	<input type="checkbox" id="mobi" name="export_formats[mobi]" value="1" <?php checked(1, $options['mobi'], false); ?> onclick="fixMobi();" /><label for="mobi"> <?php _e( 'MOBI (for Kindle)', 'pressbooks' ); ?></label>
 	    </fieldset>
 	    
-	    <fieldset>
-	    <legend>More formats:</legend>
-			<input type="checkbox" id="epub" name="export_formats[epub]" value="1" <?php checked(1, $options['epub'], false); ?> onclick="fixMobi();" /><label for="epub"> <?php _e( 'EPUB 2 (for Nook, iBooks, Kobo etc.)', 'pressbooks' ); ?></label><br />	    	
-	    	<input type="checkbox" id="xhtml" name="export_formats[xhtml]" value="1" <?php checked(1, $options['xhtml'], true); ?>/><label for="xhtml"> <?php _e( 'XHTML', 'pressbooks' ); ?></label><br />
+	    <fieldset id="moreFormats">
+	    <legend >More formats: <a href="#" id="toggleMore">+</a></legend>
+			<div id="moreFormatEntries">
+				<input type="checkbox" id="epub" name="export_formats[epub]" value="1" <?php checked(1, $options['epub'], false); ?> onclick="fixMobi();" /><label for="epub"> <?php _e( 'EPUB 2 (for Nook, iBooks, Kobo etc.)', 'pressbooks' ); ?></label><br />	    	
+		    	<input type="checkbox" id="xhtml" name="export_formats[xhtml]" value="1" <?php checked(1, $options['xhtml'], true); ?>/><label for="xhtml"> <?php _e( 'XHTML', 'pressbooks' ); ?></label><br />
+	    	</div>
 	    </fieldset>
     </form>
     <div class="clear"></div>
@@ -144,6 +146,19 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 <div class="clear"></div>
 
 </div>
+
+<script type="text/javascript">
+	jQuery('#toggleMore').click(function() {
+		if (jQuery('#moreFormatEntries').css('display')=='none') {
+			jQuery('#moreFormatEntries').show();
+			jQuery('#toggleMore').html('-');
+			
+		} else {
+			jQuery('#toggleMore').html('+');
+			jQuery('#moreFormatEntries').hide();
+		}
+	});
+</script>
 
 <?php
 /*

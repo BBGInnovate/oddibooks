@@ -3,9 +3,31 @@
 *******************************************/
 @charset "UTF-8";
 
+/***** START BOOK INFO PAGE  ******/
 .translatedField {
-    border:1px solid #FF0000;
-  }
-  #englishDisclaimer {
-    font-weight:bold;
-  } 
+	border:1px solid #FF0000;
+}
+#englishDisclaimer {
+	font-weight:bold;
+} 
+/***** END BOOK INFO PAGE  ******/
+
+/***** START EXPORT PAGE  ******/
+/* overrides pressbooks.css to make two columns one */
+#pb-export-form fieldset,
+#pb-export-form p {
+	float: none !important; 
+	width: 100% !important;
+}
+
+/* css for the +/- on the export page */
+#moreFormatEntries {
+	display:none;
+}
+
+#toggleMore { 
+	font-weight: bold;
+	font-size:18px;
+	text-decoration: none;
+} 
+/***** END EXPORT PAGE  ******/
