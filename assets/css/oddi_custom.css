@@ -1,11 +1,57 @@
 /*****************************************
 *	ODDI Custom Styles for Pressbooks
 *******************************************/
+
 @charset "UTF-8";
 
+/* Disclaimer for the English translations field button */
+#englishDisclaimer {
+	margin-top: .75em;
+    font-weight: bold;
+}
+
+/*
+====== CUSTOM STYLES FOR THE METADATA FIELDS ======
+*/
+
+/* Add extra space between primary fields */
+.custom-metadata-field {
+	margin-bottom: 3em !important;
+}
+
+/* Style translation fields to differentiate from primary fields */
 .translatedField {
-    border:1px solid #FF0000;
-  }
-  #englishDisclaimer {
-    font-weight:bold;
-  } 
+    border: 1px solid #CCC;
+    margin: -.5em 2em 8em;
+    padding: .25em 1em 1em;
+    background-color: rgba(220, 220, 220, 0.5);
+    width: 90%;
+}
+
+/* Add additional spacing between field types after translation fields */
+.custom-metadata-field.translatedField {
+  margin-bottom: 3em;
+  margin-top: -2.5em;
+}
+
+/* Add border above primary fields */
+.custom-metadata-field > label {
+	border-top: gray 1px solid;
+}
+
+/* Delete border from translation fields */
+.custom-metadata-field.translatedField > label {
+	border-top: none;
+}
+
+/* Make inputs 100% wide for all fields */
+.custom-metadata-field input[type="text"],
+.custom-metadata-field input[type="url"],
+.custom-metadata-field input[type="password"],
+.custom-metadata-field input[type="email"] {
+	width: 100% !important;
+}
+
+.custom-metadata-field.translatedField input[type="text"], .custom-metadata-field.translatedField input[type="url"], .custom-metadata-field.translatedField input[type="password"], .custom-metadata-field.translatedField input[type="email"] {
+	width: 100%;
+}
