@@ -171,7 +171,7 @@ function add_meta_boxes() {
 		'field_type' => 'select',
 		'values' => \PressBooks\L10n\supported_languages(),
 		'label' => __( 'Language', 'pressbooks' ),
-		'description' => __( 'This sets metadata in your ebook, making it easier to find in some stores. It also changes some system generated content for supported languages, such as the "Contents" header.', 'pressbooks' )
+		'description' => __( 'This sets metadata in your ebook, making it easier to find in some stores.<br>It also changes some system generated content for supported languages, such as the "Contents" header.', 'pressbooks' )
 	) );
 
 	x_add_metadata_field( 'pb_title', 'metadata', array(
@@ -414,12 +414,14 @@ function add_meta_boxes() {
 
 	x_add_metadata_field( 'pb_keywords_tags', 'metadata', array(
 		'group' => 'additional-catalogue-information',
+		'field_type' => 'textarea',
 		'label' => __( 'Keywords', 'pressbooks' ),
-		'description' => __( 'Comma separated list. Keywords are used by online book stores and search engines.<br>These are added to your webbook cover page, and in your ebook metadata.', 'pressbooks' )
+		'description' => __( 'Comma separated list in order of importance (most to least). It\'s recomended to use the fewest number of keywods possible.<br>Keywords are used by online book stores and search engines.', 'pressbooks' )
 	) );
 
 	x_add_metadata_field( 'pb_keywords_tags_english', 'metadata', array(
 		'group' => 'additional-catalogue-information',
+		'field_type' => 'textarea',
 		'label' => __( 'Keywords (English)', 'pressbooks' )
 	) );
 
