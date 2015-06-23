@@ -100,11 +100,11 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
     
 	<?php
 	$options = get_option('export_formats');
-	if ( ! isset( $options['pdf'] ) ) { $options['pdf'] = 1; }
-	if ( ! isset( $options['mpdf'] ) ) { $options['mpdf'] = 1; }
-	if ( ! isset( $options['epub'] ) ) { $options['epub'] = 1; }
+	if ( ! isset( $options['pdf'] ) ) { $options['pdf'] = 0; }
+	if ( ! isset( $options['mpdf'] ) ) { $options['mpdf'] = 0; }
+	if ( ! isset( $options['epub'] ) ) { $options['epub'] = 0; }
 	if ( ! isset( $options['epub3'] ) ) { $options['epub3'] = 1; }
-	if ( ! isset( $options['mobi'] ) ) { $options['mobi'] = 1; }
+	if ( ! isset( $options['mobi'] ) ) { $options['mobi'] = 0; }
 	if ( ! isset( $options['icml'] ) ) { $options['icml'] = 0; }
 	if ( ! isset( $options['xhtml'] ) ) { $options['xhtml'] = 0; }
 	if ( ! isset( $options['wxr'] ) ) { $options['wxr'] = 0; }
@@ -116,14 +116,14 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 	       <legend><?php _e( 'Common Formats', 'pressbooks' ); ?>:</legend>
 	       
 			<input type="checkbox" id="epub3" name="export_formats[epub3]" value="1" <?php checked(1, $options['epub3'], true); ?>/><label for="epub3"> <?php _e( 'EPUB 3', 'pressbooks' ); ?></label><br />
-			<input type="checkbox" id="mpdf" name="export_formats[mpdf]" value="1" <?php checked(1, $options['mpdf'], false); ?>/><label for="mpdf"> <?php _e( 'PDF', 'pressbooks' ); ?></label><br />
-	    	<input type="checkbox" id="mobi" name="export_formats[mobi]" value="1" <?php checked(1, $options['mobi'], false); ?> onclick="fixMobi();" /><label for="mobi"> <?php _e( 'MOBI (for Kindle)', 'pressbooks' ); ?></label>
+			<input type="checkbox" id="mpdf" name="export_formats[mpdf]" value="1" <?php checked(1, $options['mpdf'], true); ?>/><label for="mpdf"> <?php _e( 'PDF', 'pressbooks' ); ?></label><br />
+	    	<input type="checkbox" id="mobi" name="export_formats[mobi]" value="1" <?php checked(1, $options['mobi'], true); ?> onclick="fixMobi();" /><label for="mobi"> <?php _e( 'MOBI (for Kindle)', 'pressbooks' ); ?></label>
 	    </fieldset>
 	    
 	    <fieldset id="moreFormats">
 	    <legend >More formats: <a href="#" id="toggleMore">+</a></legend>
 			<div id="moreFormatEntries">
-				<input type="checkbox" id="epub" name="export_formats[epub]" value="1" <?php checked(1, $options['epub'], false); ?> onclick="fixMobi();" /><label for="epub"> <?php _e( 'EPUB 2 (for Nook, iBooks, Kobo etc.)', 'pressbooks' ); ?></label><br />	    	
+				<input type="checkbox" id="epub" name="export_formats[epub]" value="1" <?php checked(1, $options['epub'], true); ?> onclick="fixMobi();" /><label for="epub"> <?php _e( 'EPUB 2 (for Nook, iBooks, Kobo etc.)', 'pressbooks' ); ?></label><br />	    	
 		    	<input type="checkbox" id="xhtml" name="export_formats[xhtml]" value="1" <?php checked(1, $options['xhtml'], true); ?>/><label for="xhtml"> <?php _e( 'XHTML', 'pressbooks' ); ?></label><br />
 	    	</div>
 	    </fieldset>
@@ -152,7 +152,7 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 		if (jQuery('#moreFormatEntries').css('display')=='none') {
 			jQuery('#moreFormatEntries').show();
 			jQuery('#toggleMore').html('-');
-			
+
 		} else {
 			jQuery('#toggleMore').html('+');
 			jQuery('#moreFormatEntries').hide();
@@ -166,12 +166,12 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 	    	<input type="checkbox" id="pdf" name="export_formats[pdf]" value="1" <?php checked(1, $options['pdf'], true); ?>/><label for="pdf"> <?php _e( 'PDF (for printing)', 'pressbooks' ); ?></label><br />
 	       <?php } ;?>
 
-	    	<input type="checkbox" id="icml" name="export_formats[icml]" value="1" <?php checked(1, $options['icml'], false); ?>/><label for="icml"> <?php _e( 'ICML (for InDesign)', 'pressbooks' ); ?></label><br />
-	    	<input type="checkbox" id="wxr" name="export_formats[wxr]" value="1" <?php checked(1, $options['wxr'], false); ?>/><label for="wxr"> <?php _e( 'PressBooks XML', 'pressbooks' ); ?></label><br />
-	    	<input type="checkbox" id="vanillawxr" name="export_formats[vanillawxr]" value="1" <?php checked(1, $options['vanillawxr'], false); ?>/><label for="vanillawxr"> <?php _e( 'WordPress XML', 'pressbooks' ); ?></label>
+	    	<input type="checkbox" id="icml" name="export_formats[icml]" value="1" <?php checked(1, $options['icml'], true); ?>/><label for="icml"> <?php _e( 'ICML (for InDesign)', 'pressbooks' ); ?></label><br />
+	    	<input type="checkbox" id="wxr" name="export_formats[wxr]" value="1" <?php checked(1, $options['wxr'], true); ?>/><label for="wxr"> <?php _e( 'PressBooks XML', 'pressbooks' ); ?></label><br />
+	    	<input type="checkbox" id="vanillawxr" name="export_formats[vanillawxr]" value="1" <?php checked(1, $options['vanillawxr'], true); ?>/><label for="vanillawxr"> <?php _e( 'WordPress XML', 'pressbooks' ); ?></label>
 
 	    	<?php if ( true == \PressBooks\Utility\show_experimental_features() ) { ?><br/>
-	    	<input type="checkbox" id="odt" name="export_formats[odt]" value="1" <?php checked(1, $options['odt'], false); ?>/><label for="odt"> <?php _e( 'ODT', 'pressbooks' ); ?></label>
+	    	<input type="checkbox" id="odt" name="export_formats[odt]" value="1" <?php checked(1, $options['odt'], true); ?>/><label for="odt"> <?php _e( 'ODT', 'pressbooks' ); ?></label>
 	    	<?php } ?>
 
 */
