@@ -1,0 +1,11 @@
+/*****************************************
+*	ODDI Custom Styles for Pressbooks
+*******************************************/
+@charset "UTF-8";
+
+.translatedField {
+    border:1px solid #FF0000;
+  }
+  #englishDisclaimer {
+    font-weight:bold;
+  } 
