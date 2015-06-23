@@ -432,6 +432,11 @@ function add_meta_boxes() {
 		'description' => __( 'Comma separated list.  These are added to your webbook cover page, and in your ebook metadata. Keywords are used by online book stores and search engines.', 'pressbooks' )
 	) );
 
+	x_add_metadata_field( 'pb_keywords_tags_english', 'metadata', array(
+		'group' => 'additional-catalogue-information',
+		'label' => __( 'Keywords (English)', 'pressbooks' )
+	) );
+
 	x_add_metadata_field( 'pb_hashtag', 'metadata', array(
 		'group' => 'additional-catalogue-information',
 		'label' => __( 'Hashtag', 'pressbooks' ),
