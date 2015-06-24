@@ -174,6 +174,7 @@ function add_meta_boxes() {
 		'description' => __( 'This sets metadata in your ebook, making it easier to find in some stores.<br>It also changes some system generated content for supported languages, such as the "Contents" header.', 'pressbooks' )
 	) );
 
+	/* ODDI added UUID - It's another unique identifier that helps with keeping the various publishings/editions of the same book remain unique in a bookstore */
 	x_add_metadata_field( 'pb_UUID', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => 'UUID',
@@ -815,19 +816,21 @@ function book_info_footer() {
 
 				jQuery('[data-slug$=pb_UUID]').hide();
 
-				var toggleBtn = jQuery('<button/>', {
-					text: 'Show/Hide English Translation Fields',
-					id:'toggleBtn',
-					class:'button button-primary button-large',
-					click: function () { 
-						jQuery(\".translatedField\").toggle();
-						return false;
-					}
-			    });
+				if (langValue.substring(0,2)!='en') {	
+					var toggleBtn = jQuery('<button/>', {
+						text: 'Show/Hide English Translation Fields',
+						id:'toggleBtn',
+						class:'button button-primary button-large',
+						click: function () { 
+							jQuery(\".translatedField\").toggle();
+							return false;
+						}
+				    });
 
-				toggleBtn.insertAfter(jQuery('[data-slug$=pb_language] .description'));
-				var disclaimer=jQuery('<div id=\"englishDisclaimer\">Translating your ebook&rsquo;s metadata fields to English is useful if you are targeting stores in the US.<br>This is especially important if your content is in a non-Latin alphabet.</div>');
-				disclaimer.insertAfter(toggleBtn);
+					toggleBtn.insertAfter(jQuery('[data-slug$=pb_language] .description'));
+					var disclaimer=jQuery('<div id=\"englishDisclaimer\">Translating your ebook&rsquo;s metadata fields to English is useful if you are targeting stores in the US.<br>This is especially important if your content is in a non-Latin alphabet.</div>');
+					disclaimer.insertAfter(toggleBtn);
+				}
 
 			}
 		});
