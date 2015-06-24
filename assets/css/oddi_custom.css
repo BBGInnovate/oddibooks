@@ -61,6 +61,12 @@
 .custom-metadata-field.translatedField input[type="text"], .custom-metadata-field.translatedField input[type="url"], .custom-metadata-field.translatedField input[type="password"], .custom-metadata-field.translatedField input[type="email"] {
 	width: 100%;
 }
+
+/* give the toggle button some extra headroom */
+#toggleBtn {
+	margin-top:10px;
+}
+
 /***** END BOOK INFO PAGE  ******/
 
 
@@ -69,6 +75,7 @@
 ***** START EXPORT PAGE  *****
 ==============================
 */
+
 /* overrides pressbooks.css to make two columns one */
 #pb-export-form fieldset,
 #pb-export-form p {

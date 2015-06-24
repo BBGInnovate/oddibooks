@@ -816,7 +816,7 @@ function book_info_footer() {
 					}
 			    });
 
-				toggleBtn.prependTo(jQuery('form#post'));
+				toggleBtn.insertAfter(jQuery('[data-slug$=pb_language] .description'));
 				var disclaimer=jQuery('<div id=\"englishDisclaimer\">Translating your ebook&rsquo;s metadata fields to English is useful if you are targeting stores in the US.<br>This is especially important if your content is in a non-Latin alphabet.</div>');
 				disclaimer.insertAfter(toggleBtn);
 
