@@ -174,6 +174,13 @@ function add_meta_boxes() {
 		'description' => __( 'This sets metadata in your ebook, making it easier to find in some stores.<br>It also changes some system generated content for supported languages, such as the "Contents" header.', 'pressbooks' )
 	) );
 
+	x_add_metadata_field( 'pb_UUID', 'metadata', array(
+		'group' => 'general-book-information',
+		'label' => 'UUID',
+		'readonly' => 'true',
+		'default_value' => uniqid()
+	) );
+
 	x_add_metadata_field( 'pb_title', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => 'Book Title',
@@ -805,6 +812,8 @@ function book_info_footer() {
 				if(jQuery('#pb_book_license').val()=='') {
 					jQuery('#pb_book_license').val('all-rights-reserved');
 				}
+
+				jQuery('[data-slug$=pb_UUID]').hide();
 
 				var toggleBtn = jQuery('<button/>', {
 					text: 'Show/Hide English Translation Fields',
