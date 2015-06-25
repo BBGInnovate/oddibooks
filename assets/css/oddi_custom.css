@@ -25,6 +25,12 @@
 	margin-bottom: 3em !important;
 }
 
+/* Style mandatory fields */
+.mandatory > label:before {
+	content: '» ';
+	font-weight: bold;
+}
+
 /* Style translation fields to differentiate from primary fields */
 .translatedField {
     border: 1px solid #CCC;

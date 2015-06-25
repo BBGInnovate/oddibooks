@@ -69,6 +69,12 @@ function add_required_data( $pid, $post ) {
 		// if the pb_cover_image metadata value is not set, set it to the default image
 		update_post_meta( $pid, 'pb_cover_image', \PressBooks\Image\default_cover_url() );
 	}
+
+	$pb_copyright_year = get_post_meta( $pid, 'pb_copyright_year', true );
+	if ( ! $pb_copyright_year ) {
+		// if the pb_copyright_year metadata value is not set, set it to the current year
+		update_post_meta( $pid, 'pb_copyright_year', date(Y) );
+	}
 }
 
 
@@ -95,8 +101,8 @@ function upload_cover_image( $pid, $post ) {
 	}
 
 	list( $width, $height ) = getimagesize( $image['file'] );
-	if ( $width < 625 || $height < 625 ) {
-		$_SESSION['pb_notices'][] = sprintf( __( 'Your cover image (%s x %s) is too small. It should be 625px on the shortest side.', 'pressbooks' ), $width, $height );
+	if ( $width < 1000 || $height < 1500 ) {
+		$_SESSION['pb_notices'][] = sprintf( __( 'Your cover image (%s x %s) is too small. It should be at least 1000px wide by 1500px tall, at 1:1.5 ratio.', 'pressbooks' ), $width, $height );
 	}
 
 	$old = get_post_meta( $pid, 'pb_cover_image', false );
@@ -433,13 +439,13 @@ function add_meta_boxes() {
 		'label' => __( 'Keywords (English)', 'pressbooks' )
 	) );
 
+	/*
 	x_add_metadata_field( 'pb_hashtag', 'metadata', array(
 		'group' => 'additional-catalogue-information',
 		'label' => __( 'Hashtag', 'pressbooks' ),
 		'description' => __( 'This is added to your webbook cover page. For those of you who like Twitter.', 'pressbooks' )
 	) );
 
-	/*
 	x_add_metadata_field( 'pb_list_price_print', 'metadata', array(
 		'group' => 'additional-catalogue-information',
 		'label' => __( 'List Price (Print)', 'pressbooks' ),
@@ -808,6 +814,13 @@ function book_info_footer() {
 				if (langValue.substring(0,2)=='en') {
 					jQuery(\".translatedField\").hide();	
 				}
+
+				/* assign a CSS class to all mandatory fields */
+				jQuery(\"[data-slug$=pb_language]\").addClass('mandatory');
+				jQuery(\"[data-slug$=pb_title]\").addClass('mandatory');
+				jQuery(\"[data-slug$=pb_author]\").addClass('mandatory');
+				jQuery(\"[data-slug$=pb_publisher]\").addClass('mandatory');
+				jQuery(\"[data-slug$=pb_about_50]\").addClass('mandatory');
 
 				//set a default value for the copyrights.  couldn't easily do this on the server side since that field type doesn't accept a default value.
 				if(jQuery('#pb_book_license').val()=='') {

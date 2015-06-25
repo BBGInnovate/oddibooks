@@ -299,7 +299,7 @@ function cover_image_box( $post ) {
 	$image_url = thumbnail_from_url( get_post_meta( $post->ID, $meta_key, true ), 'pb_cover_medium' );
 	$action = 'pb_delete_cover_image';
 	$nonce = wp_create_nonce( 'pb-delete-cover-image' );
-	$description = __( 'Your cover image should be 625px on the shortest side.', 'pressbooks' );
+	$description = __( 'Your cover image should be at least 1000px wide by 1500px tall, a ratio of 1.5.', 'pressbooks' );
 
 	render_cover_image_box( $meta_key, $pid, $image_url, $action, $nonce, $description );
 }
