@@ -125,6 +125,7 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 			<div id="moreFormatEntries">
 				<input type="checkbox" id="epub" name="export_formats[epub]" value="1" <?php checked(1, $options['epub'], true); ?> onclick="fixMobi();" /><label for="epub"> <?php _e( 'EPUB 2 (for Nook, iBooks, Kobo etc.)', 'pressbooks' ); ?></label><br />	    	
 		    	<input type="checkbox" id="xhtml" name="export_formats[xhtml]" value="1" <?php checked(1, $options['xhtml'], true); ?>/><label for="xhtml"> <?php _e( 'XHTML', 'pressbooks' ); ?></label><br />
+		    	<input type="checkbox" id="pdf" name="export_formats[pdf]" value="1" <?php checked(1, $options['pdf'], true); ?>/><label for="pdf"> <?php _e( 'Prince PDF (Note license reqs)', 'pressbooks' ); ?></label><br />
 	    	</div>
 	    </fieldset>
     </form>
