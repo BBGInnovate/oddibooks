@@ -102,7 +102,7 @@ function upload_cover_image( $pid, $post ) {
 
 	list( $width, $height ) = getimagesize( $image['file'] );
 	if ( $width < 1000 || $height < 1500 ) {
-		$_SESSION['pb_notices'][] = sprintf( __( 'Your cover image (%s x %s) is too small. It should be at least 1000px wide by 1500px tall, at 1:1.5 ratio.', 'pressbooks' ), $width, $height );
+		$_SESSION['pb_notices'][] = sprintf( __( 'Your cover image (%s x %s) is too small. It should be at least 1000px wide by 1500px tall, a ratio of 1.5.', 'pressbooks' ), $width, $height );
 	}
 
 	$old = get_post_meta( $pid, 'pb_cover_image', false );
@@ -334,7 +334,8 @@ function add_meta_boxes() {
 	x_add_metadata_field( 'pb_copyright_year', 'metadata', array(
 		'group' => 'copyright',
 		'label' => __( 'Copyright Year', 'pressbooks' ),
-		'description' => __( 'Year that the book is/was published.', 'pressbooks' )
+		'description' => __( 'Year that the book is/was published.', 'pressbooks' ),
+		'default_value' => date (Y)
 	) );
 
 	x_add_metadata_field( 'pb_copyright_holder', 'metadata', array(
