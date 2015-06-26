@@ -1,5 +1,11 @@
 <?php
 
+function refineField($fieldID, $metaKey, &$meta) {
+	echo "<meta refines='#$fieldID' property='alternate-script' xml:lang='en'>$fieldValue</meta>";
+	echo "\n";
+	unset( $meta[$metaKey] );
+}
+
 // @see: \PressBooks\Export\Export loadTemplate()
 
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -11,9 +17,10 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
 		<?php
 		// Required, Title
-		echo '<dc:title>' . ( ! empty( $meta['pb_title'] ) ? $meta['pb_title'] : get_bloginfo( 'name' ) ) . '</dc:title>';
+		echo '<dc:title id="bookTitle">' . ( ! empty( $meta['pb_title'] ) ? $meta['pb_title'] : get_bloginfo( 'name' ) ) . '</dc:title>';
 		unset( $meta['pb_title'] );
 		echo "\n";
+		refineField('bookTitle','pb_title_english',$meta);
 
 		// Required, Language
 		echo '<dc:language>' . ( ! empty( $meta['pb_language'] ) ? $meta['pb_language'] : 'en' ) . '</dc:language>';
@@ -30,33 +37,32 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 		} else {
 			echo '<dc:identifier id="PrimaryID">' . get_bloginfo( 'url' ) . '</dc:identifier>';
 		}
-
 		unset( $meta['pb_ebook_isbn'] );
 		echo "\n";
 
 		// Pick best non-html description
 		if ( ! empty( $meta['pb_about_50'] ) ) {
-			echo "<dc:description>{$meta['pb_about_50']}</dc:description>\n";
+			echo "<dc:description id='bookDescription'>{$meta['pb_about_50']}</dc:description>\n";
 			unset( $meta['pb_about_50'] );
 		} elseif ( ! empty( $meta['pb_about_140'] ) ) {
 			echo "<dc:description>{$meta['pb_about_140']}</dc:description>\n";
 			unset( $meta['pb_about_140'] );
 		}
+		refineField('bookDescription','pb_about_50',$meta);
 
 		// Author
 		echo '<dc:creator id="author">';
-
 		if ( ! empty( $meta['pb_author'] ) ) {
 			echo $meta['pb_author'];
 		} else {
 			echo 'Authored by: ' . get_bloginfo( 'url' );
 		}
 		echo '</dc:creator>' . "\n";
+		refineField('author','pb_author_english',$meta);
 		
 		// Contributing authors
 		if ( ! empty( $meta['pb_contributing_authors'] ) ){
 			$contributors = explode( ',', $meta['pb_contributing_authors'] );
-			
 			foreach ( $contributors as $contributor ){
 				echo '<dc:contributor>' . trim( $contributor ) . '</dc:contributor>' . "\n";
 			}
@@ -64,7 +70,6 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 		}
 
 		echo '<meta refines="#author" property="file-as">';
-
 		if ( ! empty( $meta['pb_author_file_as'] ) ) {
 			echo $meta['pb_author_file_as'];
 		} else if ( ! empty( $meta['pb_author'] ) ) {
@@ -72,12 +77,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 		} else {
 			echo 'Authored by: ' . get_bloginfo( 'url' );
 		}
-
 		echo '</meta>';
-
-
-
-
 		unset( $meta['pb_author_file_as'], $meta['pb_author'] );
 
 		// Copyright

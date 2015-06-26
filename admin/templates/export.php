@@ -121,7 +121,7 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 	    </fieldset>
 	    
 	    <fieldset id="moreFormats">
-	    <legend >More formats: <a href="#" id="toggleMore">+</a></legend>
+	    <legend ><span id="moreFormatsLabel">More formats:</span> <a href="#" id="toggleMore">+</a></legend>
 			<div id="moreFormatEntries">
 				<input type="checkbox" id="epub" name="export_formats[epub]" value="1" <?php checked(1, $options['epub'], true); ?> onclick="fixMobi();" /><label for="epub"> <?php _e( 'EPUB 2 (for Nook, iBooks, Kobo etc.)', 'pressbooks' ); ?></label><br />	    	
 		    	<input type="checkbox" id="xhtml" name="export_formats[xhtml]" value="1" <?php checked(1, $options['xhtml'], true); ?>/><label for="xhtml"> <?php _e( 'XHTML', 'pressbooks' ); ?></label><br />
@@ -149,7 +149,8 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 </div>
 
 <script type="text/javascript">
-	jQuery('#toggleMore').click(function() {
+	
+	function toggleMoreFormats() {
 		if (jQuery('#moreFormatEntries').css('display')=='none') {
 			jQuery('#moreFormatEntries').show();
 			jQuery('#toggleMore').html('-');
@@ -158,7 +159,10 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 			jQuery('#toggleMore').html('+');
 			jQuery('#moreFormatEntries').hide();
 		}
-	});
+	}
+
+	jQuery('#toggleMore').click(toggleMoreFormats);
+	jQuery('#moreFormatsLabel').click(toggleMoreFormats);
 </script>
 
 <?php

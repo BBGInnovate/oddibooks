@@ -98,5 +98,6 @@
 	font-weight: bold;
 	font-size:18px;
 	text-decoration: none;
-} 
+}
+#moreFormatsLabel {cursor: pointer}
 /***** END EXPORT PAGE  ******/
