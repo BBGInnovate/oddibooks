@@ -1,9 +1,12 @@
 <?php
 
 function refineField($fieldID, $metaKey, &$meta) {
-	echo "<meta refines='#$fieldID' property='alternate-script' xml:lang='en'>$fieldValue</meta>";
-	echo "\n";
-	unset( $meta[$metaKey] );
+	if ( ! empty( $meta[$metaKey] ) ) {
+		$fieldValue=$meta[$metaKey];
+		echo "<meta refines='#$fieldID' property='alternate-script' xml:lang='en'>$fieldValue</meta>";
+		echo "\n";
+		unset( $meta[$metaKey] );
+	}
 }
 
 // @see: \PressBooks\Export\Export loadTemplate()
@@ -44,11 +47,12 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 		if ( ! empty( $meta['pb_about_50'] ) ) {
 			echo "<dc:description id='bookDescription'>{$meta['pb_about_50']}</dc:description>\n";
 			unset( $meta['pb_about_50'] );
+			refineField('bookDescription','pb_about_50',$meta);
 		} elseif ( ! empty( $meta['pb_about_140'] ) ) {
 			echo "<dc:description>{$meta['pb_about_140']}</dc:description>\n";
 			unset( $meta['pb_about_140'] );
 		}
-		refineField('bookDescription','pb_about_50',$meta);
+		
 
 		// Author
 		echo '<dc:creator id="author">';
