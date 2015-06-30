@@ -167,7 +167,7 @@ class Epub201 extends Export {
 	 */
 	function __destruct() {
 
-		//$this->deleteTmpDir();
+		$this->deleteTmpDir(); 
 	}
 
 
