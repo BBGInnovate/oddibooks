@@ -167,7 +167,7 @@ class Epub201 extends Export {
 	 */
 	function __destruct() {
 
-		$this->deleteTmpDir();
+		//$this->deleteTmpDir();
 	}
 
 
@@ -621,7 +621,18 @@ class Epub201 extends Export {
 					return "url(assets/$filename)";
 				}
 
-			} elseif ( preg_match( '#^https?://#i', $url ) && preg_match( '/(\.ttf|\.otf)$/i', $url ) ) {
+			} elseif ( preg_match( '#.*(\.ttf|\.otf)$#i', $url ) ) {
+
+				// this is a more generic catch-all for ttf/otf added by ODDI to handle non-latin chars
+
+
+				$my_font = realpath( "$css_dir/$url" );
+				if ( $my_font ) {
+					copy( $my_font, "$path_to_epub_assets/$filename" );
+					return "url(assets/$filename)";
+				}
+
+			}elseif ( preg_match( '#^https?://#i', $url ) && preg_match( '/(\.ttf|\.otf)$/i', $url ) ) {
 
 				// Look for fonts via http(s), pull them in locally
 
