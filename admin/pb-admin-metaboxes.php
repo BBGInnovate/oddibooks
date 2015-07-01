@@ -335,7 +335,7 @@ function add_meta_boxes() {
 		'group' => 'copyright',
 		'label' => __( 'Copyright Year', 'pressbooks' ),
 		'description' => __( 'Year that the book is/was published.', 'pressbooks' ),
-		'default_value' => date (Y)
+		'default_value' => date ('Y')
 	) );
 
 	x_add_metadata_field( 'pb_copyright_holder', 'metadata', array(
