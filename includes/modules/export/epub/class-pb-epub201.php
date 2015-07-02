@@ -149,6 +149,9 @@ class Epub201 extends Export {
 
 		if ( ! defined( 'PB_EPUBCHECK_COMMAND' ) )
 			define( 'PB_EPUBCHECK_COMMAND', '/usr/bin/java -jar /opt/epubcheck/epubcheck.jar' );
+		if ( ! defined( 'PB_ZIP_USING_SHELL' ) )
+			define( 'PB_ZIP_USING_SHELL', false );
+
 
 		$this->tmpDir = $this->createTmpDir();
 		$this->exportStylePath = $this->getExportStylePath( 'epub' );
@@ -211,8 +214,14 @@ class Epub201 extends Export {
 		}
 
 		$filename = $this->timestampedFileName( $this->suffix );
-		if ( ! $this->zipEpub( $filename ) ) {
-			return false;
+		if ( PB_ZIP_USING_SHELL ) {
+			if ( ! $this->zipEpubWithShell( $filename ) ) {
+				return false;
+			}
+		} else {
+			if ( ! $this->zipEpub( $filename ) ) {
+				return false;
+			}
 		}
 		$this->outputPath = $filename;
 
@@ -470,6 +479,30 @@ class Epub201 extends Export {
 			return false;
 		}
 
+		return true;
+	}
+	/**
+	 * Zip the contents of an EPUB following the conventions outlined in Open Publication Structure 2.0.1
+	 * Uses shell commands instead of PCLZip to enable support for foreign language characters
+	 * @param $filename
+	 *
+	 * @return bool
+	 */
+	protected function zipEpubWithShell( $filename ) {
+
+		$originalDir = getcwd();
+		$ePubSrcDir = $this -> tmpDir;
+		
+		chdir ( $ePubSrcDir );	//if you don't do this and instead use full path to src location, that structure gets copied into the zip
+		$outputPath = $filename;
+		
+		$commandStr = "";
+		$commandStr .= "zip -X0 $outputPath mimetype";  //create the zip, mimetype must be first and uncompressed
+		$commandStr .= " && zip -Xrg $outputPath ./ -x *.DS_Store";
+
+		echo exec ( $commandStr );
+
+		chdir ( $originalDir );
 		return true;
 	}
 
