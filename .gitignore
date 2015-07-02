@@ -6,4 +6,5 @@ symbionts/mpdf/ttfontdata/
 symbionts/mpdf/graph_cache/
 .sass-cache
 .tx
-/themes-book/book-lite 
+/themes-book/book-lite
+themes-book/fonts/
