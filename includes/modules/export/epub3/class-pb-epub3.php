@@ -189,7 +189,7 @@ class Epub3 extends Epub\Epub201 {
 	/**
 	 * Create stylesheet. Change $this->stylesheet to a filename used by subsequent methods.
 	 */
-	protected function createStylesheet() {
+	protected function createStylesheet($metadata) {
 		
 		// html5 targeted css
 		$css3 = 'css3.css';
@@ -203,7 +203,7 @@ class Epub3 extends Epub\Epub201 {
 			$path_to_tmp_stylesheet,
 			$this->loadTemplate( $this->exportStylePath ) );
 
-		$this->scrapeKneadAndSaveCss( $this->exportStylePath, $path_to_tmp_stylesheet );
+		$this->scrapeKneadAndSaveCss( $this->exportStylePath, $path_to_tmp_stylesheet, $metadata );
 
 		// Append css3
 		file_put_contents(
@@ -227,7 +227,7 @@ class Epub3 extends Epub\Epub201 {
 	 * @param string $path_to_original_stylesheet*
 	 * @param string $path_to_copy_of_stylesheet
 	 */
-	protected function scrapeKneadAndSaveCss( $path_to_original_stylesheet, $path_to_copy_of_stylesheet ) {
+	protected function scrapeKneadAndSaveCss( $path_to_original_stylesheet, $path_to_copy_of_stylesheet, $metadata ) {
 
 		$css_dir = pathinfo( $path_to_original_stylesheet, PATHINFO_DIRNAME );
 		$path_to_epub_assets = $this->tmpDir . '/OEBPS/assets';
@@ -271,6 +271,13 @@ class Epub3 extends Epub\Epub201 {
 					return "url(assets/$filename)";
 				}
 
+			} elseif ( preg_match( '#.*(\.ttf|\.otf)$#i', $url ) ) {
+				// this is a more generic catch-all for ttf/otf added by ODDI to handle non-latin chars
+				$my_font = realpath( "$css_dir/$url" );
+				if ( $my_font ) {
+					copy( $my_font, "$path_to_epub_assets/$filename" );
+					return "url(assets/$filename)";
+				}
 			}
 
 			return $matches[0]; // No change

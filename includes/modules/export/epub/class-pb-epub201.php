@@ -665,14 +665,11 @@ class Epub201 extends Export {
 					return "url(assets/$filename)";
 				}
 
-			}elseif ( preg_match( '#^https?://#i', $url ) && preg_match( '/(\.ttf|\.otf)$/i', $url ) ) {
-
+			} elseif ( preg_match( '#^https?://#i', $url ) && preg_match( '/(\.ttf|\.otf)$/i', $url ) ) {
 				// Look for fonts via http(s), pull them in locally
-
 				if ( $new_filename = $this->fetchAndSaveUniqueFont( $url, $path_to_epub_assets ) ) {
 					return "url(assets/$new_filename)";
 				}
-
 			}
 
 			return $matches[0]; // No change
