@@ -764,7 +764,7 @@ abstract class Export {
 	 *
 	 * @return string
 	 */
-	static function injectHouseStyles( $css ) {
+	static function injectHouseStyles( $css, $metadata ) {
 
 		$scan = array(
 			'/*__INSERT_PDF_HOUSE_STYLE__*/' => WP_CONTENT_DIR . '/themes/pdf-house-style.css',
@@ -777,6 +777,23 @@ abstract class Export {
 				$css = str_replace( $token, file_get_contents( $replace_with ), $css );
 			}
 		}
+
+		/*** BEGIN SECTION ADDED BY ODDI TO INJECT FONT BASED ON LANGUAGE SELECTION ***/
+		$langCode = 'en';
+		if ( ! empty( $metadata['pb_language'] )) {
+			$langCode = $metadata['pb_language'];
+		}
+		$fontPath = \PressBooks\Utility\getFontForLanguageCode($langCode);
+		$replace_with = " 
+			@font-face {
+				font-family: \"ODDI Sans\";
+				font-weight: normal;
+				src: url(../../../fonts/$fontPath);
+			}
+		";
+		$css = str_replace( "/*__INSERT_BBG_HOUSE_STYLE__*/", ( $replace_with ), $css );
+		//echo $css; die();
+		/*** END SECTION ADDED BY ODDI TO INJECT FONT BASED ON LANGUAGE SELECTION ***/
 
 		return $css;
 	}

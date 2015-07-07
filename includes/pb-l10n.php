@@ -103,6 +103,11 @@ function supported_languages() {
 
 	$languages = array(
 		'' => '',
+		'km' => 'Khmer *',
+		'lo' => 'Lao *',
+		'bo' => 'Tibetan *',
+		'my' => 'Burmese *',
+		'ug' => 'Uyghur *',
 		'af' => 'Afrikaans',
 		'sq' => 'Albanian',
 		'ar' => 'Arabic',

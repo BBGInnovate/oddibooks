@@ -540,7 +540,7 @@ class Epub201 extends Export {
 	protected function createOEPBS( $book_contents, $metadata ) {
 
 		// First, setup and affect $this->stylesheet
-		$this->createStylesheet();
+		$this->createStylesheet($metadata);
 
 		// Reset manifest
 		$this->manifest = array();
@@ -583,7 +583,7 @@ class Epub201 extends Export {
 	/**
 	 * Create stylesheet. Change $this->stylesheet to a filename used by subsequent methods.
 	 */
-	protected function createStylesheet() {
+	protected function createStylesheet($metadata) {
 
 		$this->stylesheet = strtolower( sanitize_file_name( wp_get_theme() . '.css' ) );
 		$path_to_tmp_stylesheet = $this->tmpDir . "/OEBPS/{$this->stylesheet}";
@@ -593,7 +593,7 @@ class Epub201 extends Export {
 			$path_to_tmp_stylesheet,
 			$this->loadTemplate( $this->exportStylePath ) );
 
-		$this->scrapeKneadAndSaveCss( $this->exportStylePath, $path_to_tmp_stylesheet );
+		$this->scrapeKneadAndSaveCss( $this->exportStylePath, $path_to_tmp_stylesheet, $metadata );
 
 		// Append overrides
 		file_put_contents(
@@ -610,13 +610,13 @@ class Epub201 extends Export {
 	 * @param string $path_to_original_stylesheet*
 	 * @param string $path_to_copy_of_stylesheet
 	 */
-	protected function scrapeKneadAndSaveCss( $path_to_original_stylesheet, $path_to_copy_of_stylesheet ) {
+	protected function scrapeKneadAndSaveCss( $path_to_original_stylesheet, $path_to_copy_of_stylesheet, $metadata ) {
 
 		$css_dir = pathinfo( $path_to_original_stylesheet, PATHINFO_DIRNAME );
 		$path_to_epub_assets = $this->tmpDir . '/OEBPS/assets';
 
 		$css = file_get_contents( $path_to_copy_of_stylesheet );
-		$css = static::injectHouseStyles( $css );
+		$css = static::injectHouseStyles( $css, $metadata );
 
 		// Search for url("*"), url('*'), and url(*)
 		$url_regex = '/url\(([\s])?([\"|\'])?(.*?)([\"|\'])?([\s])?\)/i';

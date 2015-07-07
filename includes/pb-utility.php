@@ -381,3 +381,21 @@ function parse_size($size) {
     return round($size);
   }
 }
+
+function getFontForLanguageCode($langCode) {
+	$fontOptions = [];
+	$fontOptions['en'] = 'NotoSans-Regular.ttf';
+	$fontOptions['km'] = 'Hanuman.otf';	//Khmer
+	$fontOptions['lo'] = 'saysettha_ot.otf'; //Lao
+	$fontOptions['bo'] = 'tibusrfa2.otf'; //Tibetan
+	$fontOptions['my'] = 'zawgyi-one.otf';	//Burmese
+	$fontOptions['ug'] = 'AlpidaUnicodeSystem.otf';	//Uyghur
+	$fontOptions['ko'] = 'NotoSansCJKkr-Regular.otf';	//Korean
+
+	$fontPath = 'NotoSans-Regular.ttf';	//always have a default regardless of export
+
+	if ( ! empty( $fontOptions[$langCode] )) {
+		$fontPath = $fontOptions[$langCode];
+	}
+	return $fontPath;
+}

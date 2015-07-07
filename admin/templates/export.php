@@ -34,6 +34,12 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 	);
 }
 
+$metadata = \PressBooks\Book::getBookInformation();
+$langCode = 'en';
+if ( ! empty( $metadata['pb_language'] )) {
+	$langCode = $metadata['pb_language'];
+}
+$fontPath = \PressBooks\Utility\getFontForLanguageCode($langCode);
 ?>
 <div class="wrap">
 
@@ -95,6 +101,8 @@ if ( ! empty( $_GET['export_warning'] ) && ( get_option( 'pressbooks_email_valid
 </div> <!-- .export-left -->
 
 <div class="export-right">
+	<h3>Font Export</h3>
+	<p><?php echo "<strong>$fontPath</strong> will be embedded for the font face.  This is chosen based on the language you set in book information.</p>"; ?>
 	<h3><?php _e( 'Your Export Format Options', 'pressbooks' ); ?></h3>
 	<p><?php _e( 'Select which formats you want to export', 'pressbooks' ); ?>.</p>
     
