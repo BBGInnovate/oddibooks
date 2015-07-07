@@ -233,7 +233,7 @@ class Epub3 extends Epub\Epub201 {
 		$path_to_epub_assets = $this->tmpDir . '/OEBPS/assets';
 
 		$css = file_get_contents( $path_to_copy_of_stylesheet );
-		$css = static::injectHouseStyles( $css );
+		$css = static::injectHouseStyles( $css, $metadata );
 
 		// Search for url("*"), url('*'), and url(*)
 		$url_regex = '/url\(([\s])?([\"|\'])?(.*?)([\"|\'])?([\s])?\)/i';
