@@ -1,5 +1,996 @@
 /*
- Dummy file, this does absolutely nothing.
- Did you forget to make and save a custom CSS?
- @see: \PressBooks\CustomCss
- */
+This file must validate as CSS 2.01 with absolutely no errors
+ + http://jigsaw.w3.org/css-validator/
+ + http://idpf.org/epub/20/spec/OPS_2.0.1_draft.htm#Section3.0
+
+  Name: BBG eBooks Chinese
+  Author: Gigi Frias, ODDI
+  Tags: basic, simple, custom fonts, paragraph-indents
+  Description: A basic EPUB style including international font support and multi-device compatibility
+  Version: 0.1
+*/
+
+/* Declare latest reference namespaces */
+@namespace "http://www.w3.org/1999/xhtml";
+@namespace epub "http://www.idpf.org/2007/ops";
+
+/*=============================
+    LANGUAGE-SPECIFIC STYLES
+=============================*/
+/* Set charset to correct language */
+/*__INSERT_CHARSET__*/
+
+/*@charset "big5";*/
+
+/*Import all relevant fonts*/
+/*__INSERT_BBG_HOUSE_STYLE__*/
+
+/*@font-face {
+    font-family: "ODDI Serif";
+    font-weight: normal;
+    src: url(../fonts/AdobeHeitiStd-Regular.otf)
+}
+
+@font-face {
+    font-family: "ODDI Serif";
+    font-weight: bold;
+    src: url(../fonts/AdobeFanHeitiStd-Bold.otf);
+}
+
+@font-face {
+    font-family: "ODDI Sans";
+    font-weight: normal;
+    src: url(../fonts/ヒラギノ明朝ProW3.otf);
+}
+
+@font-face {
+    font-family: "ODDI Sans";
+    font-weight: bold;
+    src: url(../fonts/ヒラギノ明朝ProW6.otf);
+}*/
+
+/*__INSERT_EPUB_HOUSE_STYLE__*/
+
+
+/*=============================
+        BBG HOUSE STYLES
+=============================*/
+@page {
+    margin: 30px;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, p, pre, code, blockquote {
+	margin: 0;
+	padding: 0;
+	border-width: 0;
+}
+
+body {
+	font-family: "ODDI Sans", sans-serif;
+    line-height: 1.4em; /* PB */
+    /* padding: 1em; PB */
+	widows: 2;
+	orphans: 2;
+	margin: 0;
+	text-indent: 0; /* This .Mobi7 hack is needed because that format automatically applies paragraph indents on all p classes */
+	-webkit-line-break: after-white-space;
+	-epub-line-break: strict;
+	line-break: strict;
+	-epub-word-break: keep-all !important;
+	-webkit-word-break: keep-all !important;
+	-moz-word-break: keep-all !important;
+	word-break: keep-all !important;
+	-webkit-hyphenate-lines: 0;
+	hyphenate-lines: 0;
+	-epub-hyphens: none !important;
+	-webkit-hyphens: none !important;
+	adobe-hyphenate: none !important;
+	-moz-hyphens: none !important;
+	hyphens: none !important;
+}
+
+@media (min-width:300px) {
+	body{padding:0 20px;}
+}
+
+a {
+    color: #02b4c1; /* PB */
+    text-decoration: none;
+	font-weight: bold;
+}
+
+/****** UNIVERSAL STYLES ******/
+/*=============================
+     UNIVERSAL BUG FIXES
+=============================*/
+/* Use this span around other tags in XHTML to fix Apple/iBooks bug regarding centered text */
+span.applebug {}
+
+/* Wrap this around headings + first paragraph of text to keep together on some e-readers */
+.keeptext {
+    page-break-inside: avoid !important;
+    margin: 0 !important;
+}
+
+/*=============================
+        UNIVERSAL HEADERS
+=============================*/
+h1, h2, h3, h4, h5, h6 {
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+}
+
+h1 {
+    font: bold 2em/2.5em "ODDI Serif", serif;
+    /*page-break-inside: avoid;*/
+    text-align: center;
+}
+
+h2 {
+    font: 1.5em/1.2em "ODDI Serif", serif;
+    text-align: center;
+    margin: 0.5em 0 0.35em;
+}
+
+/****** FRONT MATTER STYLES *******/
+/*=============================
+          TITLE PAGE
+=============================*/
+#title-page > .title {
+    font-size: 2.2em;
+    margin-top: 1em;
+    line-height: 1em;
+    text-transform: uppercase;
+}
+
+#title-page > .subtitle {
+    font-size: 1.7em;
+    margin-top: 2.1em;
+    text-transform: uppercase;
+}
+
+#title-page > .logo {
+    margin-top: 5em;
+    height: 26px;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+}
+
+#title-page .title + .logo {
+    margin-top: 8em;
+}
+
+#title-page > .author {
+    font-size: 1.4em;
+    margin-top: 2.5em;
+    text-transform: uppercase;
+}
+
+#title-page > .publisher {
+    font-size: 1.3em;
+    margin-bottom: 0.3em;
+}
+
+#title-page > .publisher-city {
+    font-size: 0.875em;
+    margin-top: 0;
+}
+
+/*=============================
+          DEDICATION
+=============================*/
+.dedication > div.front-matter-ugc p {
+    font-style: italic;
+    text-align: center;
+}
+
+/*=============================
+        COPYRIGHT PAGE
+=============================*/
+#copyright-page > div.ugc p {
+    font-size: 0.7em;
+    text-indent: 0;
+    margin-bottom: 0.5em;
+}
+
+div.license-attribution {
+    text-align: center;
+    margin-bottom: 1em;
+}
+
+/*=============================
+     FRONT-MATTER TITLES, 
+      BACK_MATTER TITLES, 
+     CHAPTER & PART TITLES
+=============================*/
+div.part {
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    margin-top: 6em;
+    padding-bottom: 0.25em;
+}
+
+div.part.invisible {
+    display: none;
+}
+
+.display-none,
+.front-matter-number,
+.back-matter-number {
+    display: none;
+}
+
+.part-number,
+.chapter-number {
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    padding-bottom: 1em;
+    text-transform: uppercase;
+}
+
+div.part-title-wrap > h3.part-number:before {
+    content: "Part ";
+}
+
+.chapter-number {
+    margin-bottom: 3em;
+}
+
+div.chapter.numberless h3.chapter-number {
+    display: none;
+}
+
+.front-matter-title {
+    margin-bottom: 3em;
+}
+
+.front-matter.preface h1.front-matter-title {
+    font-size: 1.4em;
+}
+
+.chapter-title {
+    margin: 2em 0;
+}
+
+/*=============================
+      CHAPTER SUBTITLES, 
+   CHAPTER AUTHOR & APHORISM
+=============================*/
+h2.chapter-subtitle {
+    font-weight: normal;
+    font-style: italic;
+}
+
+h2.chapter-subtitle,
+h2.chapter-author {
+    font-size: 1.4em;
+    font-variant: normal;
+    margin: -1.4em 0 3em;
+}
+
+h2.chapter-subtitle {
+    margin-bottom: 2.8em;
+    padding-top: 0.5em;
+}
+
+h2.chapter-author {
+    font-size: 0.9em;
+    font-style: normal;
+    font-weight: 600;
+}
+
+blockquote.aphorism {
+    font-size: 1em;
+    font-style: italic;
+    margin: 0 auto 4em;
+    padding: 0 15%;
+    width: 50%;
+}
+
+blockquote.aphorism p {
+    text-align: right;
+}
+
+.aphorism cite {
+    display: block;
+    font-size: 0.875em;
+    font-style: normal;
+    font-variant: small-caps;
+    text-align: right;
+}
+
+.aphorism cite:before {
+    content: "–";
+}
+
+/*=============================
+       TABLE OF CONTENTS
+=============================*/
+#toc {
+    font-size: 0.875em;
+}
+
+#toc ul,
+#toc li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* 3 levels of indentation */
+li.toc-1, li.toc-2, li.toc-3 {
+    font: bold 1.15em/1.75em "ODDI Sans", sans-serif;
+    list-style: none;
+}
+
+li.toc-2 {
+    margin-left:2em;
+}
+
+li.toc-3 {
+    margin-left:4em;
+}
+
+#toc ul > .front-matter,
+#toc ul > .back-matter {
+    font-style: italic;
+}
+
+#toc .front-matter + .chapter {
+    margin-top: 1.3em;
+}
+
+#toc a {
+    border: none;
+    color: #000;
+}
+
+#toc a:after {
+    font-style: normal;
+    text-decoration: none;
+}
+
+#toc .part {
+    background-image: none;
+    margin: 1.3em 0 0.5em;
+    font: bold 1.2em Impact, sans-serif;
+}
+
+#toc .part.invisible {
+    display: none;
+}
+
+#toc ul {
+    line-height: 1.2em;
+}
+
+#toc .chapter + .back-matter {
+    margin-top: 1.3em;
+}
+
+#toc span.chapter-author,
+#toc span.chapter-license,
+#toc span.chapter-subtitle {
+    display: block;
+    font-style: italic;
+    margin-left: 1em;
+}
+
+#toc span.chapter-author,
+#toc span.chapter-license,
+#toc span.chapter-subtitle {
+    margin-bottom: 5px;
+}
+
+#toc span.chapter-subtitle + span.chapter-author,
+#toc span.chapter-subtitle + span.chapter-license,
+span.chapter-author + span.chapter-license {
+    margin-top: -5px;
+    margin-bottom: 5px;
+}
+
+/****** BODYMATTER STYLES ******/
+/*=============================
+           BODY TEXT
+=============================*/
+/* Don't indent first paragraph */
+p.first, h1 + p, h2 + p {
+    text-indent: 0;
+}
+
+p {
+    font: 0.9em/1.5em "ODDI Sans", sans-serif;
+    margin-bottom: 0.35em;
+    text-align: left;
+}
+
+p + ul {
+    margin-top: 10px;
+}
+
+hr {
+    margin: 10px auto;
+    text-align: center;
+    width: 20%;
+}
+
+dt {
+    float: left;
+    font-weight: bold;
+    margin-right: 5px;
+    margin-bottom: 0;
+}
+
+dd {
+    margin-bottom: 0;
+}
+
+ul ul,
+ul ul ul {
+    list-style-type: none;
+}
+
+ul li li {
+    list-style-image: url('images/em-dash.png');
+}
+
+ul li li li {
+    list-style-image: url('images/asterisk.png');
+}
+
+cite {
+    font-weight: normal;
+}
+
+div.blockquote,
+blockquote {
+    border-width: 0 4px;
+    padding: 0 5%;
+    margin-bottom: 2em;
+}
+
+p + p,
+.indent {
+    text-indent: 2em;
+    margin-top: 0;
+}
+
+/*=============================
+         BODY TITLES
+=============================*/
+.ugc h1,
+.ugc h2,
+.ugc h3,
+.ugc h4,
+.ugc h5,
+.ugc h6 {
+    margin-bottom: 5px;
+    page-break-after: avoid;
+}
+
+.ugc h1,
+.ugc h2,
+.ugc h3 {
+    font-weight: normal;
+}
+
+.ugc h1 {
+    font-size: 1.1em;
+}
+
+.ugc h2,
+.ugc h3 {
+    font-size: 1em;
+}
+
+.ugc h3,
+.ugc h4,
+.ugc h5 {
+    text-align: left;
+}
+
+.ugc.back-matter-ugc h4,
+.ugc.part-ugc h4,
+.ugc.chapter-ugc h4,
+.ugc.front-matter-ugc h4 {
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.ugc.back-matter-ugc h5,
+.ugc.part-ugc h5,
+.ugc.chapter-ugc h5,
+.ugc.front-matter-ugc h5 {
+    font-size: 0.85em;
+}
+
+.ugc h1 + p,
+.ugc h2 + p,
+.ugc h3 + p,
+.ugc h4 + p,
+.ugc h5 + p {
+    margin-top: 0;
+}
+
+/*=============================
+      ASIDES, PULLQUOTES 
+         & TEXTBOXES
+=============================*/
+/* Replace blockquote tag with div to help with validation.
+May be used as introductory textboxes with chapter summary. */
+.pullout {
+    font: 1em/1.5em "ODDI Serif", serif;
+    margin: 2em 1em;
+    padding: 0.5em;
+    border: dotted 1pt;
+    page-break-inside: avoid;
+}
+
+/* Styling for large breakout boxes */
+.announcement {
+    border: double 2pt;
+    margin: 2em 1em;
+    padding: 0.5em;
+    text-align: center;
+    page-break-inside: avoid;
+}
+
+.aside {
+    font-style: italic;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    margin: 2em 10%;
+    padding: 10px 0;
+    text-indent: 0;
+}
+
+.textbox {
+    border: 1px solid #000;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.textbox.shaded {
+    background-color: #eee;
+}
+
+.textbox p {
+    margin-top: 0;
+}
+
+.textbox-caption {
+    display: block;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.pullquote {
+    border: 1px solid #000;
+    border-width: 1px 0;
+    margin: 20px auto;
+    padding: 5px 0;
+    text-align: center;
+    width: 45%;
+}
+
+.pullquote-left {
+    border: 1px solid #000;
+    border-width: 1px 0;
+    float: left;
+    margin: 15px 15px 15px 0;
+    padding: 5px 0;
+    text-align: center;
+    width: 45%;
+}
+
+.pullquote-right {
+    border: 1px solid #000;
+    border-width: 1px 0;
+    float: right;
+    margin: 15px 0 15px 15px;
+    padding: 5px 0;
+    text-align: center;
+    width: 45%;
+}
+
+/*=============================
+   INTERVIEWS & CONVERSATIONS
+=============================*/
+/* Bold speakers' names in interviews */
+.speaker{font-weight: bold;}
+
+/* Italic commentary in interviews */
+.commentary{font-style: italic;}
+
+
+/*=============================
+            TABLES
+=============================*/
+table, tr {
+  border: 1px solid black;
+  width: 100%;
+  page-break-inside: avoid !important;
+  page-break-after: avoid !important;
+}
+
+/* Align numbers right for calculations */
+table#calc, table#calc {
+  text-align: right;
+}
+
+caption {
+  font: 0.9em/1.5em bold "ODDI Serif", serif;
+}
+
+tr.header {
+  background: #333;
+  color: white;
+}
+
+tr.odd, tr.total {
+  background: #ccc;
+}
+
+th, td {
+  padding: 5px;
+}
+
+.total {
+  font-weight: bold;
+}
+
+/*=============================
+       USER GENERATED CSS
+=============================*/
+.nonindent,
+.no-indent {
+    text-indent: 0;
+}
+
+hr.break-symbols {
+    border: none;
+    font-size: 1.1em;
+    margin-bottom: 20px;
+}
+
+hr.break-symbols:after {
+    display: block;
+    content: "\2725";
+    text-align: center;
+}
+
+p.bl_nonindent {
+    margin: 2em 10% 0;
+    text-indent: 0;
+}
+
+p.bl_indent {
+    margin: 0 10%;
+    text-indent: 1em;
+}
+
+.hanging-indent {
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+/****** BACKMATTER STYLES ******/
+/*=============================
+     FOOTNOTES & ENDNOTES
+=============================*/
+/* References to footnotes & endnotes */
+sup {
+    font-size: 0.6em;
+    line-height: 0.5em;
+    vertical-align: baseline;
+    position: relative;
+    top: -0.4em;
+}
+
+sup.footnote,
+sup.endnote { /* PB */
+    line-height: 1em;
+    vertical-align: top;
+}
+
+/* FOOTNOTES */
+.footnotes {
+    display: block;
+    font-size: 0.875em;
+    margin: 20px 10px 40px 40px;
+}
+
+.footnotes-wrap {
+    list-style: none;
+    display: block;
+    margin: 10px 10px 10px 40px;
+}
+
+.footnotes p + p {
+    text-indent: 0;
+}
+
+.footnotes .footnotes-wrap p {
+    text-indent: -1em;
+}
+
+.footnotes p a {
+    display: block;
+    text-decoration: none;
+}
+
+/* ENDNOTES */
+.endnotes hr {
+    border: none;
+    margin-top: 1em;
+}
+
+.endnotes h3 {
+    margin-bottom: 0;
+}
+
+.endnotes h3 {
+    font-size: 1.2em;
+    font-style: normal;
+    font-weight: bold;
+    text-align: center;
+}
+
+.endnotes ol {
+    font-size: 0.7em;
+    margin-top: 5px;
+    margin-left: 0;
+}
+
+.endnotes li {
+    text-indent: 2em;
+}
+
+.endnotes p + p {
+    text-indent: 0;
+}
+
+/*=============================
+         BIBLIOGRAPHY
+=============================*/
+.bibliography p {
+    padding-left: 1em;
+    text-indent: -1em;
+}
+
+
+/*=============================
+            INDEX
+=============================*/
+.index .ugc {
+    text-align: left;
+}
+
+.index .ugc div {
+    margin-bottom: 4em;
+}
+
+.index > div.back-matter-ugc p {
+    font-size: 0.75em;
+    padding-left: 14pt;
+    text-indent: -14pt;
+    text-align: left;
+}
+
+.index .ugc p.sub-entry {
+    padding-left: 30px;
+}
+
+
+/*=============================
+        IMAGES & FIGURES
+=============================*/
+/* RESPONSIVE IMAGES */
+/* Wrapper for responsive scaling */
+svg {
+    width: 100%;/* Set proportional height based on image ratio in HTML */
+    page-break-inside: avoid;
+    margin: 0;
+    padding: 0;
+}
+
+svg.full{
+    page-break-before: always;
+}
+
+/* Border around images to differentiate from background */
+rect {
+    fill: none;
+    stroke-width: 1;
+    stroke: lightgray;
+    margin: 0;
+    padding: 0;
+}
+
+/* Use text within SVG element for captions */
+text { 
+    font: 0.5em/0.6em "ODDI Serif", serif;
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* Make image responsive */
+img, image {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0 auto;
+    border: solid 0.1em lightgray;
+    page-break-inside: avoid;
+}
+
+/* COVER IMAGE */
+p#cover {
+    text-align: center;
+}
+
+img.cover-image {
+    display: block;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* IMAGES - ALL */
+/* Universal image setting (PB) */
+img {
+    height: auto;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    display: inline-block;
+    page-break-inside: avoid !important;
+}
+
+/* Image container */
+div.img_fs_cap {
+    text-align: center;
+    margin: 0;
+    page-break-inside: avoid;
+}
+
+/* Adds display:block to figure container for compatibility with older reading systems */
+div.fig_fs_cap {
+    display: block;
+    text-align: center;
+    margin: 0;
+    page-break-inside: avoid;
+}
+
+/* Percentage */
+img.percent {
+    height: 80%;
+    width: auto;
+}
+
+/* Viewport */
+img.viewport {
+    height: 70vh;
+}
+
+/* Single File */
+div.img_pct {
+    height: 80%;
+}
+
+img#img_vh {
+    height: 80%;
+}
+
+/* Overrides the previous setting, but only in newer systems that support CSS3 */
+img#img_vh:only-of-type { 
+    height: 80vh;
+}
+
+/* DIV WRAPPER AROUND CAPTIONED IMAGES AND IMAGES WITH NO CAPTIONS (PB) */
+div.wp-caption,
+div.wp-nocaption {
+    height: auto;
+    width: 80% !important;
+    max-width: 80% !important;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    page-break-inside: avoid !important;
+}
+
+/* CAPTION TEXT */
+p.wp-caption-text {
+    font-size: 0.9em;
+    padding-bottom: 0.5em;
+    text-align: center;
+    text-indent: 0;
+    font-weight: bold;
+    margin: 0 10%;
+}
+
+/* IMAGE ALIGNMENT (PB) */
+.aligncenter,
+.wp-caption.aligncenter {
+    text-align: center !important;
+    width: auto !important;
+    page-break-inside: avoid !important;
+}
+
+.wp-caption.aligncenter img,
+.aligncenter img {
+    display: inline-block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: auto !important;
+    text-align: center;
+    page-break-inside: avoid !important;
+}
+
+.alignleft,
+.wp-caption.alignleft,
+.wp-nocaption.alignleft {
+    width: 50% !important;
+    max-width: 50% !important;
+    margin-right: 1em !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    margin-top: 1em;
+    float: left;
+    page-break-inside: avoid !important;
+}
+
+.alignleft img,
+.wp-caption.alignleft img,
+.wp-nocaption.alignleft img {
+    width: 100% !important;
+    max-width: 100%;
+    page-break-inside: avoid !important;
+}
+
+.alignright,
+.wp-caption.alignright,
+.wp-nocaption.alignright {
+    width: 50% !important;
+    max-width: 50% !important;
+    margin-right: 0 !important;
+    margin-left: 1em !important;
+    padding-right: 0 !important;
+    margin-top: 1em;
+    float: right;
+    page-break-inside: avoid !important;
+}
+
+.alignright img,
+.wp-caption.alignright img,
+.wp-nocaption.alignright img {
+    width: 100% !important;
+    max-width: 100%;
+    page-break-inside: avoid !important;
+}
+
+/* BABYLONIAN INCANTATIONS ACCOMPANIED CREATION OF THIS SPECIAL CSS FOR MOBI (PB) */
+@media amzn-kf8 {
+    div.wp-caption,
+    div.wp-nocaption {
+        height: auto !important;
+        width: auto !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        text-align: center !important;
+        page-break-inside: avoid !important;
+    }
+    div.wp-caption img,
+    div.wp-nocaption img {
+        width: auto;
+        page-break-inside: avoid !important;
+    }
+}
+
+/*__INSERT_MOBI_HOUSE_STYLE__*/
