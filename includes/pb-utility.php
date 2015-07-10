@@ -384,18 +384,49 @@ function parse_size($size) {
 
 function getFontForLanguageCode($langCode) {
 	$fontOptions = [];
-	$fontOptions['en'] = 'NotoSans-Regular.ttf';
-	$fontOptions['km'] = 'Hanuman.otf';	//Khmer
-	$fontOptions['lo'] = 'saysettha_ot.otf'; //Lao
-	$fontOptions['bo'] = 'tibusrfa2.otf'; //Tibetan
-	$fontOptions['my'] = 'zawgyi-one.otf';	//Burmese
-	$fontOptions['ug'] = 'AlpidaUnicodeSystem.otf';	//Uyghur
-	$fontOptions['ko'] = 'NotoSansCJKkr-Regular.otf';	//Korean
+	
+	$fontOptions['en'] = array(
+		'sans-regular' => 'NotoSans-Regular.ttf',
+		'sans-bold' => 'NotoSans-Bold.ttf',
+		'serif-regular' => 'NotoSerif-Regular.ttf',
+		'serif-bold' => 'NotoSerif-Bold.ttf'
+	);
 
-	$fontPath = 'NotoSans-Regular.ttf';	//always have a default regardless of export
+	$fontOptions['km'] = array(
+		'sans-regular' => 'Hanuman.otf' //khmer
+	);
+	$fontOptions['lo'] = array(
+		'sans-regular' => 'saysettha_ot.otf' //Lao
+	);
+	$fontOptions['bo'] = array(
+		'sans-regular' => 'tibusrfa2.otf' //Tibetan
+	);
+	$fontOptions['my'] = array(
+		'sans-regular' => 'zawgyi-one.otf' //Burmese
+	);
+	$fontOptions['ug'] = array(
+		'sans-regular' => 'AlpidaUnicodeSystem.otf' //Uygher
+	);
+	$fontOptions['ko'] = array(
+		'sans-regular' => 'NotoSansCJKkr-Regular.otf'  //Korean
+	);
+
+	$fontData = $fontOptions['en'];	//default to English
 
 	if ( ! empty( $fontOptions[$langCode] )) {
-		$fontPath = $fontOptions[$langCode];
+		$fontData = $fontOptions[$langCode];
 	}
-	return $fontPath;
+	return $fontData;
+}
+
+function getCharsetForLanguageCode($langCode) {
+	$charsets=[];
+	$charsets['en'] = "UTF-8";
+
+	$returnVal=$charset['en']; //default to English
+	if ( ! empty( $charsets[$langCode] )) {
+		$returnVal = $charsets[$langCode];
+	}
+
+	return $returnVal;
 }

@@ -12,6 +12,7 @@ This file must validate as CSS 2.01 with absolutely no errors
   Version: 1.4
 */
 
+/*__INSERT_BBG_CHARSET__*/
 
 /*__INSERT_EPUB_HOUSE_STYLE__*/
 
@@ -616,6 +617,6 @@ div.wp-nocaption {
   }
 }
 
-/*__INSERT_BBG_HOUSE_STYLE__*/
-
 /*__INSERT_MOBI_HOUSE_STYLE__*/
+
+/*__INSERT_BBG_HOUSE_STYLE__*/

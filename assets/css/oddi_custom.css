@@ -100,4 +100,9 @@
 	text-decoration: none;
 }
 #moreFormatsLabel {cursor: pointer}
+
+.export-page form.export-file span.export-file-icon.large.zip {
+	background: url(../images/staticSite-48.png) -0 0 no-repeat;
+}
+
 /***** END EXPORT PAGE  ******/
