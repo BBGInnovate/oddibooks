@@ -598,6 +598,9 @@ abstract class Export {
 			if ( isset( $x['epub3'] ) ) {
 				$modules[] = '\PressBooks\Export\Epub3\Epub3'; // Must be set before MOBI
 			}
+			if ( isset ( $x['staticSite'] ) ){
+				$modules[] = '\PressBooks\Export\StaticSite\StaticSite';
+			}
 			if ( isset( $x['mobi'] ) ) {
 				$modules[] = '\PressBooks\Export\Mobi\Kindlegen'; // Must be set after EPUB
 			}
@@ -616,6 +619,7 @@ abstract class Export {
 			if ( isset ( $x['odt'] ) ){
 				$modules[] = '\PressBooks\Export\Odt\Odt';
 			}
+			
 
 			// --------------------------------------------------------------------------------------------------------
 			// Clear cache? Range is 1 hour.
@@ -640,6 +644,7 @@ abstract class Export {
 
 				/** @var \PressBooks\Export\Export $exporter */
 				$exporter = new $module( array() );
+				
 
 				if ( ! $exporter->convert() ) {
 					$conversion_error[$module] = $exporter->getOutputPath();
@@ -783,17 +788,60 @@ abstract class Export {
 		if ( ! empty( $metadata['pb_language'] )) {
 			$langCode = $metadata['pb_language'];
 		}
-		$fontPath = \PressBooks\Utility\getFontForLanguageCode($langCode);
-		$replace_with = " 
-			@font-face {
-				font-family: \"ODDI Sans\";
-				font-weight: normal;
-				src: url(../../../fonts/$fontPath);
-			}
-		";
-		$css = str_replace( "/*__INSERT_BBG_HOUSE_STYLE__*/", ( $replace_with ), $css );
-		//echo $css; die();
+		$fontData = \PressBooks\Utility\getFontForLanguageCode($langCode);
+		$replace_with = "";
+		
+		if ( ! empty( $fontData['sans-regular'] )) {
+			$fontPath=$fontData['sans-regular'];
+			$replace_with = " 
+				@font-face {
+					font-family: \"ODDI Sans\";
+					font-weight: normal;
+					src: url(../../../fonts/$fontPath);
+				}
+			";
+		}
+
+		if ( ! empty( $fontData['sans-bold'] )) {
+			$fontPath=$fontData['sans-bold'];
+			$replace_with = $replace_with  . " 
+				@font-face {
+					font-family: \"ODDI Sans\";
+					font-weight: bold;
+					src: url(../../../fonts/$fontPath);
+				}
+			";
+		}
+
+		if ( ! empty( $fontData['serif-regular'] )) {
+			$fontPath=$fontData['serif-regular'];
+			$replace_with = $replace_with  . " 
+				@font-face {
+					font-family: \"ODDI Serif\";
+					font-weight: normal;
+					src: url(../../../fonts/$fontPath);
+				}
+			";
+		}
+
+		if ( ! empty( $fontData['serif-bold'] )) {
+			$fontPath=$fontData['serif-bold'];
+			$replace_with = $replace_with  . " 
+				@font-face {
+					font-family: \"ODDI Serif\";
+					font-weight: bold;
+					src: url(../../../fonts/$fontPath);
+				}
+			";
+		}
 		/*** END SECTION ADDED BY ODDI TO INJECT FONT BASED ON LANGUAGE SELECTION ***/
+		
+		/* BEGIN INJECT CHARSET */
+		$css = str_replace( "/*__INSERT_BBG_HOUSE_STYLE__*/", ( $replace_with ), $css );
+		$charset= "UTF-8";
+		$charset_replace_with = "@charset \"$charset\";";
+		$css = str_replace( "/*__INSERT_BBG_CHARSET__*/", ( $charset_replace_with ), $css );
+		/* END INJECT CHARSET */
 
 		return $css;
 	}
