@@ -576,6 +576,7 @@ class Epub3 extends Epub\Epub201 {
 		    'manifest' => $this->manifest,
 		    'dtd_uid' => ( ! empty( $metadata['pb_ebook_isbn'] ) ? $metadata['pb_ebook_isbn'] : get_bloginfo( 'url' ) ),
 		);
+		$vars['metadata']=$metadata;
 
 		file_put_contents(
 			$this->tmpDir . "/toc.xhtml", $this->loadTemplate( $this->dir . '/templates/toc.php', $vars ) );

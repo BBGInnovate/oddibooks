@@ -6,8 +6,14 @@ if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
+
+$languageCode = 'en';
+if (! empty( $metadata['pb_language'] ) ) {
+	$languageCode = $metadata['pb_language'];
+}
+
 ?>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="<?php echo $languageCode; ?>">
 <head>
 	<title><?php echo $post_title; ?> -- <?php bloginfo( 'name' ); ?></title>
 

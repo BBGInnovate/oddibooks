@@ -6,9 +6,15 @@ if ( ! defined( 'ABSPATH' ) )
 	exit;
 
 echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
+
+$languageCode = 'en';
+if (! empty( $metadata['pb_language'] ) ) {
+	$languageCode = $metadata['pb_language'];
+}
+
 ?>
 
-<ncx version="2005-1" xml:lang="en" xmlns="http://www.daisy.org/z3986/2005/ncx/">
+<ncx version="2005-1" xml:lang="<?php echo $languageCode; ?>" xmlns="http://www.daisy.org/z3986/2005/ncx/">
 
 	<head>
 		<!-- The following four metadata items are required for all NCX documents,
