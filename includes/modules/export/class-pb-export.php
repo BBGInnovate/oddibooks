@@ -794,52 +794,57 @@ abstract class Export {
 		if ( ! empty( $fontData['sans-regular'] )) {
 			$fontPath=$fontData['sans-regular'];
 			$replace_with = " 
-				@font-face {
-					font-family: \"ODDI Sans\";
-					font-weight: normal;
-					src: url(../../../fonts/$fontPath);
-				}
+@font-face {
+	font-family: \"ODDI Sans\";
+	font-weight: normal;
+	src: url(../../../fonts/$fontPath);
+}
 			";
 		}
 
 		if ( ! empty( $fontData['sans-bold'] )) {
 			$fontPath=$fontData['sans-bold'];
 			$replace_with = $replace_with  . " 
-				@font-face {
-					font-family: \"ODDI Sans\";
-					font-weight: bold;
-					src: url(../../../fonts/$fontPath);
-				}
+@font-face {
+	font-family: \"ODDI Sans\";
+	font-weight: bold;
+	src: url(../../../fonts/$fontPath);
+}
 			";
 		}
 
 		if ( ! empty( $fontData['serif-regular'] )) {
 			$fontPath=$fontData['serif-regular'];
 			$replace_with = $replace_with  . " 
-				@font-face {
-					font-family: \"ODDI Serif\";
-					font-weight: normal;
-					src: url(../../../fonts/$fontPath);
-				}
+@font-face {
+	font-family: \"ODDI Serif\";
+	font-weight: normal;
+	src: url(../../../fonts/$fontPath);
+}
 			";
 		}
 
 		if ( ! empty( $fontData['serif-bold'] )) {
 			$fontPath=$fontData['serif-bold'];
 			$replace_with = $replace_with  . " 
-				@font-face {
-					font-family: \"ODDI Serif\";
-					font-weight: bold;
-					src: url(../../../fonts/$fontPath);
-				}
+@font-face {
+	font-family: \"ODDI Serif\";
+	font-weight: bold;
+	src: url(../../../fonts/$fontPath);
+}
 			";
 		}
 		/*** END SECTION ADDED BY ODDI TO INJECT FONT BASED ON LANGUAGE SELECTION ***/
 		
 		/* BEGIN INJECT CHARSET */
 		$css = str_replace( "/*__INSERT_BBG_HOUSE_STYLE__*/", ( $replace_with ), $css );
-		$charset= "UTF-8";
+		//$charset= "UTF-8";
+		$charset = \PressBooks\Utility\getCharsetForLanguageCode($langCode);
+		
+
+
 		$charset_replace_with = "@charset \"$charset\";";
+
 		$css = str_replace( "/*__INSERT_BBG_CHARSET__*/", ( $charset_replace_with ), $css );
 		/* END INJECT CHARSET */
 

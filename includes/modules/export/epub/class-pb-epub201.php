@@ -722,8 +722,10 @@ class Epub201 extends Export {
 			'post_title' => __( 'Cover', 'pressbooks' ),
 			'stylesheet' => $this->stylesheet,
 			'post_content' => $html,
-			'isbn' => @$metadata['pb_ebook_isbn'],
+			'isbn' => @$metadata['pb_ebook_isbn']
 		);
+		$vars['metadata']=$metadata;
+
 
 		$file_id = 'front-cover';
 		$filename = "{$file_id}.{$this->filext}";
@@ -758,6 +760,7 @@ class Epub201 extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$i = $this->frontMatterPos;
 		foreach ( array( 'before-title' ) as $compare ) {
@@ -851,8 +854,9 @@ class Epub201 extends Export {
 			'post_title' => __( 'Title Page', 'pressbooks' ),
 			'stylesheet' => $this->stylesheet,
 			'post_content' => $html,
-			'isbn' => @$metadata['pb_ebook_isbn'],
+			'isbn' => @$metadata['pb_ebook_isbn']
 		);
+		$vars['metadata'] = $metadata;
 
 		$file_id = 'title-page';
 		$filename = "{$file_id}.{$this->filext}";
@@ -911,8 +915,9 @@ class Epub201 extends Export {
 			'post_title' => __( 'Copyright', 'pressbooks' ),
 			'stylesheet' => $this->stylesheet,
 			'post_content' => $html,
-			'isbn' => @$metadata['pb_ebook_isbn'],
+			'isbn' => @$metadata['pb_ebook_isbn']
 		);
+		$vars['metadata'] = $metadata;
 
 		$file_id = 'copyright';
 		$filename = "{$file_id}.{$this->filext}";
@@ -947,6 +952,7 @@ class Epub201 extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$i = $this->frontMatterPos;
 		$last_pos = false;
@@ -1014,6 +1020,7 @@ class Epub201 extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$i = $this->frontMatterPos;
 		foreach ( $book_contents['front-matter'] as $front_matter ) {
@@ -1071,6 +1078,7 @@ class Epub201 extends Export {
 			$file_id = 'front-matter-' . sprintf( "%03s", $i );
 			$filename = "{$file_id}-{$slug}.{$this->filext}";
 
+
 			file_put_contents(
 				$this->tmpDir . "/OEBPS/$filename",
 				$this->loadTemplate( $this->dir . '/templates/xhtml.php', $vars ) );
@@ -1106,6 +1114,7 @@ class Epub201 extends Export {
 				'post_content' => $this->kneadHtml( $promo_html, 'custom' ),
 				'isbn' => @$metadata['pb_ebook_isbn'],
 			);
+			$vars['metadata'] = $metadata;
 
 			file_put_contents(
 				$this->tmpDir . "/OEBPS/$filename",
@@ -1141,11 +1150,14 @@ class Epub201 extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata'] = $metadata;
+
+
+
 
 		// Parts, Chapters
 		$i = $j = $c = $p = 1;
 		foreach ( $book_contents['part'] as $part ) {
-
 			$invisibility = ( get_post_meta( $part['ID'], 'pb_part_invisible', true ) == 'on' ) ? 'invisible' : '';
 
 			$part_printf_changed = '';
@@ -1167,17 +1179,20 @@ class Epub201 extends Export {
 
 			foreach ( $part['chapters'] as $chapter ) {
 
+
 				if ( ! $chapter['export'] )
 					continue; // Skip
-
 				$chapter_printf_changed = '';
 				$id = $chapter['ID'];
 				$subclass = \PressBooks\Taxonomy\chapter_type( $id );
 				$slug = $chapter['post_name'];
 				$title = ( get_post_meta( $id, 'pb_show_title', true ) ? $chapter['post_title'] : '' );
+
+
 				$content = $this->kneadHtml( $chapter['post_content'], 'chapter', $j );
 
 				$short_title = false; // Ie. running header title is not used in EPUB
+
 				$subtitle = trim( get_post_meta( $id, 'pb_subtitle', true ) );
 				$author = trim( get_post_meta( $id, 'pb_section_author', true ) );
 
@@ -1219,8 +1234,10 @@ class Epub201 extends Export {
 					$content,
 					'' );
 
+
 				$file_id = 'chapter-' . sprintf( "%03s", $j );
 				$filename = "{$file_id}-{$slug}.{$this->filext}";
+
 
 				file_put_contents(
 					$this->tmpDir . "/OEBPS/$filename",
@@ -1361,6 +1378,7 @@ class Epub201 extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$i = 1;
 		foreach ( $book_contents['back-matter'] as $back_matter ) {
@@ -1407,6 +1425,7 @@ class Epub201 extends Export {
 				Sanitize\decode( $title ),
 				$content,
 				'' );
+			
 
 			$file_id = 'back-matter-' . sprintf( "%03s", $i );
 			$filename = "{$file_id}-{$slug}.{$this->filext}";
@@ -1441,6 +1460,8 @@ class Epub201 extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
+
 		$options = get_option( 'pressbooks_theme_options_global' );
 
 
@@ -1592,12 +1613,11 @@ class Epub201 extends Export {
 
 		// Load HTMl snippet into DOMDocument using UTF-8 hack
 		$utf8_hack = '<?xml version="1.0" encoding="UTF-8"?>';
+		
 		$doc = new \DOMDocument();
 		$doc->loadHTML( $utf8_hack . $html );
-
 		// Download images, change to relative paths
 		$doc = $this->scrapeAndKneadImages( $doc );
-
 		// Deal with <a href="">, <a href=''>, and other mutations
 		$doc = $this->kneadHref( $doc, $type, $pos );
 

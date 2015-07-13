@@ -411,6 +411,12 @@ function getFontForLanguageCode($langCode) {
 		'sans-regular' => 'NotoSansCJKkr-Regular.otf'  //Korean
 	);
 
+	$fontOptions['zh'] = array( //Chinese
+		'sans-regular' => 'NotoSansCJKtc-Regular.otf',  
+		'sans-bold' => 'NotoSansCJKtc-Regular.otf'  
+	);
+	
+
 	$fontData = $fontOptions['en'];	//default to English
 
 	if ( ! empty( $fontOptions[$langCode] )) {
@@ -422,9 +428,19 @@ function getFontForLanguageCode($langCode) {
 function getCharsetForLanguageCode($langCode) {
 	$charsets=[];
 	$charsets['en'] = "UTF-8";
+	$charsets['ko'] = "euc-kr";
+	$charsets['zh'] = "big5";
+
+	/* 
+	$charsets['km'] = "UTF-8";
+	$charsets['lo'] = "UTF-8";
+	$charsets['bo'] = "UTF-8";
+	$charsets['my'] = "UTF-8";
+	$charsets['ug'] = "UTF-8";
+	*/
 
 	$returnVal=$charset['en']; //default to English
-	if ( ! empty( $charsets[$langCode] )) {
+	if ( ! empty( $charsets[$langCode] ) ) {
 		$returnVal = $charsets[$langCode];
 	}
 
