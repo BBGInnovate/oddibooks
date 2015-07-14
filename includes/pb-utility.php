@@ -439,7 +439,7 @@ function getCharsetForLanguageCode($langCode) {
 	$charsets['ug'] = "UTF-8";
 	*/
 
-	$returnVal=$charset['en']; //default to English
+	$returnVal=$charsets['en']; //default to English
 	if ( ! empty( $charsets[$langCode] ) ) {
 		$returnVal = $charsets[$langCode];
 	}
