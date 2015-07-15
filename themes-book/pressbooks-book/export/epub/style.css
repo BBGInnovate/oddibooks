@@ -1,4 +1,6 @@
-﻿/*
+﻿/*__INSERT_BBG_CHARSET__*/
+
+/*
 This file must validate as CSS 2.01 with absolutely no errors
  + http://jigsaw.w3.org/css-validator/
  + http://idpf.org/epub/20/spec/OPS_2.0.1_draft.htm#Section3.0
@@ -11,8 +13,6 @@ This file must validate as CSS 2.01 with absolutely no errors
   Copyright 2011-2015 Book Oven Inc. (PressBooks.com) support@pressbooks.com
   Version: 1.4
 */
-
-/*__INSERT_BBG_CHARSET__*/
 
 /*__INSERT_EPUB_HOUSE_STYLE__*/
 
@@ -619,4 +619,4 @@ div.wp-nocaption {
 
 /*__INSERT_MOBI_HOUSE_STYLE__*/
 
-/*__INSERT_BBG_HOUSE_STYLE__*/
+/*__INSERT_BBG_FONTS__*/

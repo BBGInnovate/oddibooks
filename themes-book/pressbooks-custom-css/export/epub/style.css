@@ -1,3 +1,8 @@
+/*__INSERT_BBG_CHARSET__*/
+
+@namespace "http://www.w3.org/1999/xhtml";
+@namespace epub "http://www.idpf.org/2007/ops";
+
 /*
 This file must validate as CSS 2.01 with absolutely no errors
  + http://jigsaw.w3.org/css-validator/
@@ -10,46 +15,13 @@ This file must validate as CSS 2.01 with absolutely no errors
   Version: 0.1
 */
 
-/* Declare latest reference namespaces */
-@namespace "http://www.w3.org/1999/xhtml";
-@namespace epub "http://www.idpf.org/2007/ops";
+/*__INSERT_EPUB_HOUSE_STYLE__*/
 
 /*=============================
     LANGUAGE-SPECIFIC STYLES
 =============================*/
-/* Set charset to correct language */
-/*__INSERT_CHARSET__*/
-
-/*@charset "big5";*/
-
 /*Import all relevant fonts*/
-/*__INSERT_BBG_HOUSE_STYLE__*/
-
-/*@font-face {
-    font-family: "ODDI Serif";
-    font-weight: normal;
-    src: url(../fonts/AdobeHeitiStd-Regular.otf)
-}
-
-@font-face {
-    font-family: "ODDI Serif";
-    font-weight: bold;
-    src: url(../fonts/AdobeFanHeitiStd-Bold.otf);
-}
-
-@font-face {
-    font-family: "ODDI Sans";
-    font-weight: normal;
-    src: url(../fonts/ヒラギノ明朝ProW3.otf);
-}
-
-@font-face {
-    font-family: "ODDI Sans";
-    font-weight: bold;
-    src: url(../fonts/ヒラギノ明朝ProW6.otf);
-}*/
-
-/*__INSERT_EPUB_HOUSE_STYLE__*/
+/*__INSERT_BBG_FONTS__*/
 
 
 /*=============================
@@ -430,13 +402,13 @@ ul ul ul {
     list-style-type: none;
 }
 
-ul li li {
+/*ul li li {
     list-style-image: url('images/em-dash.png');
 }
 
 ul li li li {
     list-style-image: url('images/asterisk.png');
-}
+}*/
 
 cite {
     font-weight: normal;

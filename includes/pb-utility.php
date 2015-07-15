@@ -393,27 +393,39 @@ function getFontForLanguageCode($langCode) {
 	);
 
 	$fontOptions['km'] = array(
-		'sans-regular' => 'Hanuman.otf' //khmer
+		'sans-regular' => 'Hanuman.otf', //Khmer
+		'serif-regular' => 'NotoSerifKhmer-Regular.ttf',
+		'serif-bold' => 'NotoSerifKhmer-Bold.ttf'
 	);
 	$fontOptions['lo'] = array(
-		'sans-regular' => 'saysettha_ot.otf' //Lao
+		'sans-regular' => 'saysettha_ot.otf', //Lao
+		'serif-regular' => 'NotoSerifLao-Regular.ttf',
+		'serif-bold' => 'NotoSerifLao-Bold.ttf'
 	);
 	$fontOptions['bo'] = array(
 		'sans-regular' => 'tibusrfa2.otf' //Tibetan
+		/*'sans-regular' => 'NotoSansTibetan-Regular.ttf'*/
 	);
 	$fontOptions['my'] = array(
 		'sans-regular' => 'zawgyi-one.otf' //Burmese
+		/*'sans-regular' => 'NotoSansMyanmar-Regular.ttf',
+		'sans-bold' => 'NotoSansMyanmar-Bold.ttf'*/
 	);
 	$fontOptions['ug'] = array(
-		'sans-regular' => 'AlpidaUnicodeSystem.otf' //Uygher
+		'sans-regular' => 'AlpidaUnicodeSystem.otf', //Uyghur
+		'serif-regular' => 'NotoNaskhArabic-Regular.ttf',
+		'serif-bold' => 'NotoNaskhArabic-Bold.ttf'
+		/*'sans-regular' => 'NotoKufiArabic-Regular.ttf',
+		'sans-bold' => 'NotoKufiArabic-Bold.ttf',*/
 	);
 	$fontOptions['ko'] = array(
-		'sans-regular' => 'NotoSansCJKkr-Regular.otf'  //Korean
+		'sans-regular' => 'NotoSansCJKkr-Regular.otf',  //Korean
+		'sans-bold' => 'NotoSansCJKkr-Bold.otf'
 	);
 
-	$fontOptions['zh'] = array( //Chinese
-		'sans-regular' => 'NotoSansCJKtc-Regular.otf',  
-		'sans-bold' => 'NotoSansCJKtc-Regular.otf'  
+	$fontOptions['zh'] = array( 
+		'sans-regular' => 'NotoSansCJKtc-Regular.otf',  //Chinese
+		'sans-bold' => 'NotoSansCJKtc-Bold.otf'  
 	);
 	
 
@@ -427,9 +439,10 @@ function getFontForLanguageCode($langCode) {
 
 function getCharsetForLanguageCode($langCode) {
 	$charsets=[];
-	$charsets['en'] = "UTF-8";
+	$charsets['en'] = "utf-8";
 	$charsets['ko'] = "euc-kr";
-	$charsets['zh'] = "big5";
+	$charsets['zh'] = "utf-8";
+	//$charsets['zh'] = "big5";
 
 	/* 
 	$charsets['km'] = "UTF-8";

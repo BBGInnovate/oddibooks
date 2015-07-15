@@ -837,7 +837,7 @@ abstract class Export {
 		/*** END SECTION ADDED BY ODDI TO INJECT FONT BASED ON LANGUAGE SELECTION ***/
 		
 		/* BEGIN INJECT CHARSET */
-		$css = str_replace( "/*__INSERT_BBG_HOUSE_STYLE__*/", ( $replace_with ), $css );
+		$css = str_replace( "/*__INSERT_BBG_FONTS__*/", ( $replace_with ), $css );
 		//$charset= "UTF-8";
 		$charset = \PressBooks\Utility\getCharsetForLanguageCode($langCode);
 		
