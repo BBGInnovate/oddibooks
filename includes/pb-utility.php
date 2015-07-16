@@ -459,3 +459,16 @@ function getCharsetForLanguageCode($langCode) {
 
 	return $returnVal;
 }
+
+function getLocaleForLanguageCode($langCode) {
+	$locales=[];
+	$locales['en'] = "en_US.UTF-8";
+	$locales['zh'] = "zh_CN.GB18030";
+	
+	$returnVal=$locales['en']; //default to English
+	if ( ! empty( $locales[$langCode] ) ) {
+		$returnVal = $locales[$langCode];
+	}
+
+	return $returnVal;
+}

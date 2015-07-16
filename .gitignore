@@ -8,3 +8,5 @@ symbionts/mpdf/graph_cache/
 .tx
 /themes-book/book-lite
 themes-book/fonts/
+
+.phpintel/*

@@ -24,6 +24,9 @@ if ( ! defined( 'PCLZIP_TEMPORARY_DIR' ) ) {
 	}
 }
 
+if ( ! defined( 'PB_ENABLE_CUSTOM_LOCALE' ) )
+	define( 'PB_ENABLE_CUSTOM_LOCALE', false );
+
 abstract class Export {
 
 	/**
@@ -559,8 +562,29 @@ abstract class Export {
 		}
 
 		// Set locale to UTF8 so escapeshellcmd() doesn't strip valid characters.
-		setlocale( LC_CTYPE, 'UTF8', 'en_US.UTF-8' );
-		putenv( 'LC_CTYPE=en_US.UTF-8' );
+		/* 
+			CUSTOMIZED BY ODDI.  On OS X, the default behavior of setting locale to en_US.UTF-8 was causing issues with
+			Chinese content.  Specifically, htmlawed would fail on OSX if you pass it certain characters such as 因. 
+			The issue didn't ever present itself on production so we have enabled a flag to turn it off/on
+		*/
+
+		if (!PB_ENABLE_CUSTOM_LOCALE) {
+			/* this section is the default pressbooks behavior */
+			setlocale( LC_CTYPE, 'UTF8', 'en_US.UTF-8' );
+			putenv( 'LC_CTYPE=en_US.UTF-8' );				
+		} else {
+			$metadata = Book::getBookInformation();
+			$langCode = 'en';
+			if ( ! empty( $metadata['pb_language'] )) {
+				$langCode = $metadata['pb_language'];
+			}
+			$newLocale = \PressBooks\Utility\getLocaleForLanguageCode($langCode);
+			setlocale( LC_CTYPE, $newLocale  );
+			putenv( 'LC_CTYPE='.$newLocale  );	
+					
+		}
+
+		
 
 		// Download
 		if ( ! empty( $_GET['download_export_file'] ) ) {
