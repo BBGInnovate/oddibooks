@@ -858,17 +858,13 @@ abstract class Export {
 }
 			";
 		}
+		$css = str_replace( "/*__INSERT_BBG_FONTS__*/", ( $replace_with ), $css );
 		/*** END SECTION ADDED BY ODDI TO INJECT FONT BASED ON LANGUAGE SELECTION ***/
 		
 		/* BEGIN INJECT CHARSET */
-		$css = str_replace( "/*__INSERT_BBG_FONTS__*/", ( $replace_with ), $css );
 		//$charset= "UTF-8";
 		$charset = \PressBooks\Utility\getCharsetForLanguageCode($langCode);
-		
-
-
 		$charset_replace_with = "@charset \"$charset\";";
-
 		$css = str_replace( "/*__INSERT_BBG_CHARSET__*/", ( $charset_replace_with ), $css );
 		/* END INJECT CHARSET */
 
