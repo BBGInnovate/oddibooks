@@ -12,6 +12,29 @@ use PressBooks\Sanitize;
 require_once( ABSPATH . 'wp-admin/includes/class-pclzip.php' );
 require_once( PB_PLUGIN_DIR . 'symbionts/htmLawed/htmLawed.php' );
 
+if (!function_exists('endLink')) {
+	function endLink($postID) {
+		
+		$postInfo = get_post($postID);
+		$slug = $postInfo -> post_name;
+
+		$permalink = get_permalink($postID);
+		$permalinkArray=explode( '/', $permalink);
+		//var_dump($permalinkArray);
+		$permalinkHref=$permalinkArray[count($permalinkArray)-2];
+		return $permalinkHref;
+	}
+	function lastPart($str) {
+		
+		$strArray=explode( '/', $str);
+		//var_dump($permalinkArray);
+		$lPart=$strArray[count($strArray)-1];
+		return $lPart;
+	}
+
+
+}
+
 class StaticSite extends Export {
 
 
@@ -138,9 +161,30 @@ class StaticSite extends Export {
 	 * $var string
 	 */
 	protected $suffix = '.zip';
-	
-	
 
+	protected $tocBufferIndex=-1;
+
+
+
+	/**
+	 * file buffer 
+	 * Note: Only XHTML files go in the manifest array (images  are done automatically)
+	 *
+	 * @var array
+	 */
+	protected $fileBuffer = array();
+	
+	function file_buffer_contents($path,$contents,$pos=-1) {
+		$fileObj=[];
+		$fileObj["path"]=$path;
+		$fileObj["contents"]=$contents;
+		if ($pos != -1) {
+			$this->fileBuffer[$pos] = $fileObj;
+		} else {
+			$this->fileBuffer[] = $fileObj;	
+		}
+		
+	}
 
 	function createStaticDir() {
 
@@ -181,6 +225,7 @@ class StaticSite extends Export {
 	}
 
 
+
 	/**
 	 * Create $this->outputPath
 	 *
@@ -219,7 +264,7 @@ class StaticSite extends Export {
 			$postHelper[$post_id]["prev"] = $prevPostID;
 			
 			$prevPostID=$post_id;
-			echo $post_id . " -> " . get_permalink( $post_id ) . "<BR>";
+			//echo $post_id . " -> " . get_permalink( $post_id ) . "<BR>";
 			next($pos);
 		}
 		reset( $pos );
@@ -236,12 +281,32 @@ class StaticSite extends Export {
 			return false;
 		}
 
-		$fullPath = $this->tmpDir . '/index.html';
-		file_put_contents(
-			$this->tmpDir . '/index.html',
-			'hello world'
-		); 
-		
+		foreach ( $this->fileBuffer as $i => $fileObj ) {
+			$this->fileBuffer[$i]["nextLink"]="";
+			$this->fileBuffer[$i]["prevLink"]="";
+			if ($i > 0) {
+				$this->fileBuffer[$i]["prevLink"]=lastPart($this->fileBuffer[$i-1]["path"]);
+				$this->fileBuffer[$i-1]["nextLink"]=lastPart($this->fileBuffer[$i]["path"]);
+			}
+		}
+		foreach ( $this->fileBuffer as $i => $fileObj ) {
+			$contents=$fileObj["contents"];
+			$nextLink="";
+			$prevLink="";
+			if ($fileObj["nextLink"] != "") {
+				$nextLink='<a href="' . $fileObj['nextLink'] . '">NEXT</a>';
+			}
+			if ($fileObj["prevLink"] != "") {
+				$prevLink='<a href="' . $fileObj['prevLink'] . '">PREV</a>';
+			}
+			$contents=str_replace("<!--// INSERT PREVIOUS LINK -->", $prevLink, $contents);
+			$contents=str_replace("<!--// INSERT NEXT LINK -->", $nextLink, $contents);
+			file_put_contents(
+				$fileObj["path"],
+				$contents);
+		}
+
+
 
 		$filename = $this->timestampedFileName( $this->suffix );
 		if ( PB_ZIP_USING_SHELL ) {
@@ -558,8 +623,19 @@ class StaticSite extends Export {
 		// Dedication and Epigraph (In that order!)
 		$this->createDedicationAndEpigraph( $book_contents, $metadata );
 
+		/* CREATE PLACEHOLDER FOR TABLE OF CONTENTS */
+		$file_id = 'table-of-contents';
+		$filename = "{$file_id}.{$this->filext}";
+		$this->file_buffer_contents(
+			$this->tmpDir . "/siteFiles/$filename",
+			"[placeholder]");
+		$this->tocBufferIndex=count($this->fileBuffer)-1;
+
 		// Front-matter
 		$this->createFrontMatter( $book_contents, $metadata );
+
+		
+
 
 		// Promo
 		$this->createPromo( $book_contents, $metadata );
@@ -569,6 +645,7 @@ class StaticSite extends Export {
 
 		// Back-matter
 		$this->createBackMatter( $book_contents, $metadata );
+
 
 		// Table of contents
 		// IMPORTANT: Do this last! Uses $this->manifest to generate itself
@@ -721,10 +798,10 @@ class StaticSite extends Export {
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
 
-		$file_id = 'front-cover';
+		$file_id = 'index';
 		$filename = "{$file_id}.{$this->filext}";
 
-		file_put_contents(
+		$this->file_buffer_contents(
 			$this->tmpDir . "/siteFiles/$filename",
 			$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 
@@ -784,7 +861,7 @@ class StaticSite extends Export {
 				$file_id = 'front-matter-' . sprintf( "%03s", $i );
 				$filename = "{$file_id}-{$slug}.{$this->filext}";
 
-				file_put_contents(
+				$this->file_buffer_contents(
 					$this->tmpDir . "/siteFiles/$filename",
 					$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 
@@ -853,7 +930,7 @@ class StaticSite extends Export {
 		$file_id = 'title-page';
 		$filename = "{$file_id}.{$this->filext}";
 
-		file_put_contents(
+		$this->file_buffer_contents(
 			$this->tmpDir . "/siteFiles/$filename",
 			$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 
@@ -913,7 +990,7 @@ class StaticSite extends Export {
 		$file_id = 'copyright';
 		$filename = "{$file_id}.{$this->filext}";
 
-		file_put_contents(
+		$this->file_buffer_contents(
 			$this->tmpDir . "/siteFiles/$filename",
 			$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 
@@ -974,7 +1051,7 @@ class StaticSite extends Export {
 				$file_id = 'front-matter-' . sprintf( "%03s", $i );
 				$filename = "{$file_id}-{$slug}.{$this->filext}";
 
-				file_put_contents(
+				$this->file_buffer_contents(
 					$this->tmpDir . "/siteFiles/$filename",
 					$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 
@@ -1067,7 +1144,7 @@ class StaticSite extends Export {
 			$file_id = 'front-matter-' . sprintf( "%03s", $i );
 			$filename = "{$file_id}-{$slug}.{$this->filext}";
 
-			file_put_contents(
+			$this->file_buffer_contents(
 				$this->tmpDir . "/siteFiles/$filename",
 				$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 
@@ -1103,9 +1180,9 @@ class StaticSite extends Export {
 				'isbn' => @$metadata['pb_ebook_isbn'],
 			);
 
-			file_put_contents(
+			$this->file_buffer_contents(
 				$this->tmpDir . "/siteFiles/$filename",
-				$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
+				$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) ); 
 
 			$this->manifest[$file_id] = array(
 				'ID' => -1,
@@ -1220,7 +1297,32 @@ class StaticSite extends Export {
 				$file_id = 'chapter-' . sprintf( "%03s", $j );
 				$filename = "{$file_id}-{$slug}.{$this->filext}";
 
-				file_put_contents(
+
+				$prevLink = "";
+				$nextLink = "";
+				if (! empty( $metadata['postHelper'] ) ) {
+					$postID = $ID;
+					$postHelper = $metadata['postHelper'];
+
+					if ( $postHelper[$postID]['next'] != -1) {
+						$nextPostID = $postHelper[$postID]['next'];
+						
+						$file_id = 'chapter-' . sprintf( "%03s", $j );
+						$filename = "{$file_id}-{$slug}.{$this->filext}";
+						
+						$nextLinkHref = endLink($nextPostID);
+						$nextLink = "<a href='$nextLinkHref'>NEXT</a>";
+					}
+					if ( $postHelper[$postID]['prev'] != -1) {
+						$prevPostID = $postHelper[$postID]['prev'];
+						$prevLinkHref = endLink($prevPostID);
+						$prevLink = "<a href='$prevLinkHref'>PREV</a>";
+					}
+				}
+
+
+
+				$this->file_buffer_contents(
 					$this->tmpDir . "/siteFiles/$filename",
 					$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 
@@ -1253,7 +1355,7 @@ class StaticSite extends Export {
 				$filename = "{$file_id}-{$slug}.{$this->filext}";
 
 
-				file_put_contents(
+				$this->file_buffer_contents(
 					$this->tmpDir . "/siteFiles/$filename",
 					$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 
@@ -1284,7 +1386,7 @@ class StaticSite extends Export {
 					$file_id = 'part-' . sprintf( "%03s", $i );
 					$filename = "{$file_id}-{$slug}.{$this->filext}";
 	
-					file_put_contents(
+					$this->file_buffer_contents(
 						$this->tmpDir . "/siteFiles/$filename",
 						$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 	
@@ -1315,7 +1417,7 @@ class StaticSite extends Export {
 						$file_id = 'part-' . sprintf( "%03s", $i );
 						$filename = "{$file_id}-{$slug}.{$this->filext}";
 		
-						file_put_contents(
+						$this->file_buffer_contents(
 							$this->tmpDir . "/siteFiles/$filename",
 							$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 		
@@ -1410,7 +1512,7 @@ class StaticSite extends Export {
 			$file_id = 'back-matter-' . sprintf( "%03s", $i );
 			$filename = "{$file_id}-{$slug}.{$this->filext}";
 
-			file_put_contents(
+			$this->file_buffer_contents(
 				$this->tmpDir . "/siteFiles/$filename",
 				$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
 
@@ -1538,9 +1640,14 @@ class StaticSite extends Export {
 
 		$vars['post_content'] = $html;
 
-		file_put_contents(
+		echo "index is " . $this -> tocBufferIndex . "<BR>";
+		var_dump($this->fileBuffer); 
+		//die();
+
+		$this->file_buffer_contents(
 			$this->tmpDir . "/siteFiles/$filename",
-			$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
+			$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ),
+			$this->tocBufferIndex );
 
 	}
 
@@ -1606,9 +1713,6 @@ class StaticSite extends Export {
 
 		// Remove auto-created <html> <body> and <!DOCTYPE> tags.
 		$html = preg_replace( '/^<!DOCTYPE.+?>/', '', str_replace( array( '<html>', '</html>', '<body>', '</body>' ), array( '', '', '', '' ), $html ) );
-
-		// Mobi7 hacks
-		$html = $this->transformXML( $utf8_hack . "<html>$html</html>", $this->dir . '/templates/mobi-hacks.xsl' );
 
 		$errors = libxml_get_errors(); // TODO: Handle errors gracefully
 		libxml_clear_errors();
@@ -1749,7 +1853,7 @@ class StaticSite extends Export {
 		$filename = Sanitize\force_ascii( $filename );
 
 		$tmp_file = \PressBooks\Utility\create_tmp_file();
-		file_put_contents( $tmp_file, wp_remote_retrieve_body( $response ) );
+		$this->file_buffer_contents( $tmp_file, wp_remote_retrieve_body( $response ) );
 
 		// TODO: Validate that this is actually a font
 		// TODO: Refactor fetchAndSaveUniqueImage() and fetchAndSaveUniqueFont() into a single method, but "inject" different validation
@@ -1982,7 +2086,7 @@ class StaticSite extends Export {
 		$vars['do_copyright_license'] = strip_tags( $this->doCopyrightLicense( $metadata ) ) ;
 		
 		// Put contents
-		file_put_contents(
+		$this->file_buffer_contents(
 			$this->tmpDir . "/book.opf",
 			$this->loadTemplate( $this->dir . '/templates/opf.php', $vars ) );
 
@@ -2011,7 +2115,7 @@ class StaticSite extends Export {
 		);
 		$vars['metadata']=$metadata;
 
-		file_put_contents(
+		$this->file_buffer_contents(
 			$this->tmpDir . "/toc.ncx",
 			$this->loadTemplate( $this->dir . '/templates/ncx.php', $vars ) );
 
