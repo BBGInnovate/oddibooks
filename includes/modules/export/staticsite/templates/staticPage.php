@@ -9,9 +9,6 @@
 	
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html xml:lang="<?php echo $languageCode; ?>" >
 <head>
@@ -21,6 +18,9 @@
 		<link rel="stylesheet" href="<?php //echo $stylesheet; ?>" type="text/css" /> -->
 
 	<?php endif; ?>
+
+	<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="static.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>bookName</title>
 	<?php wp_head(); ?>
@@ -58,18 +58,23 @@
 <div class="wrapper"><!-- for sitting footer at the bottom of the page -->	    
 	<div id="wrap">	    
 		<div id="content">
-
 			<?php 
 				echo " <!--// INSERT PREVIOUS LINK --> \r\n &nbsp;&nbsp;&nbsp;&nbsp;" ;
 				echo " <!--// INSERT NEXT LINK --> \r\n"; 
 				echo $post_content;
-				
 			?>
 		</div>
-	<?php get_sidebar(); ?>
+		<div id="sidebar">
+			<ul id="booknav">
+				<li class="home-btn"><a href="index.html">Home</a></li>
+				<li class="toc-btn"><a href="table-of-contents.html">Table of Contents</a></li>
+			</ul>
+		</div><!-- end #sidebar -->
 	</div>
 	<div class="push"></div>
 </div><!-- .wrapper for sitting footer at the bottom of the page -->
-<?php wp_footer(); ?>
+
+
+
 </body>
 </html>

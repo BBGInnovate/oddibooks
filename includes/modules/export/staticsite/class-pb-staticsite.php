@@ -164,7 +164,7 @@ class StaticSite extends Export {
 
 	protected $tocBufferIndex=-1;
 
-
+	protected $root_dir="";
 
 	/**
 	 * file buffer 
@@ -188,7 +188,7 @@ class StaticSite extends Export {
 
 	function createStaticDir() {
 
-		$temp_file = "/Users/josephflowers/apacheapps/static_" . rand(1000000,9999999). "/";
+		$temp_file = $this->root_dir;
 		if ( file_exists( $temp_file ) ) {
 			unlink( $temp_file );
 		}
@@ -208,10 +208,14 @@ class StaticSite extends Export {
 	 * @param array $args
 	 */
 	function __construct( array $args ) {
+		$wpParentDir= dirname(dirname(getcwd())); 
+		$this->root_dir=$wpParentDir . "/static_" . rand(1000000,9999999) . "/";
 
 		$this->tmpDir = $this->createStaticDir();
+
 		$this->exportStylePath = $this->getExportStylePath( 'epub' );
 		$this->themeOptionsOverrides();
+
 
 	}
 
@@ -274,8 +278,6 @@ class StaticSite extends Export {
 		try {
 			$this->createContainer();
 			$this->createOEPBS( $book_contents, $metadata );
-			//$this->createOPF( $book_contents, $metadata );
-			//$this->createNCX( $book_contents, $metadata );
 		} catch ( \Exception $e ) {
 			$this->logError( $e->getMessage() );
 			return false;
@@ -294,10 +296,10 @@ class StaticSite extends Export {
 			$nextLink="";
 			$prevLink="";
 			if ($fileObj["nextLink"] != "") {
-				$nextLink='<a href="' . $fileObj['nextLink'] . '">NEXT</a>';
+				$nextLink='<a class="next" href="' . $fileObj['nextLink'] . '">NEXT</a>';
 			}
 			if ($fileObj["prevLink"] != "") {
-				$prevLink='<a href="' . $fileObj['prevLink'] . '">PREV</a>';
+				$prevLink='<a class="previous" href="' . $fileObj['prevLink'] . '">PREV</a>';
 			}
 			$contents=str_replace("<!--// INSERT PREVIOUS LINK -->", $prevLink, $contents);
 			$contents=str_replace("<!--// INSERT NEXT LINK -->", $nextLink, $contents);
@@ -305,8 +307,9 @@ class StaticSite extends Export {
 				$fileObj["path"],
 				$contents);
 		}
-
-
+		
+		//$fullpath = $this->tmpDir . '/siteFiles/assets';
+		//copy( $tmp_file, "$fullpath/$filename" );
 
 		$filename = $this->timestampedFileName( $this->suffix );
 		if ( PB_ZIP_USING_SHELL ) {
@@ -320,6 +323,18 @@ class StaticSite extends Export {
 		}
 		
 		$this->outputPath = $filename;
+
+		$filename="jquery-1.11.3.min.js";
+		$destPath=$this->tmpDir . "/siteFiles/$filename";
+		$srcPath=$this->dir . '/templates/'.$filename;
+		copy( $srcPath, $destPath );
+
+		$filename="static.js";
+		$destPath=$this->tmpDir . "/siteFiles/$filename";
+		$srcPath=$this->dir . '/templates/'.$filename;
+
+
+		copy( $srcPath, $destPath );
 
 		return true;
 	}
@@ -603,10 +618,8 @@ class StaticSite extends Export {
 		// First, setup and affect $this->stylesheet
 		$this->createStylesheet($metadata);
 
-		// Reset manifest
+		// Reset manifest.  order affects $this->manifest
 		$this->manifest = array();
-
-		/* Note: order affects $this->manifest */
 
 		// Cover
 		$this->createCover( $book_contents, $metadata );
@@ -634,9 +647,6 @@ class StaticSite extends Export {
 		// Front-matter
 		$this->createFrontMatter( $book_contents, $metadata );
 
-		
-
-
 		// Promo
 		$this->createPromo( $book_contents, $metadata );
 
@@ -646,10 +656,10 @@ class StaticSite extends Export {
 		// Back-matter
 		$this->createBackMatter( $book_contents, $metadata );
 
-
 		// Table of contents
 		// IMPORTANT: Do this last! Uses $this->manifest to generate itself
 		$this->createToc( $book_contents, $metadata );
+		//themes-book/pressbooks-book/export/epub/style.css
 	}
 
 
@@ -804,6 +814,7 @@ class StaticSite extends Export {
 		$this->file_buffer_contents(
 			$this->tmpDir . "/siteFiles/$filename",
 			$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
+
 
 		$this->manifest[$file_id] = array(
 			'ID' => -1,
@@ -1640,8 +1651,8 @@ class StaticSite extends Export {
 
 		$vars['post_content'] = $html;
 
-		echo "index is " . $this -> tocBufferIndex . "<BR>";
-		var_dump($this->fileBuffer); 
+		//echo "index is " . $this -> tocBufferIndex . "<BR>";
+		//var_dump($this->fileBuffer); 
 		//die();
 
 		$this->file_buffer_contents(
@@ -1713,6 +1724,7 @@ class StaticSite extends Export {
 
 		// Remove auto-created <html> <body> and <!DOCTYPE> tags.
 		$html = preg_replace( '/^<!DOCTYPE.+?>/', '', str_replace( array( '<html>', '</html>', '<body>', '</body>' ), array( '', '', '', '' ), $html ) );
+
 
 		$errors = libxml_get_errors(); // TODO: Handle errors gracefully
 		libxml_clear_errors();
@@ -2030,96 +2042,4 @@ class StaticSite extends Export {
 
 		return $new_url;
 	}
-
-
-	/**
-	 * Create OPF File.
-	 *
-	 * @param array $book_contents
-	 * @param array $metadata
-	 *
-	 * @throws \Exception
-	 */
-	protected function createOPF( $book_contents, $metadata ) {
-
-		if ( empty( $this->manifest ) ) {
-			throw new \Exception( '$this->manifest cannot be empty. Did you forget to call $this->createOEPBS() ?' );
-		}
-
-		// Vars
-		$vars = array(
-			'meta' => $metadata,
-			'manifest' => $this->manifest,
-			'stylesheet' => $this->stylesheet,
-		);
-
-		// Find all the image files, insert them into the OPF file
-
-		$html = '';
-		$path_to_assets = $this->tmpDir . '/siteFiles/assets';
-		$assets = scandir( $path_to_assets );
-		$used_ids = array();
-
-		foreach ( $assets as $asset ) {
-			if ( '.' == $asset || '..' == $asset ) continue;
-			$mimetype = $this->mediaType( "$path_to_assets/$asset" );
-			if ( $this->coverImage == $asset ) {
-				$file_id = 'cover-image';
-			} else {
-				$file_id = 'media-' . pathinfo( "$path_to_assets/$asset", PATHINFO_FILENAME );
-				$file_id = Sanitize\sanitize_xml_id( $file_id );
-			}
-
-			// Check if a media id has already been used, if so give it a new one
-			$check_if_used = $file_id;
-			for ( $i = 2; $i <= 999; $i ++ ) {
-				if ( empty ( $used_ids[$check_if_used] ) ) break;
-				else $check_if_used = $file_id . "-$i";
-			}
-			$file_id = $check_if_used;
-
-			$html .= sprintf( '<item id="%s" href="siteFiles/assets/%s" media-type="%s" />', $file_id, $asset, $mimetype ) . "\n";
-
-			$used_ids[$file_id] = true;
-		}
-		$vars['manifest_assets'] = $html;
-		$vars['do_copyright_license'] = strip_tags( $this->doCopyrightLicense( $metadata ) ) ;
-		
-		// Put contents
-		$this->file_buffer_contents(
-			$this->tmpDir . "/book.opf",
-			$this->loadTemplate( $this->dir . '/templates/opf.php', $vars ) );
-
-	}
-
-
-	/**
-	 * Create NCX file.
-	 *
-	 * @param array $book_contents
-	 * @param array $metadata
-	 *
-	 * @throws \Exception
-	 */
-	protected function createNCX( $book_contents, $metadata ) {
-
-		if ( empty( $this->manifest ) ) {
-			throw new \Exception( '$this->manifest cannot be empty. Did you forget to call $this->createOEPBS() ?' );
-		}
-
-
-		$vars = array(
-			'author' => @$metadata['pb_author'],
-			'manifest' => $this->manifest,
-			'dtd_uid' => ( ! empty( $metadata['pb_ebook_isbn'] ) ? $metadata['pb_ebook_isbn'] : get_bloginfo( 'url' ) ),
-		);
-		$vars['metadata']=$metadata;
-
-		$this->file_buffer_contents(
-			$this->tmpDir . "/toc.ncx",
-			$this->loadTemplate( $this->dir . '/templates/ncx.php', $vars ) );
-
-	}
-
-
 }
