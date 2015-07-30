@@ -199,7 +199,9 @@ class Pdf extends Export {
 		// Title page
 		$this->addBookInfo();
 		// Copyright
-		$this->addCopyright();
+
+		//$this->addCopyright();
+
 		// Dedication and Epigraph (In that order!)
 		$this->addFrontMatterByType( 'dedication', $contents );
 		$this->addFrontMatterByType( 'epigraph', $contents );
@@ -218,9 +220,13 @@ class Pdf extends Export {
 		    'margin-left' => 15,
 		    'margin-right' => 15,
 		);
-		$content .= '<div id="half-title-page">';
-		$content .=  '<h1 class="title">' . $this->bookTitle . '</h1>';
-		$content .=  '</div>' . "\n";
+
+		/* 
+			REMOVED BY ODDI - due to image size the book title was getting its own page.
+			$content .= '<div id="half-title-page">';
+			$content .=  '<h1 class="title">' . $this->bookTitle . '</h1>';
+			$content .=  '</div>' . "\n";
+		*/
 
 		if ( ! empty( $this->bookMeta['pb_cover_image'] ) ) {
 			$content .= '<div style="text-align:center;"><img src="' . $this->bookMeta['pb_cover_image'] . '" alt="book-cover" title="' . bloginfo( 'name' ) . ' book cover" /></div>';
@@ -275,35 +281,14 @@ class Pdf extends Export {
 			$content .= '<p class="publisher-city">' . $this->bookMeta['pb_publisher_city'] . '</p>';
 		}
 
-		$content .= '</div>';
 
-		$page = array(
-		    'post_title' => '',
-		    'post_content' => $content,
-		    'post_type' => 'bookinfo',
-		    'mpdf_level' => 1,
-		    'mpdf_omit_toc' => true,
-		);
-
-		$this->addPage( $page, $page_options, false, false );
-	}
-
-	/**
-	 * Copyright information on a separate page
-	 * 
-	 */
-	function addCopyright() {
+		/***** ODDI CUSTOM: BEGIN ADDITION OF COPYRIGHT ******/
 		$options = $this->globalOptions;
-		$page_options = array(
-		    'suppress' => 'on',
-		    'margin-left' => 15,
-		    'margin-right' => 15,
-		);
 
 		if ( isset( $this->bookMeta['pb_copyright_year'] ) || isset( $this->bookMeta['pb_copyright_holder'] ) ) {
 			$content .= '<div id="copyright-page">';
 
-			$content .= '<p><strong>' . __( 'Copyright', 'pressbooks' ) . '</strong>:';
+			$content .= '<p>' . __( 'Copyright', 'pressbooks' ) . ':';
 			if ( ! empty( $this->bookMeta['pb_copyright_year'] ) ) {
 				$content .= ' ' . $this->bookMeta['pb_copyright_year'] . ' ';
 			}
@@ -325,6 +310,7 @@ class Pdf extends Export {
 		}
 
 		$content .= '</div>';
+		/***** END ODDI CUSTOM ADDITION OF COPYRIGHT ******/
 
 		$page = array(
 		    'post_title' => '',
@@ -410,7 +396,12 @@ class Pdf extends Export {
 				$page_options['pagenumstyle'] = 1;
 			}
 			$page['chapter_num'] = $i;
-			$this->addPage( $page, $page_options );
+			
+			/* ADDED BY ODDI - check for $page['post_type'] before adding a page.  no need for those */
+			if ( 'part' != $page['post_type'] ) {
+				$this->addPage( $page, $page_options );
+			}
+
 			$first_iteration = false;
 			if ( 'part' != $page['post_type'] ) {
 				$i++;
