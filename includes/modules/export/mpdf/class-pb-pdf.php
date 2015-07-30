@@ -305,7 +305,7 @@ class Pdf extends Export {
 
 			$content .= '<p><strong>' . __( 'Copyright', 'pressbooks' ) . '</strong>:';
 			if ( ! empty( $this->bookMeta['pb_copyright_year'] ) ) {
-				$content .= $this->bookMeta['pb_copyright_year'] . ' ';
+				$content .= ' ' . $this->bookMeta['pb_copyright_year'] . ' ';
 			}
 
 			if ( ! empty( $this->bookMeta['pb_copyright_holder'] ) ) {
@@ -516,6 +516,8 @@ class Pdf extends Export {
 		$filtered = apply_filters( 'the_content', $content );
 
 		$filtered = $this->fixAnnoyingCharacters( $filtered );
+
+		return $filtered; /* ODDI CUSTOM: htmlawed has issues with 'compound' characters (non-ASCII) - http://www.bioinformatics.org/phplabware/forum/viewtopic.php?id=240 -  */
 
 		$config = array(
 		    'valid_xhtml' => 1,
@@ -760,6 +762,13 @@ class Pdf extends Export {
 		
 		// Theme options override
 		$css .= apply_filters( 'pb_mpdf_css_override', $css ) . "\n";
+
+		$langCode = 'en';
+		if ( ! empty( $this->bookMeta['pb_language'] )) {
+			$langCode = $this->bookMeta['pb_language'];
+		}
+		$fontFamily=\PressBooks\Utility\getPDFFontForLanguageCode($langCode);
+		$css = str_replace('/*__INSERT_BBG_PDF_FONTS__*/', $fontFamily, $css);
 
 		if ( ! empty( $css ) ) {
 			$this->mpdf->WriteHTML( $css, self::MODE_CSS );

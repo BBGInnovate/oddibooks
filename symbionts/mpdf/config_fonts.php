@@ -297,7 +297,18 @@ $this->fontdata = array(
 		'R' => "UnBatang_0613.ttf",
 		),
 
-
+	/* CARDO FONT ADDED BY ODDI */
+	"cardo" => array(	
+		'R' => "Cardo104s.ttf",
+		'B' => "Cardob101.ttf",
+		'I' => "Cardoi99.ttf",
+	),
+	"batang" => array(
+        'R' => "batang.ttc",
+        'TTCfontID' => array (
+            'R' => 1,
+        ),
+	),
 );
 
 

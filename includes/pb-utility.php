@@ -472,3 +472,17 @@ function getLocaleForLanguageCode($langCode) {
 
 	return $returnVal;
 }
+
+function getPDFFontForLanguageCode($langCode) {
+	$fonts=[];
+	$fonts['en'] = "cardo";
+	$fonts['ko'] = "unbatang";
+	
+	$returnVal=$fonts['en']; //default to English
+	if ( ! empty( $fonts[$langCode] ) ) {
+		$returnVal = $fonts[$langCode];
+	}
+	
+
+	return $returnVal;
+}
