@@ -5,27 +5,10 @@
 /* FONTS
 ===========	*/
 
-@font-face {
-	font-family: "Cardo";
-	font-weight: bold;
-	font-style: normal;
-	src: url(../../fonts/Cardob101.ttf) format("truetype");
-}
-@font-face {
-	font-family: "Cardo";
-	font-weight: normal;
-	font-style: italic;
-	src: url(../../fonts/Cardoi99.ttf) format("truetype");
-}
-@font-face {
-	font-family: "Cardo";
-	font-weight: normal;
-	font-style: normal;
-	src: url(../../fonts/Cardo104s.ttf) format("truetype");
-}
-
+/* font:  10pt/1.1  "Cardo","Times New Roman", serif; */
+/* pdf export routine will replace it with something like font-family: "unbatang"; */
 body {
-	font:  10pt/1.1  "Cardo","Times New Roman", serif;
+	font-family: "/*__INSERT_BBG_PDF_FONTS__*/";
 }
 
 a {
