@@ -35,9 +35,10 @@
 			
 				</div><!-- #content -->
 			
-				<?php get_template_part( 'content', 'social-footer' ); ?> 
+
+				<?php // get_template_part( 'content', 'social-footer' ); ?> 
 			
-				<?php comments_template( '', true ); ?>
+				<?php // comments_template( '', true ); ?>
 <?php else: ?>
 <?php pb_private(); ?>
 <?php endif; ?>

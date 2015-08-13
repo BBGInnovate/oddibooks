@@ -8,6 +8,10 @@ function refineField($fieldID, $metaKey, &$meta) {
 		unset( $meta[$metaKey] );
 	}
 }
+function refineFieldWithValue($fieldID, $fieldValue) {
+	echo "<meta refines='#$fieldID' property='alternate-script' xml:lang='en'>$fieldValue</meta>";
+	echo "\n";
+}
 
 // @see: \PressBooks\Export\Export loadTemplate()
 
@@ -16,7 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 ?>
 <package version="3.0" xmlns="http://www.idpf.org/2007/opf" unique-identifier="PrimaryID">
-
 	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
 		<?php
 		// Required, Title
@@ -24,6 +27,13 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 		unset( $meta['pb_title'] );
 		echo "\n";
 		refineField('bookTitle','pb_title_english',$meta);
+
+		//EDITION - added by ODDI
+		if ( ! empty( $meta['pb_edition'] ) ) {
+			echo '<dc:title id="bookEdition">' . $meta['pb_edition'] . '</dc:title>';
+    		echo '<meta refines="#bookEdition" property="title-type">edition</meta>';
+    		unset( $meta['pb_edition'] );
+		}
 
 		// Required, Language
 		echo '<dc:language>' . ( ! empty( $meta['pb_language'] ) ? $meta['pb_language'] : 'en' ) . '</dc:language>';
@@ -49,6 +59,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 			unset( $meta['pb_about_50'] );
 			refineField('bookDescription','pb_about_50',$meta);
 		} elseif ( ! empty( $meta['pb_about_140'] ) ) {
+			/* ODDI - this field is hidden on the front end so this should never get used */
 			echo "<dc:description>{$meta['pb_about_140']}</dc:description>\n";
 			unset( $meta['pb_about_140'] );
 		}
@@ -104,7 +115,8 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 			switch ( $key ) {
 
 				case 'pb_publisher' :
-					echo "<dc:publisher>$val</dc:publisher>\n";
+					echo "<dc:publisher id='bookPublisher'>$val</dc:publisher>\n";
+					refineFieldWithValue('bookPublisher',$val);
 					break;
 
 				case 'pb_publication_date' :
