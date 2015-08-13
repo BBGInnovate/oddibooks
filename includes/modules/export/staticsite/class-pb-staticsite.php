@@ -5,7 +5,6 @@
  */
 namespace PressBooks\Export\StaticSite;
 
-
 use PressBooks\Export\Export;
 use PressBooks\Sanitize;
 
@@ -20,19 +19,27 @@ if (!function_exists('endLink')) {
 
 		$permalink = get_permalink($postID);
 		$permalinkArray=explode( '/', $permalink);
-		//var_dump($permalinkArray);
 		$permalinkHref=$permalinkArray[count($permalinkArray)-2];
 		return $permalinkHref;
 	}
 	function lastPart($str) {
 		
 		$strArray=explode( '/', $str);
-		//var_dump($permalinkArray);
 		$lPart=$strArray[count($strArray)-1];
 		return $lPart;
 	}
-
-
+	function copyfolder($source, $destination) {
+		$directory = opendir($source); 
+		mkdir($destination);
+		while(($file = readdir($directory)) != false) { 
+			if ($file != '.' && $file != '..') {
+				$srcFile=$source.'/' .$file;
+				$destFile=$destination.'/'.$file;
+				//echo $srcFile; echo $destFile;
+				copy($srcFile,$destFile); 
+			}
+		} 
+	} 
 }
 
 class StaticSite extends Export {
@@ -252,6 +259,7 @@ class StaticSite extends Export {
 		$metadata = \PressBooks\Book::getBookInformation();
 		$book_contents = $this->preProcessBookContents( \PressBooks\Book::getBookContents() );
 
+
 		/****** CREATE postHelper DATA STRUCTURE *********/
 		$book_structure = pb_get_book_structure();
 		$order = $book_structure['__order'];
@@ -291,8 +299,12 @@ class StaticSite extends Export {
 				$this->fileBuffer[$i-1]["nextLink"]=lastPart($this->fileBuffer[$i]["path"]);
 			}
 		}
+		//var_dump($this->fileBuffer);
+		//die();
 		foreach ( $this->fileBuffer as $i => $fileObj ) {
+			
 			$contents=$fileObj["contents"];
+
 			$nextLink="";
 			$prevLink="";
 			if ($fileObj["nextLink"] != "") {
@@ -303,9 +315,14 @@ class StaticSite extends Export {
 			}
 			$contents=str_replace("<!--// INSERT PREVIOUS LINK -->", $prevLink, $contents);
 			$contents=str_replace("<!--// INSERT NEXT LINK -->", $nextLink, $contents);
+
 			file_put_contents(
 				$fileObj["path"],
 				$contents);
+
+			if (strstr($fileObj["path"], "in-lang-localhost")) {
+				//echo "sup"; echo $contents; die();
+			}
 		}
 		
 		//$fullpath = $this->tmpDir . '/siteFiles/assets';
@@ -324,6 +341,22 @@ class StaticSite extends Export {
 		
 		$this->outputPath = $filename;
 
+		$source=$this->dir . '/templates/';
+		$destination= $this->tmpDir . "/siteFiles/"; 
+		
+		$directory = opendir($source); 
+		while(($file = readdir($directory)) != false) { 
+			if ($file != '.' && $file != '..' && $file != 'staticPage.php' && $file!=".DS_Store") {
+				$srcFile=$source.'/' .$file;
+				$destFile=$destination.'/'.$file;
+				echo "sourcefile " . $srcFile . "<BR>";
+				echo "destFile " . $destFile . "<BR>";
+
+				copy($srcFile,$destFile); 
+			}
+		} 
+		
+/*
 		$filename="jquery-1.11.3.min.js";
 		$destPath=$this->tmpDir . "/siteFiles/$filename";
 		$srcPath=$this->dir . '/templates/'.$filename;
@@ -332,9 +365,25 @@ class StaticSite extends Export {
 		$filename="static.js";
 		$destPath=$this->tmpDir . "/siteFiles/$filename";
 		$srcPath=$this->dir . '/templates/'.$filename;
-
-
 		copy( $srcPath, $destPath );
+*/
+		$filename="style.css";
+		$destPath=$this->tmpDir . "/siteFiles/$filename";
+		$srcPath= PB_PLUGIN_DIR . "themes-book/pressbooks-book/$filename";
+		copy( $srcPath, $destPath );
+		
+
+		/* PUT IN COPY FOR IMAGES AND FONTS */
+		$srcFolder= PB_PLUGIN_DIR . "themes-book/pressbooks-book/images/";
+		$destFolder= $this->tmpDir . "/siteFiles/images/";
+		copyfolder($srcFolder,$destFolder);
+
+		$srcFolder=PB_PLUGIN_DIR . "themes-book/pressbooks-book/fonts/";
+		$destFolder= $this->tmpDir . "/siteFiles/fonts/";
+		copyfolder($srcFolder,$destFolder);
+
+
+		die();
 
 		return true;
 	}
@@ -490,7 +539,7 @@ class StaticSite extends Export {
 
 		$content = apply_filters( 'the_content', $content );
 		$content = $this->fixAnnoyingCharacters( $content );
-		$content = $this->tidy( $content );
+		//$content = $this->tidy( $content );
 
 		return $content;
 	}
@@ -638,7 +687,7 @@ class StaticSite extends Export {
 
 		/* CREATE PLACEHOLDER FOR TABLE OF CONTENTS */
 		$file_id = 'table-of-contents';
-		$filename = "{$file_id}.{$this->filext}";
+		$filename = "{$file_id}.file_buffer_contents{$this->filext}";
 		$this->file_buffer_contents(
 			$this->tmpDir . "/siteFiles/$filename",
 			"[placeholder]");
@@ -807,13 +856,16 @@ class StaticSite extends Export {
 			'post_content' => $html,
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$file_id = 'index';
 		$filename = "{$file_id}.{$this->filext}";
 
+		$pageContent=$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars );
+
 		$this->file_buffer_contents(
 			$this->tmpDir . "/siteFiles/$filename",
-			$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
+			$pageContent );
 
 
 		$this->manifest[$file_id] = array(
@@ -842,6 +894,7 @@ class StaticSite extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$i = $this->frontMatterPos;
 		foreach ( array( 'before-title' ) as $compare ) {
@@ -937,6 +990,7 @@ class StaticSite extends Export {
 			'post_content' => $html,
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$file_id = 'title-page';
 		$filename = "{$file_id}.{$this->filext}";
@@ -997,6 +1051,7 @@ class StaticSite extends Export {
 			'post_content' => $html,
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$file_id = 'copyright';
 		$filename = "{$file_id}.{$this->filext}";
@@ -1031,6 +1086,7 @@ class StaticSite extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$i = $this->frontMatterPos;
 		$last_pos = false;
@@ -1098,6 +1154,7 @@ class StaticSite extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$i = $this->frontMatterPos;
 		foreach ( $book_contents['front-matter'] as $front_matter ) {
@@ -1190,6 +1247,7 @@ class StaticSite extends Export {
 				'post_content' => $this->kneadHtml( $promo_html, 'custom' ),
 				'isbn' => @$metadata['pb_ebook_isbn'],
 			);
+			$vars['metadata']=$metadata;
 
 			$this->file_buffer_contents(
 				$this->tmpDir . "/siteFiles/$filename",
@@ -1226,6 +1284,7 @@ class StaticSite extends Export {
 		);
 		$vars['metadata']=$metadata;
 
+//var_dump($book_contents);die();
 		// Parts, Chapters
 		$i = $j = $c = $p = 1;
 		foreach ( $book_contents['part'] as $part ) {
@@ -1260,7 +1319,12 @@ class StaticSite extends Export {
 				$subclass = \PressBooks\Taxonomy\chapter_type( $id );
 				$slug = $chapter['post_name'];
 				$title = ( get_post_meta( $id, 'pb_show_title', true ) ? $chapter['post_title'] : '' );
-				$content = $this->kneadHtml( $chapter['post_content'], 'chapter', $j );
+				
+
+				$content = $this->kneadHtml( $chapter['post_content'], 'chapter', $j , $id);
+
+				
+
 
 				$short_title = false; // Ie. running header title is not used in EPUB
 				$subtitle = trim( get_post_meta( $id, 'pb_subtitle', true ) );
@@ -1296,6 +1360,7 @@ class StaticSite extends Export {
 				$n = ( $subclass == 'numberless' ) ? '' : $c;
 				$vars['post_title'] = $chapter['post_title'];
 				$vars['ID'] = $chapter['ID'];
+
 				$vars['post_content'] = sprintf(
 					( $chapter_printf_changed ? $chapter_printf_changed : $chapter_printf ),
 					$subclass,
@@ -1330,9 +1395,7 @@ class StaticSite extends Export {
 						$prevLink = "<a href='$prevLinkHref'>PREV</a>";
 					}
 				}
-
-
-
+ 
 				$this->file_buffer_contents(
 					$this->tmpDir . "/siteFiles/$filename",
 					$this->loadTemplate( $this->dir . '/templates/staticPage.php', $vars ) );
@@ -1364,7 +1427,6 @@ class StaticSite extends Export {
 
 				$file_id = 'part-' . sprintf( "%03s", $i );
 				$filename = "{$file_id}-{$slug}.{$this->filext}";
-
 
 				$this->file_buffer_contents(
 					$this->tmpDir . "/siteFiles/$filename",
@@ -1473,6 +1535,7 @@ class StaticSite extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 
 		$i = 1;
 		foreach ( $book_contents['back-matter'] as $back_matter ) {
@@ -1519,6 +1582,7 @@ class StaticSite extends Export {
 				Sanitize\decode( $title ),
 				$content,
 				'' );
+			$vars['metadata']=$metadata;
 
 			$file_id = 'back-matter-' . sprintf( "%03s", $i );
 			$filename = "{$file_id}-{$slug}.{$this->filext}";
@@ -1553,6 +1617,7 @@ class StaticSite extends Export {
 			'post_content' => '',
 			'isbn' => @$metadata['pb_ebook_isbn'],
 		);
+		$vars['metadata']=$metadata;
 		$options = get_option( 'pressbooks_theme_options_global' );
 
 
@@ -1703,7 +1768,7 @@ class StaticSite extends Export {
 	 *
 	 * @return string
 	 */
-	protected function kneadHtml( $html, $type, $pos = 0 ) {
+	protected function kneadHtml( $html, $type, $pos = 0, $id=0 ) {
 
 		libxml_use_internal_errors( true );
 
@@ -1711,9 +1776,21 @@ class StaticSite extends Export {
 		$utf8_hack = '<?xml version="1.0" encoding="UTF-8"?>';
 		$doc = new \DOMDocument();
 		$doc->loadHTML( $utf8_hack . $html );
+		
+
+
 
 		// Download images, change to relative paths
 		$doc = $this->scrapeAndKneadImages( $doc );
+
+		
+
+		// Download audio files, change to relative paths
+		$doc = $this->scrapeAndKneadMedia( $doc );
+		if ($id == "46") {
+			$html = $doc->saveXML( $doc->documentElement );
+			echo $html;
+		}
 
 		// Deal with <a href="">, <a href=''>, and other mutations
 		$doc = $this->kneadHref( $doc, $type, $pos );
@@ -1756,6 +1833,95 @@ class StaticSite extends Export {
 				// Tag broken image
 				$image->setAttribute( 'src', "{$url}#fixme" );
 			}
+		}
+
+		return $doc;
+	}
+
+	/**
+	 * Fetch a url with wp_remote_get(), save it to $fullpath with a unique name.
+	 * Will return an empty string if something went wrong.
+	 * 
+	 * @staticvar array $already_done
+	 * @param string $url
+	 * @param string $fullpath
+	 * @return string|array
+	 */
+	protected function fetchAndSaveUniqueMedia( $url, $fullpath ) {
+		// Cheap cache
+		static $already_done = array();
+		if ( isset( $already_done[$url] ) ) {
+			return $already_done[$url];
+		}
+
+		$response = wp_remote_get( $url, array( 'timeout' => $this->timeout ) );
+
+		// WordPress error?
+		if ( is_wp_error( $response ) ) {
+			// TODO: handle $response->get_error_message();
+			$already_done[$url] = '';
+			return '';
+		}
+
+		// Basename without query string
+		$filename = explode( '?', basename( $url ) );
+		$filename = array_shift( $filename );
+
+		$filename = sanitize_file_name( urldecode( $filename ) );
+		$filename = Sanitize\force_ascii( $filename );
+
+		$tmp_file = \PressBooks\Utility\create_tmp_file();
+		file_put_contents( $tmp_file, wp_remote_retrieve_body( $response ) );
+
+		if ( ! \PressBooks\Media\is_valid_media( $tmp_file, $filename ) ) {
+			$already_done[$url] = '';
+			return ''; // Not a valid media type
+		}
+
+		// Check for duplicates, save accordingly
+		if ( ! file_exists( "$fullpath/$filename" ) ) {
+			copy( $tmp_file, "$fullpath/$filename" );
+		} elseif ( md5( file_get_contents( $tmp_file ) ) != md5( file_get_contents( "$fullpath/$filename" ) ) ) {
+			$filename = wp_unique_filename( $fullpath, $filename );
+			copy( $tmp_file, "$fullpath/$filename" );
+		}
+
+		$already_done[$url] = $filename;
+		return $filename;
+	}
+
+	/**
+	 * Parse HTML snippet, download all found <audio>, <video> and <source> tags 
+	 * into /OEBPS/assets/, return the HTML with changed 'src' paths.
+	 *
+	 * @param \DOMDocument $doc
+	 * @return \DOMDocument
+	 */
+	protected function scrapeAndKneadMedia( \DOMDocument $doc ) {
+
+		$fullpath = $this->tmpDir . '/siteFiles/assets';
+		$tags = array( 'source', 'audio', 'video' );
+
+
+		foreach ( $tags as $tag ) {
+			$sources = $doc->getElementsByTagName( $tag );
+			foreach ( $sources as $source ) {
+				//new dBug($source);
+				if ( $source->getAttribute( 'src' ) != '' ) {
+					// Fetch the audio file
+					$url = $source->getAttribute( 'src' );
+					$filename = $this->fetchAndSaveUniqueMedia( $url, $fullpath );
+
+					if ( $filename ) {
+						// Change src to new relative path
+						$source->setAttribute( 'src', 'assets/' . $filename );
+					} else {
+						// Tag broken media
+						$source->setAttribute( 'src', "{$url}#fixme" );
+					}
+				}
+			}
+			
 		}
 
 		return $doc;
