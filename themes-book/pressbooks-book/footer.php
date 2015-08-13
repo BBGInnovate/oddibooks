@@ -14,7 +14,7 @@
 <?php } ?>
 
 
-<div class="footer">
+<div class="footer" style="display:none;"> <!-- ODDI Custom: hide footer on web view with display:none -->
 	<div class="inner">
 		<?php if (get_option('blog_public') == '1' || is_user_logged_in()): ?>
 			<?php if (is_page() || is_home( ) ): ?>
