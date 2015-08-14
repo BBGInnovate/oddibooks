@@ -440,8 +440,17 @@ function getFontForLanguageCode($langCode) {
 function getCharsetForLanguageCode($langCode) {
 	$charsets=[];
 	$charsets['en'] = "utf-8";
-	//$charsets['ko'] = "euc-kr";   NOTE: ePubChecker doesn't validate if you use anything other than utf-8 or utf-16 
+	$charsets['ko'] = "euc-kr";
+	$charsets['zh'] = "utf-8";
 	//$charsets['zh'] = "big5";
+
+	/* 
+	$charsets['km'] = "UTF-8";
+	$charsets['lo'] = "UTF-8";
+	$charsets['bo'] = "UTF-8";
+	$charsets['my'] = "UTF-8";
+	$charsets['ug'] = "UTF-8";
+	*/
 
 	$returnVal=$charsets['en']; //default to English
 	if ( ! empty( $charsets[$langCode] ) ) {

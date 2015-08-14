@@ -224,7 +224,7 @@ class Epub201 extends Export {
 			}
 		}
 		$this->outputPath = $filename;
-//die();
+
 		return true;
 	}
 
@@ -400,7 +400,7 @@ class Epub201 extends Export {
 
 		$content = apply_filters( 'the_content', $content );
 		$content = $this->fixAnnoyingCharacters( $content );
-		//$content = $this->tidy( $content );
+		$content = $this->tidy( $content );
 
 		return $content;
 	}
@@ -1184,20 +1184,12 @@ class Epub201 extends Export {
 					continue; // Skip
 				$chapter_printf_changed = '';
 				$id = $chapter['ID'];
-
-if ($id=="5") {
-			//		echo $chapter['post_content'];
-			//		die();
-				}
-
 				$subclass = \PressBooks\Taxonomy\chapter_type( $id );
 				$slug = $chapter['post_name'];
 				$title = ( get_post_meta( $id, 'pb_show_title', true ) ? $chapter['post_title'] : '' );
 
 
 				$content = $this->kneadHtml( $chapter['post_content'], 'chapter', $j );
-
-
 
 				$short_title = false; // Ie. running header title is not used in EPUB
 

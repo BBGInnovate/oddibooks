@@ -112,8 +112,8 @@ $fontPath=$fontData['sans-regular'];
 	if ( ! isset( $options['pdf'] ) ) { $options['pdf'] = 0; }
 	if ( ! isset( $options['mpdf'] ) ) { $options['mpdf'] = 0; }
 	if ( ! isset( $options['epub'] ) ) { $options['epub'] = 0; }
-	if ( ! isset( $options['epub3'] ) ) { $options['epub3'] = 0; }
-	if ( ! isset( $options['staticSite'] ) ) { $options['staticSite'] = 1; }
+	if ( ! isset( $options['epub3'] ) ) { $options['epub3'] = 1; }
+	if ( ! isset( $options['staticSite'] ) ) { $options['staticSite'] = 0; }
 	if ( ! isset( $options['mobi'] ) ) { $options['mobi'] = 0; }
 	if ( ! isset( $options['icml'] ) ) { $options['icml'] = 0; }
 	if ( ! isset( $options['xhtml'] ) ) { $options['xhtml'] = 0; }
@@ -124,7 +124,7 @@ $fontPath=$fontData['sans-regular'];
     <form id="pb-export-form" action="<?php echo $export_form_url ?>" method="POST">
 	    <fieldset>
 	       <legend><?php _e( 'Common Formats', 'pressbooks' ); ?>:</legend>
-<input type="checkbox" id="staticSite" name="export_formats[staticSite]" value="1" <?php checked(1, $options['staticSite'], true); ?>  /><label for="staticSite"> <?php _e( 'Static Site (do not use)', 'pressbooks' ); ?></label><br />	       
+	       
 			<input type="checkbox" id="epub3" name="export_formats[epub3]" value="1" <?php checked(1, $options['epub3'], true); ?>/><label for="epub3"> <?php _e( 'EPUB 3', 'pressbooks' ); ?></label><br />
 			<input type="checkbox" id="mpdf" name="export_formats[mpdf]" value="1" <?php checked(1, $options['mpdf'], true); ?>/><label for="mpdf"> <?php _e( 'PDF', 'pressbooks' ); ?></label><br />
 	    	<input type="checkbox" id="mobi" name="export_formats[mobi]" value="1" <?php checked(1, $options['mobi'], true); ?> onclick="fixMobi();" /><label for="mobi"> <?php _e( 'MOBI (for Kindle)', 'pressbooks' ); ?></label><br />
@@ -137,7 +137,7 @@ $fontPath=$fontData['sans-regular'];
 				<input type="checkbox" id="epub" name="export_formats[epub]" value="1" <?php checked(1, $options['epub'], true); ?> onclick="fixMobi();" /><label for="epub"> <?php _e( 'EPUB 2 (for Nook, iBooks, Kobo etc.)', 'pressbooks' ); ?></label><br />	    	
 		    	<input type="checkbox" id="xhtml" name="export_formats[xhtml]" value="1" <?php checked(1, $options['xhtml'], true); ?>/><label for="xhtml"> <?php _e( 'XHTML', 'pressbooks' ); ?></label><br />
 		    	<input type="checkbox" id="pdf" name="export_formats[pdf]" value="1" <?php checked(1, $options['pdf'], true); ?>/><label for="pdf"> <?php _e( 'Prince PDF (Note license reqs)', 'pressbooks' ); ?></label><br />
-	    		
+	    		<!-- <input type="checkbox" id="staticSite" name="export_formats[staticSite]" value="1" <?php checked(1, $options['staticSite'], true); ?>  /><label for="staticSite"> <?php _e( 'Static Site (do not use)', 'pressbooks' ); ?></label><br />		    	 -->
 	    	</div>
 	    </fieldset>
     </form>
