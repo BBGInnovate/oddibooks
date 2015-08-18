@@ -547,7 +547,8 @@ a.mpdf_index_link {
 
 /* TABLE OF CONTENTS */
 div.mpdf_toc {
-	font-family: "Cardo","Times New Roman", serif;
+	/* font-family: "Cardo","Times New Roman", serif; */
+	font-family: "/*__INSERT_BBG_PDF_FONTS__*/";
 	line-height: normal;
 	page-break-after: avoid;
 	page-break-before: avoid;
