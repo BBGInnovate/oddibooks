@@ -817,11 +817,12 @@ abstract class Export {
 		
 		if ( ! empty( $fontData['sans-regular'] )) {
 			$fontPath=$fontData['sans-regular'];
+			//old path was src: url(../../../fonts/$fontPath);
 			$replace_with = " 
 @font-face {
 	font-family: \"ODDI Sans\";
 	font-weight: normal;
-	src: url(../../../fonts/$fontPath);
+	src: url(../../../../plugins/pressbooks/themes-book/fonts/$fontPath);
 }
 			";
 		}
@@ -832,7 +833,7 @@ abstract class Export {
 @font-face {
 	font-family: \"ODDI Sans\";
 	font-weight: bold;
-	src: url(../../../fonts/$fontPath);
+	src: url(../../../../plugins/pressbooks/themes-book/fonts/$fontPath);
 }
 			";
 		}
@@ -843,7 +844,7 @@ abstract class Export {
 @font-face {
 	font-family: \"ODDI Serif\";
 	font-weight: normal;
-	src: url(../../../fonts/$fontPath);
+	src: url(../../../../plugins/pressbooks/themes-book/fonts/$fontPath);
 }
 			";
 		}
@@ -854,7 +855,7 @@ abstract class Export {
 @font-face {
 	font-family: \"ODDI Serif\";
 	font-weight: bold;
-	src: url(../../../fonts/$fontPath);
+	src: url(../../../../plugins/pressbooks/themes-book/fonts/$fontPath);
 }
 			";
 		}
