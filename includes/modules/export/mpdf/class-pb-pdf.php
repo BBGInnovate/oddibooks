@@ -490,7 +490,10 @@ class Pdf extends Export {
 	 */
 	function getBookmarkEntry( $page ) {
 		static $id = 1;
-		$entry = $id . $page['post_title'];
+		
+		//$entry = $id . " " . $page['post_title'];
+		$entry = $page['post_title'];
+
 		$id++;
 
 		return $entry;
