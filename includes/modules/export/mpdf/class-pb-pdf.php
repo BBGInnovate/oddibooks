@@ -95,6 +95,8 @@ class Pdf extends Export {
 	 */
 	protected $numbered = false;
 
+	protected $subsectionsById;
+
 	/**
 	 * Parses the html as styles and stylesheets only
 	 * @see http://mpdf1.com/manual/index.php?tid=121
@@ -156,6 +158,8 @@ class Pdf extends Export {
 		$this->addPartsandChapters( $contents );
 
 		$this->mpdf->Output( $this->outputPath, 'F' );
+
+		// die();
 
 		// TODO trap errors
 		return true;
@@ -432,7 +436,10 @@ class Pdf extends Export {
 
 		$options = \wp_parse_args( $page_options, $defaults );
 		$class = ( $this->numbered ) ? '<div class="' . $page['post_type'] . '">' : '<div class="' . $page['post_type'] . ' numberless">';
-		$toc_entry = ( 'chapter' == $page['post_type'] ) ? $page['chapter_num'] . ' ' . $page['post_title'] : $page['post_title'];
+		
+		/* ODDI CUSTOM - REMOVE PAGE NUMBER */
+		//$toc_entry = ( 'chapter' == $page['post_type'] ) ? $page['chapter_num'] . ' ' . $page['post_title'] : $page['post_title'];
+		$toc_entry = $page['post_title'];
 
 		if ( ! empty( $page['post_content'] ) || 'part' == $page['post_type'] ) {
 
@@ -442,8 +449,12 @@ class Pdf extends Export {
 			$this->mpdf->AddPageByArray( $options );
 
 			if ( empty( $page['mpdf_omit_toc'] ) ) {
+				/* ODDI CUSTOM - use the markup instead of the PHP functions */
 				$this->mpdf->TOC_Entry( $this->getTocEntry( $toc_entry ), $page['mpdf_level'] );
-				$this->mpdf->Bookmark( $this->getBookmarkEntry( $page ), $page['mpdf_level'] );
+				$content="<tocentry level='1' content=" . $this->getTocEntry( $toc_entry ) . "/>";
+				$content="<bookmark level='1' content='" . $this->getTocEntry( $toc_entry ) . "' />";
+				//$this->mpdf->TOC_Entry( $this->getTocEntry( $toc_entry ), $page['mpdf_level'] );
+				//$this->mpdf->Bookmark( $this->getBookmarkEntry( $page ), $page['mpdf_level'] );
 			}
 
 			if ( 'chapter' == $page['post_type'] ) {
@@ -451,10 +462,39 @@ class Pdf extends Export {
 			} else {
 				$title = '<h2 class="entry-title">' . $page['post_title'] . '</h2>';
 			}
+			
 			$content .= $class
 				. $title
 				. $this->getFilteredContent( $page['post_content'] )
 				. '</div>';
+
+				/* ODDI CUSTOM - ADD SUBSECTION TO TOC */
+				if ( empty( $page['mpdf_omit_toc'] ) ) {
+					$needle = "<h1";
+					$lastPos = 0;
+					$positions = array();
+
+					while (($lastPos = strpos($content, $needle, $lastPos))!== false) {
+					    $positions[] = $lastPos;
+					    $lastPos = $lastPos + strlen($needle);
+					}
+
+
+					if (count($positions) > 2) {
+						echo $page['ID'];
+					}
+
+					for ( $i=count($positions)-1; $i>=0; $i--) {
+						
+						//$subsectionName='subsection';
+						$subsectionName=$this->subsectionsById[$page['ID']][$i]['subsectionName'];
+
+						$content=substr_replace($content, "<tocentry level='2' content='$subsectionName' /><bookmark level='2' content='$subsectionName' />", $positions[$i], 0);
+					}
+				}
+				/* END ODDI CUSTOM - ADD SUBSECTION TO TOC */
+				
+				
 
 			// TODO Make this hookable.
 			$this->mpdf->WriteHTML( $content );
@@ -600,7 +640,7 @@ class Pdf extends Export {
 	 * @return array
 	 */
 	function getOrderedBookContents() {
-
+		$subsectionsById=array();
 		$book_contents = \PressBooks\Book::getBookContents();
 
 		$ordered = array();
@@ -625,6 +665,9 @@ class Pdf extends Export {
 							$ordered[] = $part;
 
 							foreach ( $part['chapters'] as $chapter ) {
+								$cID=$chapter['ID'];
+								$subsectionsById[$cID]=array();
+
 								if ( ! $chapter['export'] ) {
 									continue;
 								}
@@ -635,9 +678,16 @@ class Pdf extends Export {
 								if ( \PressBooks\Export\Export::shouldParseSections() == true ) {
 									$sections = \PressBooks\Book::getSubsections( $chapter['ID'] );
 									if ( $sections ) {
-										foreach ( $sections as $section ) {
-											$section['mpdf_level'] = $part['mpdf_level'] + 2;
-											$ordered[] = $section;
+
+										foreach ( $sections as $key=>$section ) {
+											//they come from pressbooks as a string, we want an object
+											$subsectionObj= array(
+												"subsectionName" => $section,
+												"mpdf_level" => $part['mpdf_level'] + 2
+											);
+											$ordered[] =$subsectionObj;
+											$subsectionsById[$cID][]=$subsectionObj;
+											//var_dump($subsectionsById);
 										}
 									}
 								}
@@ -658,8 +708,10 @@ class Pdf extends Export {
 							$sections = \PressBooks\Book::getSubsections( $item['ID'] );
 							if ( $sections ) {
 								foreach ( $sections as $section ) {
-									$section['mpdf_level'] = 2;
-									$ordered[] = $section;
+									$ordered[] = array(
+										"subsectionName" => $section,
+										"mpdf_level" => $part['mpdf_level'] + 2
+									);
 								}
 							}
 						}
@@ -668,6 +720,7 @@ class Pdf extends Export {
 			}
 		}
 
+		$this->subsectionsById=$subsectionsById;
 		return $ordered;
 	}
 
