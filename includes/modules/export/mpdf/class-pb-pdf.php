@@ -175,7 +175,8 @@ class Pdf extends Export {
 		    'paging' => true,
 		    'links' => true,
 		    'toc-bookmarkText' => 'toc',
-		    'toc-preHTML' => '<h1 class="toc">Contents</h1>',
+		 //   'toc-preHTML' => '<h1 class="toc">Contents</h1>',
+		    'toc-preHTML' => '<h1 class="toc">'.__( 'Table Of Contents', 'pressbooks' ).'</h1>',
 		    'toc-margin-left' => 15,
 		    'toc-margin-right' => 15,
 		);
