@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pressbooks\n"
 "POT-Creation-Date: 2015-06-08 10:56-0500\n"
-"PO-Revision-Date: 2015-08-18 15:15-0400\n"
+"PO-Revision-Date: 2015-08-19 09:56-0400\n"
 "Last-Translator: Ned Zimmerman\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/pressbooks/language/"
 "ko/)\n"
@@ -1268,7 +1268,7 @@ msgstr "목차"
 #: includes/modules/export/epub/class-pb-epub201.php:1420
 #: includes/modules/export/xhtml/class-pb-xhtml11.php:672
 msgid "Contents"
-msgstr ""
+msgstr "목차"
 
 #: includes/modules/export/mpdf/class-pb-pdf.php:267
 msgid "ISBN"
