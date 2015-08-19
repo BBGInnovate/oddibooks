@@ -139,7 +139,15 @@ class Pdf extends Export {
 		$contents = $this->getOrderedBookContents();
 
 		// set up mPDF
+
 		$this->mpdf = new \mPDF( '' );
+
+		//ODDI CUSTOM - fill in book metadata
+		$this->mpdf->setTitle($this->bookTitle);
+		if ( isset( $this->bookMeta['pb_author'] ) ) {
+			$this->mpdf->setAuthor($this->bookMeta['pb_author']);
+		}
+
 		$this->mpdf->SetAnchor2Bookmark( 1 );
 		$this->mpdf->ignore_invalid_utf8 = true;
 		if ( 1 == $this->options['mpdf_mirror_margins'] ) {
