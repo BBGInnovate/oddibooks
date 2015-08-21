@@ -23,7 +23,7 @@ This file must validate as CSS 2.01 with absolutely no errors
 
 
 body {
-	font-family: "ODDI Sans", "Times New Roman", Times, Georgia, serif;
+	font-family: "ODDI Serif", "ODDI Sans", "Times New Roman", Times, Georgia, serif;
 	line-height: 1.5em;
 }	 
 a {
@@ -114,7 +114,7 @@ dd {
 div.blockquote,
 .blockquote {
 	border-width: 0 4px;
-	font:0.8em/1.5em  "ODDI Serif", "ODDI Sans", Helvetica, Arial, sans-serif;
+	font:0.8em/1.5em  "ODDI Sans", "ODDI Serif", Helvetica, Arial, sans-serif;
 	padding: 0 15px;
 }
 .hanging-indent {
@@ -126,7 +126,7 @@ div.blockquote,
 	 HEADERS
  =============== */
 h1, h2, h3, h4, h5, h6 {
-	font-family: "ODDI Serif", "ODDI Sans", Helvetica, Arial, sans-serif;
+	font-family: "ODDI Sans", "ODDI Serif", Helvetica, Arial, sans-serif;
 	line-height: 1.4em;
 }
 h1 {
