@@ -477,6 +477,11 @@ function getPDFFontForLanguageCode($langCode) {
 	$fonts=[];
 	$fonts['en'] = "cardo";
 	$fonts['ko'] = "unbatang";
+	$fonts['zh'] = "sun-exta";
+	$fonts['zh-hk'] = "sun-exta";
+	$fonts['zh-cn'] = "sun-exta";
+	$fonts['zh-sg'] = "sun-exta";
+	$fonts['zh-tw'] = "sun-exta";
 	
 	$returnVal=$fonts['en']; //default to English
 	if ( ! empty( $fonts[$langCode] ) ) {
