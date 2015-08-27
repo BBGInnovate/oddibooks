@@ -199,6 +199,7 @@ function add_meta_boxes() {
 		'label' => 'Book Title (English)'
 	) );
 
+	/*
 	x_add_metadata_field( 'pb_short_title', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Short Book Title', 'pressbooks' ),
@@ -209,6 +210,7 @@ function add_meta_boxes() {
 		'group' => 'general-book-information',
 		'label' => __( 'Short Book Title (English)', 'pressbooks' )
 	) );
+	*/
 
 	x_add_metadata_field( 'pb_subtitle', 'metadata', array(
 		'group' => 'general-book-information',
