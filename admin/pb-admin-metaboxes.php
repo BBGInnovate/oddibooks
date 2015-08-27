@@ -216,41 +216,51 @@ function add_meta_boxes() {
 		'description' => __( 'Example: The Children\'s Crusade: A Duty-Dance with Death', 'pressbooks' )
 	) );
 
+	/*
 	x_add_metadata_field( 'pb_subtitle_english', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Book Subtitle (English)', 'pressbooks' ),
 	) );
+	*/
 
 	x_add_metadata_field( 'pb_series_title', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Series Title', 'pressbooks' ),
 		'description' => __( 'Add if your book is part of a series.', 'pressbooks' )
 	) );
+
+	/*
 	x_add_metadata_field( 'pb_series_title_english', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Series Title (English)', 'pressbooks' )
 	) );
+	*/
 
+	/*
 	x_add_metadata_field( 'pb_series_number', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Series Number', 'pressbooks' ),
 		'description' => __( 'Add if your book is part of a series.', 'pressbooks' )
 	) );
+	
 
 	x_add_metadata_field( 'pb_series_number_english', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Series Number (English)', 'pressbooks' )
 	) );
+	*/
 
 	x_add_metadata_field( 'pb_edition', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Edition', 'pressbooks' )
 	) );
 
+	/*
 	x_add_metadata_field( 'pb_edition_english', 'metadata', array(
 		'group' => 'general-book-information',
 		'label' => __( 'Edition (English)', 'pressbooks' )
 	) );
+	*/
 
 	x_add_metadata_field( 'pb_author', 'metadata', array(
 		'group' => 'general-book-information',

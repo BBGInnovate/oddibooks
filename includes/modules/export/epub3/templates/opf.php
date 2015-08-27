@@ -34,6 +34,18 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
     		echo '<meta refines="#bookEdition" property="title-type">edition</meta>';
     		unset( $meta['pb_edition'] );
 		}
+		//SUBTITLE - added by ODDI
+		if ( ! empty( $meta['pb_subtitle'] ) ) {
+			echo '<dc:title id="bookSubtitle">' . $meta['pb_subtitle'] . '</dc:title>';
+    		echo '<meta refines="#bookSubtitle" property="title-type">subtitle</meta>';
+    		unset( $meta['pb_subtitle'] );
+		}
+		//SERIES TITLE - added by ODDI
+		if ( ! empty( $meta['pb_series_title'] ) ) {
+			echo '<meta property="belongs-to-collection" id="bookSeriesTitle">' .$meta['pb_series_title'] . '</meta>';
+			echo '<meta refines="#bookSeriesTitle" property="collection-type">series</meta>';
+			unset( $meta['pb_series_title'] );
+		} 
 
 		// Required, Language
 		echo '<dc:language>' . ( ! empty( $meta['pb_language'] ) ? $meta['pb_language'] : 'en' ) . '</dc:language>';
