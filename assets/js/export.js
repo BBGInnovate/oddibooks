@@ -16,7 +16,7 @@ jQuery(function ($) {
 });
 /* Fix MOBI by forcing EPUB if desired  */
 function fixMobi() {
-	if (!jQuery("#epub").attr('checked') && jQuery("#mobi").attr('checked')) {
+	if (!jQuery("#epub3").attr('checked') && jQuery("#mobi").attr('checked')) {
 		var enable = confirm(PB_ExportToken.mobiConfirm);
 		if (enable==true) {
 			jQuery("#epub").attr('checked', true);
