@@ -358,21 +358,21 @@ class Book {
 	 */
 	static function getSubsections( $id ) {
 		$parent = get_post( $id );
+		$type = $parent->post_type;
 		$output = array();
 		$s = 1;
-		$content = mb_convert_encoding(apply_filters( 'the_content', $parent->post_content ), 'HTML-ENTITIES', 'UTF-8');
-		$html = new \DOMDocument();
-		$html->loadHTML( $content );
-		$sections = $html->getElementsByTagName('h1');
+		$content = mb_convert_encoding( apply_filters( 'the_content', $parent->post_content ), 'HTML-ENTITIES', 'UTF-8' );
+		$doc = new \DOMDocument();
+		$doc->loadHTML( $content );
+		$sections = $doc->getElementsByTagName('h1');
 		foreach( $sections as $section ) {
-			$output['section-' . $s] = $section->textContent;
+			$output[ $type . '-' . $id . '-section-' . $s ] = $section->textContent;
 			$s++;
 		}
 		if ( empty( $output ) )
 			$output = false;
 		return $output;
 	}
-
 	/**
 	 * Returns chapter, front or back matter content with section ID and classes added.
 	 *
@@ -380,19 +380,32 @@ class Book {
 	 *
 	 * @return string
 	 */
-	static function tagSubsections( $content ) {
+	static function tagSubsections( $content, $id ) {	
+		$s = 1;
+		$parent = get_post( $id );
+		$type = $parent->post_type;
 		$content = mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' );
-		$content = str_replace( array( '<b></b>', '<i></i>', '<strong></strong>', '<em></em>' ), array( '', '', '', '' ), $content );
 		$doc = new \DOMDocument();
 		$doc->loadHTML( $content );
+		
+		$prefix = '';
+		if ( $type ) {
+			$prefix = $type . '-';
+		}
+		
 		$sections = $doc->getElementsByTagName('h1');
-		$s = 1;
 		foreach ( $sections as $section ) {
-		    $section->setAttribute( 'id','section-' . $s++ );
-		    $section->setAttribute( 'class','section-header' );
+		    $section->setAttribute( 'id', $type . '-' . $id . '-section-' . $s++ );
+		    $section->setAttribute( 'class', 'section-header' );
+		}
+		$xpath = new \DOMXPath( $doc );
+		while( ( $nodes = $xpath->query( '//*[not(text() or node() or self::br or self::hr or self::img)]' ) ) && $nodes->length > 0 ) {
+		    foreach ( $nodes as $node ) {
+		        $node->appendChild( new \DOMText('') );
+		    }
 		}
 		$html = $doc->saveXML( $doc->documentElement );
-		return preg_replace( '/^<!DOCTYPE.+?>/', '', str_replace( array( '<html>', '</html>', '<body>', '</body>' ), array( '', '', '', '' ), $html ) );
+		return preg_replace( '/^<!DOCTYPE.+?>/', '', str_replace( array ( '<html>', '</html>', '<body>', '</body>' ), array ( '', '', '', '' ), $html ) );
 	}
 
 	/**
