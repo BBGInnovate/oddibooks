@@ -201,6 +201,10 @@ class Activation {
 				'post_title' => __( 'Custom CSS for Web', 'pressbooks' ),
 				'post_name' => 'web',
 				'post_type' => 'custom-css' ),
+			array(
+				'post_title' => __( 'Custom CSS for mPDF', 'pressbooks' ),
+				'post_name' => 'mpdf',
+				'post_type' => 'custom-css' ),
 		);
 
 		$post = array( 'post_status' => 'publish', 'comment_status' => 'open', 'post_author' => $this->user_id, );

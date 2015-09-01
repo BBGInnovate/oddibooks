@@ -22,6 +22,7 @@ class CustomCss {
 		'web' => 'Web',
 		'epub' => 'Ebook',
 		'prince' => 'PDF',
+		'mpdf' => 'mPDF'
 	);
 
 
