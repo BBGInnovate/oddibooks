@@ -21,7 +21,7 @@ class CustomCss {
 	public $supported = array(
 		'web' => 'Web',
 		'epub' => 'Ebook',
-		'prince' => 'PDF',
+	//	'prince' => 'PDF',
 		'mpdf' => 'mPDF'
 	);
 
