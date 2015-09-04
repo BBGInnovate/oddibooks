@@ -23,7 +23,7 @@ if (! empty( $metadata['pb_language'] ) ) {
 	<?php if ( ! empty( $stylesheet ) ): ?><link rel="stylesheet" href="<?php echo $stylesheet; ?>" type="text/css" /><?php endif; ?>
 
 </head>
-<body>
+<body class="<?php echo $languageCode; ?>">
 <article>
 	<?php echo $post_content; ?>
 </article>

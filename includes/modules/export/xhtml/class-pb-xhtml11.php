@@ -179,8 +179,13 @@ class Xhtml11 extends Export {
 
 		$this->echoMetaData( $book_contents, $metadata );
 
+		$languageCode = 'en';
+		if (! empty( $metadata['pb_language'] ) ) {
+			$languageCode = $metadata['pb_language'];
+		}
+
 		echo '<title>' . get_bloginfo( 'name' ) . "</title>\n";
-		echo "</head>\n<body>\n";
+		echo "</head>\n<body class='$languageCode'>\n";
 
 		// Before Title Page
 		$this->echoBeforeTitle( $book_contents, $metadata );
