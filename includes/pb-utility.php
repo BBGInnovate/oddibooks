@@ -392,6 +392,13 @@ function getFontForLanguageCode($langCode) {
 		'serif-bold' => 'NotoSerif-Bold.ttf'
 	);
 
+	$fontOptions['vi'] = array(
+		'sans-regular' => 'NotoSans-Regular.ttf',
+		'sans-bold' => 'NotoSans-Bold.ttf',
+		'serif-regular' => 'NotoSerif-Regular.ttf',
+		'serif-bold' => 'NotoSerif-Bold.ttf'
+	);
+
 	$fontOptions['km'] = array(
 		'sans-regular' => 'Hanuman.otf', //Khmer
 		'serif-regular' => 'NotoSerifKhmer-Regular.ttf',
