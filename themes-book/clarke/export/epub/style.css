@@ -1,3 +1,5 @@
+/*__INSERT_BBG_CHARSET__*/
+
 /*
 This file must validate as CSS 2.01 with absolutely no errors
  + http://jigsaw.w3.org/css-validator/
@@ -186,7 +188,7 @@ h3 {
 .front-matter-title,
 .chapter-title,
 .part-title {
-    font:1.4em/1.6em Helvetica, Arial, sans-serif;
+    font:1.4em/1.6em "ODDI Sans", "ODDI Serif", Helvetica, Arial, sans-serif;
     margin: 0.25em auto 1.25em;
     padding	: 15px 15px 0 0;
 }

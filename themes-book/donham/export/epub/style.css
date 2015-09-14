@@ -1,3 +1,5 @@
+/*__INSERT_BBG_CHARSET__*/
+
 /*
 This file must validate as CSS 2.01 with absolutely no errors
  + http://jigsaw.w3.org/css-validator/
@@ -15,8 +17,14 @@ This file must validate as CSS 2.01 with absolutely no errors
 
 /*__INSERT_EPUB_HOUSE_STYLE__*/
 
+/*=============================
+    LANGUAGE-SPECIFIC STYLES
+=============================*/
+/*Import all relevant fonts*/
+/*__INSERT_BBG_FONTS__*/
+
 body {
-	font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, Times, serif;
+	font-family: "ODDI Serif", "ODDI Sans", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, Times, serif;
 	line-height: 1.5em;
 	padding: 1em;
 }	 

@@ -16,8 +16,14 @@ This file must validate as CSS 2.01 with absolutely no errors
 
 /*__INSERT_EPUB_HOUSE_STYLE__*/
 
+/*=============================
+    LANGUAGE-SPECIFIC STYLES
+=============================*/
+/*Import all relevant fonts*/
+/*__INSERT_BBG_FONTS__*/
+
 body {
-	font-family: Georgia, serif;
+	font-family: "ODDI Serif", "ODDI Sans", Georgia, serif;
 	line-height: 1.4em;
 	padding: 1em;
 }
@@ -287,7 +293,7 @@ div.chapter.numberless h3.chapter-number {
 #toc .part {
 	background-image: none;
 	margin: 1.3em 0 0.5em;
-	font:bold 1.2em Impact, sans-serif;
+	font:bold 1.2em "ODDI Sans", "ODDI Serif", Impact, sans-serif;
 }
 
 #toc .part.invisible {
@@ -618,5 +624,3 @@ div.wp-nocaption {
 }
 
 /*__INSERT_MOBI_HOUSE_STYLE__*/
-
-/*__INSERT_BBG_FONTS__*/
