@@ -21,8 +21,17 @@
 	<h2>FAQ</h2>
 	
 	<ul>
-		<li class="question">Which theme should I use?</li>
-		<li class="answer">Pressbooks automatically generates one or more table of contents for each format.</li>
+		<li class="question">What one-time setup actions are required for a book?</li>
+		<li class="answer">You need to tell the book which theme to use and activate the custom CSS feature.
+			<ol>
+				<li>Click Appearances -> Themes.</li>
+				<li>Activate "Pressbooks Custom CSS".</li>
+				<li>Click Appearances -> "Edit CSS"</li>
+				<li>Click the dropdown for "You are currently editing CSS for" and select ePub.</li>
+				<li>Then click "Copy CSS From" and pick Clark or Luther.  Click "Save".</li>
+				<li>Repeat steps 4 and 5 but select 'mPDF'</li>
+			</ol>
+		</li>
 	</ul>
 
 	<ul>
