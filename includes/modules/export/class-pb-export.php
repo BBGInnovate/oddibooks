@@ -838,6 +838,29 @@ abstract class Export {
 			";
 		}
 
+		if ( ! empty( $fontData['sans-italic'] )) {
+			$fontPath=$fontData['sans-italic'];
+			$replace_with = $replace_with  . " 
+@font-face {
+	font-family: \"ODDI Sans\";
+	font-style: italic;
+	src: url(../../../../plugins/pressbooks/themes-book/fonts/$fontPath);
+}
+			";
+		}
+
+		if ( ! empty( $fontData['sans-bolditalic'] )) {
+			$fontPath=$fontData['sans-bolditalic'];
+			$replace_with = $replace_with  . " 
+@font-face {
+	font-family: \"ODDI Sans\";
+	font-weight:bold;
+	font-style: italic;
+	src: url(../../../../plugins/pressbooks/themes-book/fonts/$fontPath);
+}
+			";
+		}
+
 		if ( ! empty( $fontData['serif-regular'] )) {
 			$fontPath=$fontData['serif-regular'];
 			$replace_with = $replace_with  . " 
@@ -859,6 +882,30 @@ abstract class Export {
 }
 			";
 		}
+
+		if ( ! empty( $fontData['serif-italic'] )) {
+			$fontPath=$fontData['serif-italic'];
+			$replace_with = $replace_with  . " 
+@font-face {
+	font-family: \"ODDI Serif\";
+	font-style: italic;
+	src: url(../../../../plugins/pressbooks/themes-book/fonts/$fontPath);
+}
+			";
+		}
+
+		if ( ! empty( $fontData['serif-bolditalic'] )) {
+			$fontPath=$fontData['serif-bolditalic'];
+			$replace_with = $replace_with  . " 
+@font-face {
+	font-family: \"ODDI Serif\";
+	font-weight:bold;
+	font-style: italic;
+	src: url(../../../../plugins/pressbooks/themes-book/fonts/$fontPath);
+}
+			";
+		}
+
 		$css = str_replace( "/*__INSERT_BBG_FONTS__*/", ( $replace_with ), $css );
 		/*** END SECTION ADDED BY ODDI TO INJECT FONT BASED ON LANGUAGE SELECTION ***/
 		

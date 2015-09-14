@@ -388,15 +388,23 @@ function getFontForLanguageCode($langCode) {
 	$fontOptions['en'] = array(
 		'sans-regular' => 'NotoSans-Regular.ttf',
 		'sans-bold' => 'NotoSans-Bold.ttf',
+		'sans-italic' => 'NotoSans-Italic.ttf',
+		'sans-bolditalic' => 'NotoSans-BoldItalic.ttf',
 		'serif-regular' => 'NotoSerif-Regular.ttf',
-		'serif-bold' => 'NotoSerif-Bold.ttf'
+		'serif-bold' => 'NotoSerif-Bold.ttf',
+		'serif-italic' => 'NotoSerif-Italic.ttf',
+		'serif-bolditalic' => 'NotoSerif-BoldItalic.ttf',
 	);
 
 	$fontOptions['vi'] = array(
 		'sans-regular' => 'NotoSans-Regular.ttf',
 		'sans-bold' => 'NotoSans-Bold.ttf',
+		'sans-italic' => 'NotoSans-Italic.ttf',
+		'sans-bolditalic' => 'NotoSans-BoldItalic.ttf',
 		'serif-regular' => 'NotoSerif-Regular.ttf',
-		'serif-bold' => 'NotoSerif-Bold.ttf'
+		'serif-bold' => 'NotoSerif-Bold.ttf',
+		'serif-italic' => 'NotoSerif-Italic.ttf',
+		'serif-bolditalic' => 'NotoSerif-BoldItalic.ttf',
 	);
 
 	$fontOptions['km'] = array(
