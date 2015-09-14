@@ -440,7 +440,7 @@ function getFontForLanguageCode($langCode) {
 function getCharsetForLanguageCode($langCode) {
 	$charsets=[];
 	$charsets['en'] = "utf-8";
-	$charsets['ko'] = "euc-kr";
+	//$charsets['ko'] = "euc-kr";
 	$charsets['zh'] = "utf-8";
 	//$charsets['zh'] = "big5";
 
