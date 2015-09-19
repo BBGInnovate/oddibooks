@@ -184,6 +184,10 @@ class Epub3 extends Epub\Epub201 {
 
 		file_put_contents(
 			$this->tmpDir . '/META-INF/container.xml', $this->loadTemplate( $this->dir . '/templates/container.php' ) );
+
+		file_put_contents(
+			$this->tmpDir . '/META-INF/com.apple.ibooks.display-options.xml',
+			$this->loadTemplate( $this->dir. '/templates/ibooks.php' ) );
 	}
 
 	/**
