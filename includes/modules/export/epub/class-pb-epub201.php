@@ -198,7 +198,7 @@ class Epub201 extends Export {
 		// Convert
 
 		$metadata = \PressBooks\Book::getBookInformation();
-		$book_contents = $this->preProcessBookContents( \PressBooks\Book::getBookContents() );
+		$book_contents = $this->preProcessBookContents( \PressBooks\Book::getBookContents(), $metadata );
 
 		try {
 
@@ -340,7 +340,7 @@ class Epub201 extends Export {
 	 *
 	 * @return mixed
 	 */
-	protected function preProcessBookContents( $book_contents ) {
+	protected function preProcessBookContents( $book_contents, $metadata ) {
 
 		// We need to change global $id for shortcodes, the_content, ...
 		global $id;
@@ -356,7 +356,7 @@ class Epub201 extends Export {
 
 				if ( isset( $val['post_content'] ) ) {
 					$id = $val['ID'];
-					$book_contents[$type][$i]['post_content'] = $this->preProcessPostContent( $val['post_content'] );
+					$book_contents[$type][$i]['post_content'] = $this->preProcessPostContent( $val['post_content'], $metadata );
 				}
 				if ( isset( $val['post_title'] ) ) {
 					$book_contents[$type][$i]['post_title'] = Sanitize\sanitize_xml_attribute( $val['post_title'] );
@@ -372,7 +372,7 @@ class Epub201 extends Export {
 
 						if ( isset( $val2['post_content'] ) ) {
 							$id = $val2['ID'];
-							$book_contents[$type][$i]['chapters'][$j]['post_content'] = $this->preProcessPostContent( $val2['post_content'] );
+							$book_contents[$type][$i]['chapters'][$j]['post_content'] = $this->preProcessPostContent( $val2['post_content'], $metadata );
 						}
 						if ( isset( $val2['post_title'] ) ) {
 							$book_contents[$type][$i]['chapters'][$j]['post_title'] = Sanitize\sanitize_xml_attribute( $val2['post_title'] );
@@ -396,12 +396,16 @@ class Epub201 extends Export {
 	 *
 	 * @return string
 	 */
-	protected function preProcessPostContent( $content ) {
+	protected function preProcessPostContent( $content, $metadata ) {
 
 		$content = apply_filters( 'the_content', $content );
 		$content = $this->fixAnnoyingCharacters( $content );
-		$content = $this->tidy( $content );
 
+		if ( ! empty( $metadata['pb_language']) &&  $metadata['pb_language'] == 'vi' ) {
+			//don't call tidy on vietnamese content, doesn't play nice
+		} else {
+			$content = $this->tidy( $content );	
+		}
 		return $content;
 	}
 
@@ -1172,7 +1176,7 @@ class Epub201 extends Export {
 			// Inject part content?
 			$part_content = trim( get_post_meta( $part['ID'], 'pb_part_content', true ) );
 			if ( $part_content ) {
-				$part_content = $this->kneadHtml( $this->preProcessPostContent( $part_content ), 'custom' );
+				$part_content = $this->kneadHtml( $this->preProcessPostContent( $part_content, $metadata ), 'custom' );
 				$part_printf_changed = str_replace( '</h1></div>%s</div>', "</h1></div><div class=\"ugc part-ugc\">%s</div></div>", $part_printf );
 			}
 
