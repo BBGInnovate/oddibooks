@@ -401,11 +401,13 @@ class Epub201 extends Export {
 		$content = apply_filters( 'the_content', $content );
 		$content = $this->fixAnnoyingCharacters( $content );
 
+		/*
 		if ( ! empty( $metadata['pb_language']) &&  $metadata['pb_language'] == 'vi' ) {
 			//don't call tidy on vietnamese content, doesn't play nice
 		} else {
 			$content = $this->tidy( $content );	
-		}
+		}*/
+		$content = $this->tidy( $content );	
 		return $content;
 	}
 
