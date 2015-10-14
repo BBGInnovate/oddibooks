@@ -458,8 +458,9 @@ class Pdf extends Export {
 
 			if ( empty( $page['mpdf_omit_toc'] ) ) {
 				/* ODDI CUSTOM - use the markup instead of the PHP functions */
+				$toc_entry=htmlspecialchars($toc_entry, ENT_NOQUOTES | ENT_QUOTES);
 				$this->mpdf->TOC_Entry( $this->getTocEntry( $toc_entry ), $page['mpdf_level'] );
-				$content="<tocentry level='1' content=" . $this->getTocEntry( $toc_entry ) . "/>";
+				$content="<tocentry level='1' content='" . $this->getTocEntry( $toc_entry ) . "'/>";
 				$content="<bookmark level='1' content='" . $this->getTocEntry( $toc_entry ) . "' />";
 				//$this->mpdf->TOC_Entry( $this->getTocEntry( $toc_entry ), $page['mpdf_level'] );
 				//$this->mpdf->Bookmark( $this->getBookmarkEntry( $page ), $page['mpdf_level'] );
