@@ -96,7 +96,9 @@ class Footnotes {
 		$num = count( $footnotes );
 		$numlabel = "$id-$num";
 
-		$retval = '<a class="footnote" title="' . \PressBooks\Sanitize\sanitize_xml_attribute( wp_strip_all_tags( $content ) ) . '" id="return-footnote-' . $numlabel . '" href="#footnote-' . $numlabel . '"><sup class="footnote">[';
+		/* ODDI CUSTOM: need a 'name' attribute for mPDF internal linking to work */
+		//$retval = '<a class="footnote" title="' . \PressBooks\Sanitize\sanitize_xml_attribute( wp_strip_all_tags( $content ) ) . '" id="return-footnote-' . $numlabel . '" href="#footnote-' . $numlabel . '"><sup class="footnote">[';
+		$retval = '<a class="footnote" title="' . \PressBooks\Sanitize\sanitize_xml_attribute( wp_strip_all_tags( $content ) ) . '" id="return-footnote-' . $numlabel . '" href="#footnote-' . $numlabel . '" name="return-footnote-' . $numlabel . '"><sup class="footnote">[';
 
 		if ( $this->numbered[$id] ) {
 			$retval .= $num;
@@ -143,7 +145,9 @@ class Footnotes {
 		foreach ( $footnotes as $num => $footnote ) {
 			$num ++;
 			$numlabel = "$id-$num";
-			$content .= '<li id="footnote-' . $numlabel . '">' . make_clickable( $footnote ) . ' <a href="#return-footnote-' . $numlabel . '" class="return-footnote">&crarr;</a></li>';
+			/* ODDI CUSTOM: need a 'name' attribute for mPDF internal linking to work */
+			$content .= '<li id="footnote-' . $numlabel . '">' . make_clickable( $footnote ) . ' <a name="footnote-' . $numlabel . '" href="#return-footnote-' . $numlabel . '" class="return-footnote">&crarr;</a></li>';
+			//$content .= '<li id="footnote-' . $numlabel . '">' . make_clickable( $footnote ) . ' <a href="#return-footnote-' . $numlabel . '" name="#return-footnote-' . $numlabel .'" class="return-footnote">&crarr;</a></li>';
 		}
 
 		if ( $this->numbered[$id] ) {
