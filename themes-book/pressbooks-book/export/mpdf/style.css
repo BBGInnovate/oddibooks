@@ -247,7 +247,8 @@ div.back-matter .entry-title,
 div.part .entry-title,
 h1.toc {
 	font-size: 1.5em;
-	margin-bottom: 2.5cm;
+	/* margin-bottom: 2.5cm; */
+	margin-bottom:1cm;
 	font-style: normal;
 }
 
