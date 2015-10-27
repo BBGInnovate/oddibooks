@@ -89,6 +89,8 @@ ul li li li::before {
 	font-size: 0.5em;
 	margin-right: 5px;
 }
+
+/**** REMOVING special OL styles that mess up footnotes 
 ol { 
 	list-style-type: none;
 	counter-reset: level1;
@@ -113,6 +115,7 @@ ol li li li::before {
 	content: counter(level1) ". " counter(level2) ". " counter(level3) " ";
 	counter-increment: level3;
 }
+*/
 
 cite {
 	font-weight: normal;
