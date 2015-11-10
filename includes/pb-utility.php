@@ -498,6 +498,23 @@ function getPDFFontForLanguageCode($langCode) {
 	$fonts['zh-sg'] = "sun-exta";
 	$fonts['zh-tw'] = "sun-exta";
 	
+	$fonts['ug'] = "xbriyaz";
+	$fonts['ar'] = "xbriyaz";
+	$fonts['ar-dz'] = "xbriyaz";
+	$fonts['ar-bh'] = "xbriyaz";
+	$fonts['ar-eg'] = "xbriyaz";
+	$fonts['ar-jo'] = "xbriyaz";
+	$fonts['ar-kw'] = "xbriyaz";
+	$fonts['ar-lb'] = "xbriyaz";
+	$fonts['ar-ma'] = "xbriyaz";
+	$fonts['ar-om'] = "xbriyaz";
+	$fonts['ar-qa'] = "xbriyaz";
+	$fonts['ar-sa'] = "xbriyaz";
+	$fonts['ar-sy'] = "xbriyaz";
+	$fonts['ar-tn'] = "xbriyaz";
+	$fonts['ar-ae'] = "xbriyaz";
+	$fonts['ar-ye'] = "xbriyaz";
+	
 	$returnVal=$fonts['en']; //default to English
 	if ( ! empty( $fonts[$langCode] ) ) {
 		$returnVal = $fonts[$langCode];
