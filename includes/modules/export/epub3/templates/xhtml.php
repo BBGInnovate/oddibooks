@@ -12,6 +12,11 @@ if (! empty( $metadata['pb_language'] ) ) {
 	$languageCode = $metadata['pb_language'];
 }
 
+$directionStr="";
+if (\PressBooks\Utility\isRTL($languageCode)) {
+	$directionStr = ' dir="rtl" ';
+}
+
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="<?php echo $languageCode; ?>">
 <head>
@@ -23,7 +28,7 @@ if (! empty( $metadata['pb_language'] ) ) {
 	<?php if ( ! empty( $stylesheet ) ): ?><link rel="stylesheet" href="<?php echo $stylesheet; ?>" type="text/css" /><?php endif; ?>
 
 </head>
-<body class="<?php echo $languageCode; ?>">
+<body <?php echo $directionStr; ?> class="<?php echo $languageCode; ?>">
 <article>
 	<?php echo $post_content; ?>
 </article>

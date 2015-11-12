@@ -47,6 +47,16 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 			unset( $meta['pb_series_title'] );
 		} 
 
+		$languageCode = 'en';
+		if ( ! empty( $meta['pb_language'] ) ) {
+			$languageCode = $meta['pb_language'];
+		}
+
+		$directionStr="";
+		if (\PressBooks\Utility\isRTL($languageCode)) {
+			$directionStr = ' page-progression-direction="rtl" ';
+		} 
+
 		// Required, Language
 		echo '<dc:language>' . ( ! empty( $meta['pb_language'] ) ? $meta['pb_language'] : 'en' ) . '</dc:language>';
 		unset( $meta['pb_language'] );
@@ -169,7 +179,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 	</manifest>
 
 
-	<spine toc="ncx">
+	<spine <?php echo $directionStr; ?> toc="ncx">
 		<?php
 		foreach ( $manifest as $k => $v ) {
 

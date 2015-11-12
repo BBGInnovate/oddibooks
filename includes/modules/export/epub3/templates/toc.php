@@ -5,6 +5,16 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
+$languageCode = 'en';
+if (! empty( $metadata['pb_language'] ) ) {
+	$languageCode = $metadata['pb_language'];
+}
+
+$directionStr="";
+if (\PressBooks\Utility\isRTL($languageCode)) {
+	$directionStr = ' dir="rtl" ';
+} 
+
 echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 ?>
 
@@ -16,7 +26,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 		<?php if ( ! empty( $stylesheet ) ): ?><link rel="stylesheet" href="<?php echo $stylesheet; ?>" type="text/css" /><?php endif; ?>
 	</head>
 
-	<body>
+	<body <?php echo $directionStr; ?> >
 		<nav epub:type="toc">
 			<h1 class="title">Table of Contents</h1>
 			<ol epub:type="list">

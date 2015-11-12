@@ -488,6 +488,18 @@ function getLocaleForLanguageCode($langCode) {
 	return $returnVal;
 }
 
+function isRTL($langCode) {
+	$rtlLanguageCodes = [];
+	$rtlLanguageCodes['ar'] = true;
+	$rtlLanguageCodes['ug'] = true;
+
+	$rtl=false;
+	if ( isset($rtlLanguageCodes[$langCode]) ) {
+		$rtl=true;
+	}
+	return $rtl;
+}
+
 function getPDFFontForLanguageCode($langCode) {
 	$fonts=[];
 	$fonts['en'] = "cardo";
