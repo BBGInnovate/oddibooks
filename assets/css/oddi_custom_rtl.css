@@ -1,0 +1,28 @@
+/*****************************************
+*	ODDI Custom Styles for Pressbooks RTL
+*******************************************/
+
+@charset "UTF-8";
+
+/*
+================================= 
+***** START BOOK INFO PAGE  *****
+=================================
+*/
+
+input[type=text], TEXTAREA {
+	direction: rtl;
+}
+input[id$="english"] {
+   direction:ltr;
+}
+body#tinymce {
+	direction:rtl;
+}
+/*
+================================= 
+***** START POST EDITOR PAGE  *****
+=================================
+*/
+
+

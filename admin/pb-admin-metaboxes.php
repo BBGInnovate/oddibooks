@@ -143,7 +143,14 @@ function add_metadata_styles( $hook ) {
 			add_filter( 'page_attributes_dropdown_pages_args', function () { return array( 'post_type' => '__GARBAGE__' ); } ); // Hide this dropdown by querying for garbage
 		}
 	}
+
 	wp_enqueue_style( 'oddi_custom_admin_style', PB_PLUGIN_URL . 'assets/css/oddi_custom.css');
+
+	$metadata=pb_get_book_information();
+	if ( isset($metadata['pb_language']) &&  \PressBooks\Utility\isRTL($metadata['pb_language'])) {
+		wp_enqueue_style( 'oddi_custom_admin_style_rtl', PB_PLUGIN_URL . 'assets/css/oddi_custom_rtl.css');
+		wp_enqueue_script( 'oddi_custom_admin_style_rtl_js', PB_PLUGIN_URL . 'assets/js/oddi_custom_rtl.js');
+	}
 }
 
 
