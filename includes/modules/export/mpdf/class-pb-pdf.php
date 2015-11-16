@@ -142,6 +142,10 @@ class Pdf extends Export {
 
 		$this->mpdf = new \mPDF( '' );
 
+		if (\PressBooks\Utility\isRTL($this->bookMeta['pb_language'] )) {
+			$this->mpdf->SetDirectionality('RTL');
+		}
+
 		//ODDI CUSTOM - fill in book metadata
 		$this->mpdf->setTitle($this->bookTitle);
 		if ( isset( $this->bookMeta['pb_author'] ) ) {
