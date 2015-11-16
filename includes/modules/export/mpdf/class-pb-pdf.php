@@ -152,7 +152,7 @@ class Pdf extends Export {
 			$this->mpdf->setAuthor($this->bookMeta['pb_author']);
 		}
 
-		$this->mpdf->SetAnchor2Bookmark( 0 );
+		$this->mpdf->SetAnchor2Bookmark( 1 );
 		$this->mpdf->ignore_invalid_utf8 = true;
 		if ( 1 == $this->options['mpdf_mirror_margins'] ) {
 			$this->mpdf->mirrorMargins = true;
