@@ -526,6 +526,8 @@ function getPDFFontForLanguageCode($langCode) {
 	$fonts['ar-tn'] = "xbriyaz";
 	$fonts['ar-ae'] = "xbriyaz";
 	$fonts['ar-ye'] = "xbriyaz";
+
+	$fonts['vi'] = "dejavusanscondensed";
 	
 	$returnVal=$fonts['en']; //default to English
 	if ( ! empty( $fonts[$langCode] ) ) {
