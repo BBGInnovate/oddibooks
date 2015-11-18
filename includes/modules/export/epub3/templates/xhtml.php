@@ -13,7 +13,7 @@ if (! empty( $metadata['pb_language'] ) ) {
 }
 
 $directionStr="";
-if (\PressBooks\Utility\isRTL($languageCode)) {
+if (\PressBooks\Utility\isRTL($languageCode) && ($post_title != 'Footnotes') && ($post_title != 'Bibliography')) {
 	$directionStr = ' dir="rtl" ';
 }
 
