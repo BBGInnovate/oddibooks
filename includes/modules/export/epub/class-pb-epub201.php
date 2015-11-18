@@ -900,7 +900,19 @@ class Epub201 extends Export {
 		// default, so something is displayed
 		if ( empty( $metadata['pb_custom_copyright'] ) && 0 == $options['copyright_license'] ) {
 			$html .= '<p>';
-			$html .= get_bloginfo( 'name' ) . ' ' . __( 'Copyright', 'pressbooks' ) . ' &#169; ';
+			
+			$languageCode = 'en';
+			if ( ! empty( $metadata['pb_language'] ) ) {
+				$languageCode = $metadata['pb_language'];
+			}
+
+			if (\PressBooks\Utility\isRTL($languageCode)) {
+				$html .= 'Copyright &#169; ';
+			} else {
+				$html .= get_bloginfo( 'name' ) . ' ' . __( 'Copyright', 'pressbooks' ) . ' &#169; ';
+			} 
+			
+			
 			$html .= ( ! empty( $metadata['pb_copyright_year'] ) ) ? $metadata['pb_copyright_year'] : date( 'Y' );
 			if ( ! empty( $metadata['pb_copyright_holder'] ) ) $html .= ' ' . __( 'by', 'pressbooks' ) . ' ' . $metadata['pb_copyright_holder'] . '. ';
 			$html .= '</p>';
@@ -909,8 +921,8 @@ class Epub201 extends Export {
 		// Copyright
 		// Please be kind, help PressBooks grow by leaving this on!
 		if ( empty( $GLOBALS['PB_SECRET_SAUCE']['TURN_OFF_FREEBIE_NOTICES_EPUB'] ) ) {
-			$freebie_notice = 'This book was produced using <a href="http://pressbooks.com/">PressBooks.com</a>.';
-			$html .= "<p>$freebie_notice</p>";
+			$freebie_notice = 'This book was produced using <a href="http://pressbooks.com/">PressBooks</a>';
+			$html .= "<p dir='ltr'>$freebie_notice</p>";
 		}
 
 		$html .= "</div></div>\n";
