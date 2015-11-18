@@ -899,7 +899,7 @@ class Epub201 extends Export {
 		}
 		// default, so something is displayed
 		if ( empty( $metadata['pb_custom_copyright'] ) && 0 == $options['copyright_license'] ) {
-			$html .= '<p>';
+			
 			
 			$languageCode = 'en';
 			if ( ! empty( $metadata['pb_language'] ) ) {
@@ -907,9 +907,9 @@ class Epub201 extends Export {
 			}
 
 			if (\PressBooks\Utility\isRTL($languageCode)) {
-				$html .= 'Copyright &#169; ';
+				$html .= '<p dir="ltr">Copyright &#169; ';
 			} else {
-				$html .= get_bloginfo( 'name' ) . ' ' . __( 'Copyright', 'pressbooks' ) . ' &#169; ';
+				$html .= '<p>' . get_bloginfo( 'name' ) . ' ' . __( 'Copyright', 'pressbooks' ) . ' &#169; ';
 			} 
 			
 			
