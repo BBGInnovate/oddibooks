@@ -296,6 +296,9 @@ $this->fontdata = array(
 	"unbatang" => array(	/* Korean */
 		'R' => "UnBatang_0613.ttf",
 		),
+	"babelstonehan" => array(
+		'R' => "BabelStoneHan.ttf",
+		),
 
 	/* CARDO FONT ADDED BY ODDI */
 	"cardo" => array(	
