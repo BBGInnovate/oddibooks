@@ -75,11 +75,18 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
 		unset( $meta['pb_ebook_isbn'] );
 		echo "\n";
 
+		// UUID - extra field
+		if ( ! empty( $meta['pb_uuid'] ) ) {
+			echo '<dc:identifier id="uuid_id">' . $meta['pb_uuid'] . '</dc:identifier>';
+		} 
+		unset( $meta['pb_uuid'] );
+		echo "\n";
+
 		// Pick best non-html description
 		if ( ! empty( $meta['pb_about_50'] ) ) {
 			echo "<dc:description id='bookDescription'>{$meta['pb_about_50']}</dc:description>\n";
 			unset( $meta['pb_about_50'] );
-			refineField('bookDescription','pb_about_50',$meta);
+			refineField('bookDescription','pb_about_50_english',$meta);
 		} elseif ( ! empty( $meta['pb_about_140'] ) ) {
 			/* ODDI - this field is hidden on the front end so this should never get used */
 			echo "<dc:description>{$meta['pb_about_140']}</dc:description>\n";
