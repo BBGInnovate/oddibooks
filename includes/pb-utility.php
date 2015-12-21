@@ -427,9 +427,14 @@ function getFontForLanguageCode($langCode) {
 		'sans-bold' => 'NotoSansMyanmar-Bold.ttf'*/
 	);
 	$fontOptions['ug'] = array(
+		/*
 		'sans-regular' => 'AlpidaUnicodeSystem.otf', //Uyghur
 		'serif-regular' => 'NotoNaskhArabic-Regular.ttf',
 		'serif-bold' => 'NotoNaskhArabic-Bold.ttf'
+		*/
+		'sans-regular' => 'UKIJTuz.ttf', //Uyghur
+		'serif-regular' => 'UKIJTuz.ttf',
+		'serif-bold' => 'UKIJTuz.ttf'
 		/*'sans-regular' => 'NotoKufiArabic-Regular.ttf',
 		'sans-bold' => 'NotoKufiArabic-Bold.ttf',*/
 	);
@@ -510,7 +515,7 @@ function getPDFFontForLanguageCode($langCode) {
 	$fonts['zh-sg'] = "sun-exta";
 	$fonts['zh-tw'] = "sun-exta";
 	
-	$fonts['ug'] = "xbriyaz";
+	$fonts['ug'] = "ukijtuz";
 	$fonts['ar'] = "xbriyaz";
 	$fonts['ar-dz'] = "xbriyaz";
 	$fonts['ar-bh'] = "xbriyaz";

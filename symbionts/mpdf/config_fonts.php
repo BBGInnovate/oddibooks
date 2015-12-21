@@ -299,7 +299,9 @@ $this->fontdata = array(
 	"babelstonehan" => array(
 		'R' => "BabelStoneHan.ttf",
 		),
-
+	"ukijtuz" => array(
+		'R' => "UKIJTuz.ttf",
+		),
 	/* CARDO FONT ADDED BY ODDI */
 	"cardo" => array(	
 		'R' => "Cardo104s.ttf",
