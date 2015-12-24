@@ -6,6 +6,7 @@
  * @license GPLv2 (or any later version)
  */
 namespace PressBooks\Utility;
+use PressBooks\CustomCss;
 
 
 /**
@@ -544,4 +545,15 @@ function getPDFFontForLanguageCode($langCode) {
 	
 
 	return $returnVal;
+}
+
+function customFontPath($filename) {
+	//the stylesheets for customCSS live in a different directory from the regular theme ones
+	//so the relative paths to our fonts are different
+	if ( CustomCss::isCustomCss() ) {
+		$cssFontPath="../../../../plugins/pressbooks/themes-book/fonts/$filename";
+	} else {
+		$cssFontPath="../../../fonts/$filename";
+	}
+	return $cssFontPath;
 }
