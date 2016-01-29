@@ -31,10 +31,6 @@
 	<li class="question"><a href="https://www.youtube.com/user/pressbooks">Pressbooks YouTube Channel</a></li>
 	<li class="answer">The Pressbooks YouTube channel has a number of videos you may find helpful.</li>
 </ul>
-<ul>
-	<li class="question"><a href="http://guide.pressbooks.com/chapter/the-short-5-step-guide-to-using-pressbooks/">The 5 Step Guide to Using Pressbooks</a></li>
-	<li class="answer">Pressbooks automatically generates one or more table of contents for each format.</li>
-</ul>
 
 	<h2>Specific YouTube Videos</h2>
 
@@ -42,6 +38,7 @@
 		<li><a href="https://www.youtube.com/watch?v=Vf6uF5zEGCE">Rearranging Parts and Chapters in Pressbooks</a></li>
 		<li><a href="https://www.youtube.com/watch?v=r7aAOuYLSs0">Editing Your Book's Metadata in Pressbooks</a></li>
 		<li><a href="https://www.youtube.com/watch?v=HN92hLgGzek">How to Export Your Finished Book from Pressbooks</a></li>
+		<li><a href="https://www.youtube.com/watch?v=h1-ZdH3cC48">How to Import Word Files into Pressbooks</a></li>
 	</ul>
 	
 <?php include('footer.php'); ?>

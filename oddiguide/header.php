@@ -170,6 +170,7 @@
           <!--<a class="blog-nav-item active" href="<?php echo $linkPrefix . 'index'; ?>">Get Started</a>-->
           <a class="blog-nav-item" href="<?php echo $linkPrefix . 'index'; ?>">FAQ</a>
           <a class="blog-nav-item" href="<?php echo $linkPrefix . 'about'; ?>">Pressbooks Resources</a>
+          <a class="blog-nav-item" href="<?php echo $linkPrefix . 'style'; ?>">Style Guide</a>
         </nav>
       </div>
     </div>
