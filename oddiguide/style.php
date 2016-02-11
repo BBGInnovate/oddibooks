@@ -42,6 +42,12 @@
 			<li>The "Convert MS Word" Footnote feature may not work under some circumstances.</li>
 		</ul>
 	</li>
+	<li class="question">Validation Errors</li>
+	<li class="answer">
+		<ul>
+			<li>One commmon cause of validation errors is when you paste html code from another program and it contains div's with ids.  Those have to be removed.</li>
+		</ul>
+	</li>
 	<li class="question">Miscellaneous</li>
 	<li class="answer">
 		<ul>
@@ -49,6 +55,7 @@
 			<li>To link between chapters, make sure that the chapter slug is in English and as follows: <strong>/chapter/chapter3/</strong></li>
 			<li>The website can be used as a decent estimation of what the book will look like, but it's very important to get it onto a device for testing as early in the process as possible.</li>
 			<li>If you have a left to right chapter (for example, an English appendix) in an ePub that is a right to left, you will need to surround the contents of the chapter with a div with direction ltr.  Check the Uyghur book for an example.</li>
+			<li>If you need to embed a font other than the default one for a language, you need to use custom CSS and the path will look something like this: "../../../../plugins/pressbooks/themes-book/fonts/$filename"</li>
 		</ul>
 	</li>
 </ul>
