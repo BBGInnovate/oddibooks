@@ -117,7 +117,7 @@ $fontPath=$fontData['sans-regular'];
 	if ( ! isset( $options['mobi'] ) ) { $options['mobi'] = 0; }
 	if ( ! isset( $options['icml'] ) ) { $options['icml'] = 0; }
 	if ( ! isset( $options['xhtml'] ) ) { $options['xhtml'] = 0; }
-	if ( ! isset( $options['wxr'] ) ) { $options['wxr'] = 0; }
+	if ( ! isset( $options['wxr'] ) ) { $options['wxr'] = 1; }
 	if ( ! isset( $options['vanillawxr'] ) ) { $options['vanillawxr'] = 0; }
 	if ( ! isset( $options['odt'] ) ) { $options['odt'] = 0; }
 	?>
@@ -138,6 +138,7 @@ $fontPath=$fontData['sans-regular'];
 		    	<input type="checkbox" id="xhtml" name="export_formats[xhtml]" value="1" <?php checked(1, $options['xhtml'], true); ?>/><label for="xhtml"> <?php _e( 'XHTML', 'pressbooks' ); ?></label><br />
 		    	<input type="checkbox" id="pdf" name="export_formats[pdf]" value="1" <?php checked(1, $options['pdf'], true); ?>/><label for="pdf"> <?php _e( 'Prince PDF (Note license reqs)', 'pressbooks' ); ?></label><br />
 	    		<!-- <input type="checkbox" id="staticSite" name="export_formats[staticSite]" value="1" <?php checked(1, $options['staticSite'], true); ?>  /><label for="staticSite"> <?php _e( 'Static Site (do not use)', 'pressbooks' ); ?></label><br />		    	 -->
+	    		<input type="checkbox" id="wxr" name="export_formats[wxr]" value="1" <?php checked(1, $options['wxr'], true); ?>/><label for="wxr"> <?php _e( 'PressBooks XML', 'pressbooks' ); ?></label><br />
 	    	</div>
 	    </fieldset>
     </form>
