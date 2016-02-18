@@ -117,7 +117,7 @@ $fontPath=$fontData['sans-regular'];
 	if ( ! isset( $options['mobi'] ) ) { $options['mobi'] = 0; }
 	if ( ! isset( $options['icml'] ) ) { $options['icml'] = 0; }
 	if ( ! isset( $options['xhtml'] ) ) { $options['xhtml'] = 0; }
-	if ( ! isset( $options['wxr'] ) ) { $options['wxr'] = 1; }
+	if ( ! isset( $options['wxr'] ) ) { $options['wxr'] = 0; }
 	if ( ! isset( $options['vanillawxr'] ) ) { $options['vanillawxr'] = 0; }
 	if ( ! isset( $options['odt'] ) ) { $options['odt'] = 0; }
 	?>
