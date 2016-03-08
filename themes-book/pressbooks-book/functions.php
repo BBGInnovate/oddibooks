@@ -1062,8 +1062,14 @@ function pressbooks_theme_options_mpdf_init() {
 	$_section = 'mpdf_options_section';
 	$defaults = array(
 		'mpdf_page_size' => 'Letter',
+		'mpdf_left_margin' => '15',
+		'mpdf_right_margin' => '15',
+		'mpdf_mirror_margins' => 0,
 		'mpdf_include_cover' => 1,
-		'mpdf_indent_paragraphs' => 0,
+		'mpdf_include_toc' => 1,
+		'mpdf_indent_paragraphs' => 1,
+		'mpdf_hyphens' => 0,
+		'mpdf_fontsize' => 0
 	);
 
 	if ( false == get_option( $_option ) ) {
